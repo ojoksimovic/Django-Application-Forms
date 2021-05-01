@@ -1,1 +1,2 @@
-django_forms/django_forms/settings.py
+settings.py
+venv/
