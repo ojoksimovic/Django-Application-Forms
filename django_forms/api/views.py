@@ -17,8 +17,10 @@ class TestView(generics.ListAPIView):
         return Response({'message': 'Room Retrieved!'}, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
-        print(request.data.get('username'))
+        # print(request.data.get('username'))
         username = request.data.get('username')
-        # if not self.request.username.exists(self.request.username.username):
-        #     self.request.username.create()
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            user = Test(username=username)
+            user.save()
         return Response({'message': 'Room Joined!'}, status=status.HTTP_200_OK)
