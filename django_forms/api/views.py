@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import render
 from rest_framework import generics, status
-from .models import Test, Payment_Activation
-from .serializers import TestSerializer, PaymentActivationSerializer
+from .models import Test, Payment_Activation, OGS
+from .serializers import TestSerializer, PaymentActivationSerializer, OGSSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -45,4 +45,21 @@ class PaymentActivationView(generics.ListAPIView):
             serializer.save()
         return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
 
+
+class OGSView(generics.ListAPIView):
+    queryset = OGS.objects.all()
+    serializer_class=OGSSerializer
+
+    def get(self, request, format=None):
+        dataset = OGS.objects.all()
+        serializer = self.serializer_class(dataset, many=True)
+        print(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+
+        serializer = self.serializer_class(data= request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response({'message': 'OGS Application Submitted!'}, status=status.HTTP_200_OK)
 
