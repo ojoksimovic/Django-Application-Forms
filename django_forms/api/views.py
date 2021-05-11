@@ -26,10 +26,23 @@ class TestView(viewsets.ViewSet):
         if serializer.is_valid():
             user = Test(username=username)
             user.save()
-        return Response({'message': 'Room Joined!'}, status=status.HTTP_200_OK)
+        return Response({'message': 'User Added!'}, status=status.HTTP_200_OK)
 
-# class PaymentActivationView(generics.ListAPIView):
-#     queryset = Payment_Activation.objects.all()
-#     serializer_class=PaymentActivationSerializer
+class PaymentActivationView(generics.ListAPIView):
+    queryset = Payment_Activation.objects.all()
+    serializer_class=PaymentActivationSerializer
 
-#     def get
+    def get(self, request, format=None):
+        dataset = Payment_Activation.objects.all()
+        serializer = self.serializer_class(dataset, many=True)
+        print(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+
+        serializer = self.serializer_class(data= request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
+
+

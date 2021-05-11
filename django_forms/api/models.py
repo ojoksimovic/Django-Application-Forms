@@ -57,8 +57,8 @@ def generate_confirmation_number():
         return confirmation_number
         
 class Payment_Activation(models.Model):
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
     faculty = models.CharField(max_length=100, blank=True, null=True)
     graduate_unit = models.CharField(max_length=100, blank=True, null=True)
     program = models.CharField(max_length=100, blank=True, null=True)
@@ -68,4 +68,5 @@ class Payment_Activation(models.Model):
     type_payment_request = models.CharField(max_length = 50, blank=True, null=True)
     award_start_session = models.CharField(max_length=50, blank=True, null=True)
     submitted = models.BooleanField(blank=True, null = True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
     confirmation_number = models.CharField(max_length = 25, default = generate_confirmation_number, unique=True)
