@@ -20,7 +20,6 @@ class TestView(viewsets.ViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request, format=None):
-        # print(request.data.get('username'))
         username = request.data.get('username')
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
@@ -33,14 +32,18 @@ class PaymentActivationView(generics.ListAPIView):
     serializer_class=PaymentActivationSerializer
 
     def get(self, request, format=None):
+        user = request.user
         dataset = Payment_Activation.objects.all()
         serializer = self.serializer_class(dataset, many=True)
         print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
+        user = request.user
 
-        serializer = self.serializer_class(data= request.data)
+        #add user to serializer when front end completed
+
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
         return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
