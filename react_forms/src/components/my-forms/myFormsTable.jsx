@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
+import './style.css';
 
 const columns = [
-  { field: 'collection', headerName: 'Collection', width: 130 },
-  { field: 'initiator', headerName: 'Initiator', width: 130 },
+  { field: 'collection', headerName: 'Collection', width: 200 },
+  { field: 'initiator', headerName: 'Initiator', width: 160 },
   { field: 'academicYear', headerName: 'Academic Year', width: 130 },
   { field: 'lastModified', headerName: 'Last Modified', width: 130 },
   { field: 'submitted', headerName: 'Submitted', width: 130 },
@@ -22,11 +23,9 @@ const rows = [
 
 ];
 
-
-
 export default function FormsTable() {
   return (
-    <div style={{ height: 400, width: 1200 }}>
+    <div style={{ height: '400px', width: "100%" }}>
       <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
     </div>
   );
