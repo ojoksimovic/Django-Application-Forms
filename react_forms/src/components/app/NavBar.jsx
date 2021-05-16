@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import {Drawer, Divider, Typography, List, ListItem, ListItemText} from '@material-ui/core';
+import {Button, Drawer, Divider, Typography, List, ListItem, ListItemText} from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -137,7 +137,11 @@ const NavBar = () => {
             }}
           >
             <div className={classes.drawerHeader}>
-
+              <Typography variant='h5'>Olivera Joksimovic</Typography>
+            </div>
+            <div className = {classes.drawerHeader}>
+            <Button color = "primary" variant = "contained">Logout</Button>
+            <Button color = "secondary" variant = "contained">FIPPA</Button>
             </div>
             <Divider />
             <List>
@@ -169,66 +173,5 @@ const NavBar = () => {
         </div>
       );
     }
-
-
-
-
-
-
-// return (
-//     <div id = "navbar" style = {{backgroundColor: "#00204E", color: "white", fontFamily: 'Roboto', fontWeight: "300", fontSize: "1.4rem"}}>
-//   <button onClick={handleHamburgerClick} class=
-//         {state ?
-//           "navbar-toggler hamburger hamburger--squeeze is-active" :
-//           "navbar-toggler hamburger hamburger--squeeze"}
-//         type="button"
-//         data-toggle="collapse"
-//         data-target="#navbarToggler"
-//         aria-controls="navbarToggler"
-//         aria-expanded="false"
-//         aria-label="Toggle navigation"
-//         style = {{
-//           color: 'transparent',
-//           marginRight: 10,
-//         }}>
-//         <span class="hamburger-box">
-//           <span class="hamburger-inner"></span>
-//         </span>
-//       </button>
-//   <a class="navbar-brand" href="#" style = {{color: "white", fontFamily: 'Roboto', fontWeight: "300", fontSize: "1.4rem"}}>Forms</a>
-
-//   <Drawer
-//         variant="persistent"
-//         anchor="left"
-//         open={state}
-//       >
-//         <div>
-//           <IconButton onClick={handleHamburgerClick}>
-//             <ChevronLeftIcon />
-//           </IconButton>
-//         </div>
-//         <Divider />
-//         <List>
-//           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-//             <ListItem button key={text}>
-//               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-//               <ListItemText primary={text} />
-//             </ListItem>
-//           ))}
-//         </List>
-//         <Divider />
-//         <List>
-//           {['All mail', 'Trash', 'Spam'].map((text, index) => (
-//             <ListItem button key={text}>
-//               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-//               <ListItemText primary={text} />
-//             </ListItem>
-//           ))}
-//         </List>
-//       </Drawer>
-// </div>
-
-
-// )}
 
 export default NavBar;
