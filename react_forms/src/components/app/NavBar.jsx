@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.4rem",
   },
   appBarShift: {
-    width: "100%",
+    width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
   },
   drawer: {
-    marginTop: 50,
     width: drawerWidth,
     flexShrink: 0,
   },
@@ -137,9 +136,7 @@ const NavBar = () => {
             }}
           >
             <div className={classes.drawerHeader}>
-              <IconButton onClick={handleHamburgerClick}>
-                {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-              </IconButton>
+
             </div>
             <Divider />
             <List>
