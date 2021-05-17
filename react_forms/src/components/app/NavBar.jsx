@@ -34,14 +34,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "300", 
     fontSize: "1.4rem",
   },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
+
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -53,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
   },
   drawerPaper: {
+    marginTop: 65,
     width: drawerWidth,
   },
   drawerHeader: {
@@ -95,13 +89,10 @@ const NavBar = () => {
 
     
       return (
-        <div className={classes.root}>
-          <CssBaseline />
-          <AppBar
+        <div>
+<AppBar
             position="fixed"
-            className={clsx(classes.appBar, {
-              [classes.appBarShift]: state,
-            })}
+            className={classes.appBar}
           >
             <Toolbar>
                 <button onClick={handleHamburgerClick} class=
@@ -127,6 +118,10 @@ const NavBar = () => {
               </Typography>
             </Toolbar>
           </AppBar>
+
+        
+        <div className={classes.root}>
+          <CssBaseline />
           <Drawer
             className={classes.drawer}
             variant="persistent"
@@ -170,6 +165,7 @@ const NavBar = () => {
             <div className={classes.drawerHeader} />
 <FormsTable />
           </main>
+        </div>
         </div>
       );
     }
