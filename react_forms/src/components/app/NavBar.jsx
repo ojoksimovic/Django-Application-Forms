@@ -166,7 +166,7 @@ const NavBar = () => {
 <FormsTable />
           </main>
         </div>
-        </div>
+        </div> 
       );
     }
 
