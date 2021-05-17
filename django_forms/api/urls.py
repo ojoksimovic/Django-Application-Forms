@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TestView
+from .views import TestView, PaymentActivationView, OGSView
 
 test_list = TestView.as_view({
     'get': 'list',
@@ -7,5 +7,7 @@ test_list = TestView.as_view({
 })
 
 urlpatterns = [
-    path('', test_list, name = 'test'),
+    path('test', test_list, name = 'test'),
+    path('payment-activation', PaymentActivationView.as_view()),
+    path('ogs', OGSView.as_view())
     ]
