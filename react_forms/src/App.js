@@ -1,27 +1,26 @@
 import logo from './logo.svg';
+import ReactDOM from 'react-dom';
 import './App.css';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import ROUTE from './components/app/route'
 import NavBar from './components/app/NavBar';
+import Login from './components/login/login';
+import MyForms from './components/my-forms/myForms';
+import NewForms from './components/new-forms/newForms';
+
+
 function App() {
   return (
     <div>
       <NavBar />
-    
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route path={ROUTE.LOGIN} component={Login}></Route>
+        <Route path={ROUTE.MY_FORMS} component={MyForms}></Route>
+        <Route path={ROUTE.NEW_FORM} component={NewForms}></Route>  
+      </Switch>
+      </Router>
     </div>
   );
 }
