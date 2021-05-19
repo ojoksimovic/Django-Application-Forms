@@ -15,6 +15,12 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import './hamburgers.css'
 import FormsTable from '../my-forms/myFormsTable.jsx'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+
+import ROUTE from './route'
+import Login from '../login/login';
+import MyForms from '../my-forms/myForms';
+import NewForms from '../new-forms/newForms';
 
 
 const drawerWidth = 240;
@@ -163,7 +169,13 @@ const NavBar = () => {
             })}
           >
             <div className={classes.drawerHeader} />
-<FormsTable />
+            <Router>
+      <Switch>
+        <Route path={ROUTE.LOGIN} component={Login}></Route>
+        <Route path={ROUTE.MY_FORMS} component={MyForms}></Route>
+        <Route path={ROUTE.NEW_FORM} component={NewForms}></Route>  
+      </Switch>
+      </Router>
           </main>
         </div>
         </div> 
