@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render
+from django.contrib.auth import authenticate
 from rest_framework import generics, status
 from .models import Test, Payment_Activation, OGS
 from .serializers import TestSerializer, PaymentActivationSerializer, OGSSerializer
@@ -17,6 +18,7 @@ class TestView(viewsets.ViewSet):
         dataset = Test.objects.all()
         serializer = self.serializer_class(dataset, many=True)
         print(serializer.data)
+        print(request.user.is_authenticated)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request, format=None):

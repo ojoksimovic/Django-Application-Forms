@@ -11,7 +11,7 @@ import NewForms from './components/new-forms/newForms';
 
 function App() {
   return (
-    <div>
+    <div style = {{height: "100vh"}}>
       <NavBar />
     </div>
   );

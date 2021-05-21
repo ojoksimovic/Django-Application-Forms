@@ -95,7 +95,7 @@ const NavBar = () => {
 
     
       return (
-        <div>
+        <div style = {{height: "100%"}}>
 <AppBar
             position="fixed"
             className={classes.appBar}
@@ -126,7 +126,7 @@ const NavBar = () => {
           </AppBar>
 
         
-        <div className={classes.root}>
+        <div style = {{height: "100%"}}className={classes.root}>
           <CssBaseline />
           <Drawer
             className={classes.drawer}
@@ -163,12 +163,12 @@ const NavBar = () => {
               ))}
             </List>
           </Drawer>
-          <main
+          <main style = {{height: "100%", padding: 0}}
             className={clsx(classes.content, {
               [classes.contentShift]: state,
             })}
           >
-            <div className={classes.drawerHeader} />
+            {/* <div className={classes.drawerHeader} /> */}
             <Router>
       <Switch>
         <Route path={ROUTE.LOGIN} component={Login}></Route>
