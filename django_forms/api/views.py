@@ -18,6 +18,8 @@ class TestView(viewsets.ViewSet):
         dataset = Test.objects.all()
         serializer = self.serializer_class(dataset, many=True)
         print(serializer.data)
+        
+        #check to see if user is logged in!
         print(request.user.is_authenticated)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
