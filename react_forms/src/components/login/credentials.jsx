@@ -11,13 +11,11 @@ export default function Credentials() {
 
   return (
        <Card style = {{alignSelf: "center", width: "500px", textAlign: "center", padding: 0, margin: "auto",}}>
-        <CardContent align = "left" style = {{padding: 15, backgroundColor: "#002a5c", color: "white"}}>
+        <CardContent align = "center" style = {{padding: 15, backgroundColor: "#002a5c", color: "white"}}>
           <Typography  variant="h6" component="h1">
-          Forms
-          </Typography>
-          <Typography  variant="subtitle2" component="h2">
           Division of Mock
           </Typography>
+
         </CardContent>
 
         <CardContent style = {{padding: "50px"}}>
