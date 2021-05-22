@@ -3,24 +3,20 @@ import 'bootstrap/dist/css/bootstrap.css';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import {Button, Drawer, Divider, Typography, List, ListItem, ListItemText} from '@material-ui/core';
+import {Button, Drawer, Divider, Collapse, Link, Typography, List, ListItem, ListItemText} from '@material-ui/core';
+import {ExpandLess, ExpandMore, VerifiedUser} from '@material-ui/icons';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import './hamburgers.css'
-import FormsTable from '../my-forms/myFormsTable.jsx'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-
-import ROUTE from './route'
-import Login from '../login/login';
+import ROUTE from './route';
 import MyForms from '../my-forms/myForms';
 import NewForms from '../new-forms/newForms';
+import '../login/style.css';
+import {Context, withContext} from '../app/context'
+import { useHistory } from "react-router-dom";
+
+
 
 
 const drawerWidth = 240;
@@ -84,6 +80,18 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = () => {
     const [state, setState] = useState(false);
+    const [open, setOpen] = useState(true);
+
+    const {authentication, setAuthentication} = useContext(Context)
+    const history = useHistory();
+  
+    const handleLogoutClick = () => {
+      setAuthentication(false)
+      history.push(ROUTE.LOGOUT);
+    }
+    const handleClick = () => {
+      setOpen(!open);
+    };
 
     const handleHamburgerClick = () => {
       setState(!state);
@@ -141,26 +149,26 @@ const NavBar = () => {
               <Typography variant='h5'>Olivera Joksimovic</Typography>
             </div>
             <div className = {classes.drawerHeader}>
-            <Button color = "primary" variant = "contained">Logout</Button>
-            <Button color = "secondary" variant = "contained">FIPPA</Button>
+            <Button className = "button" onClick = {handleLogoutClick} color = "primary" variant = "contained">Logout</Button>
+            <Button className = "button" color = "secondary" variant = "contained">FIPPA <VerifiedUser style = {{marginLeft: 5}}/></Button>
             </div>
             <Divider />
             <List>
-              {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
+                <ListItem button onClick={handleClick}>
+                  <ListItemText primary="Forms"/>
+
+                  {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding style = {{paddingLeft: 20}}>
+          <ListItem button>
+            <ListItemText primary="My Forms" />
                 </ListItem>
-              ))}
-            </List>
-            <Divider />
-            <List>
-              {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
+                <ListItem button>
+            <ListItemText primary="New Form" />
                 </ListItem>
-              ))}
+                </List>
+                </Collapse>
             </List>
           </Drawer>
           <main style = {{height: "100%", padding: 0}}

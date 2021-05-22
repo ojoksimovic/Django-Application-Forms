@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import ROUTE from './components/app/route'
 import NavBar from './components/app/NavBar';
 import Login from './components/login/login';
+import Logout from './components/login/logout';
 import MyForms from './components/my-forms/myForms';
 import NewForms from './components/new-forms/newForms';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
@@ -19,11 +20,12 @@ function App() {
 <Router>
       <Switch>
       <Route path={ROUTE.LOGIN} component={Login}></Route>
+      <Route path = {ROUTE.LOGOUT} component = {Logout}></Route>
+
       {!authentication? <Redirect to={ROUTE.LOGIN} />:
        null}
         <Route path={ROUTE.MY_FORMS} component={NavBar}></Route>
         <Route path={ROUTE.NEW_FORM} component={NavBar}></Route>  
-
       </Switch>
       </Router>
       
