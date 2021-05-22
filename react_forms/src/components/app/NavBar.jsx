@@ -171,7 +171,6 @@ const NavBar = () => {
             {/* <div className={classes.drawerHeader} /> */}
             <Router>
       <Switch>
-        <Route path={ROUTE.LOGIN} component={Login}></Route>
         <Route path={ROUTE.MY_FORMS} component={MyForms}></Route>
         <Route path={ROUTE.NEW_FORM} component={NewForms}></Route>  
       </Switch>
