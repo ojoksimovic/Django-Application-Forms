@@ -25,7 +25,7 @@ const rows = [
 
 export default function FormsTable() {
   return (
-    <div style={{ height: '400px', width: "100%" }}>
+    <div style={{ height: '400px', width: "100%", marginTop: 50 }}>
       <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
     </div>
   );
