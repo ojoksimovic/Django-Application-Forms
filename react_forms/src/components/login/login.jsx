@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import './style.css';
 import { createMuiTheme } from '@material-ui/core/styles';
+import Credentials from './credentials'
 
 const theme = createMuiTheme({
   palette: {
@@ -25,13 +26,19 @@ const theme = createMuiTheme({
 export default function Login() {
 
 const [proceedLogin, setProceedLogin] = useState(false);
+const [credentials, setCredentials] = useState(false);
 
 const handleProceedLoginClick = () => {
   setProceedLogin(true);
 }
 
+const handleCredentialsClick = () => {
+  setCredentials(true);
+}
+
   return (
     <div style = {{height: "100%", width: "100%", margin: 0, display: "flex",  background: "radial-gradient(circle,hsla(0,0%,100%,.3) -52%,#002a5c 66%)"}}>
+       {!credentials?
        <Card style = {{alignSelf: "center", width: "500px", textAlign: "center", padding: 0, margin: "auto",}}>
         {!proceedLogin ?
         <CardContent align = "left" style = {{padding: 15, backgroundColor: "#002a5c", color: "white"}}>
@@ -64,7 +71,7 @@ const handleProceedLoginClick = () => {
         <Typography variant = "h5" component = "h2">
 Login
         </Typography>
-      <Button className = "login-button" variant = "contained" align = "center" style = {{textTransform: "none", width: "100%", backgroundColor: "#002a5c", color: "white", marginTop: 20, padding: 15}}>
+      <Button className = "login-button" onClick = {handleCredentialsClick} variant = "contained" align = "center" style = {{textTransform: "none", width: "100%", backgroundColor: "#002a5c", color: "white", marginTop: 20, padding: 15}}>
       <Typography variant = "body1" component = "h5">
       Log in with Credentials
       </Typography>
@@ -77,7 +84,8 @@ Login
 </CardContent>
 }
 
-    </Card>
+    </Card>:
+    <Credentials/>}
     </div>
   );
 }
