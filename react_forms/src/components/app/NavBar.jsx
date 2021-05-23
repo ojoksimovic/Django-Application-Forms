@@ -54,10 +54,11 @@ const useStyles = makeStyles((theme) => ({
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(1, 3),
+    paddingTop: 20,
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start'
   }
 }));
 
@@ -93,8 +94,8 @@ const NavBar = () => {
             <Toolbar>
                 <button onClick={handleHamburgerClick} class=
         {state ?
-          "navbar-toggler hamburger hamburger--squeeze is-active" :
-          "navbar-toggler hamburger hamburger--squeeze"}
+          "navbar-toggler hamburger hamburger--arrowalt is-active" :
+          "navbar-toggler hamburger hamburger--arrowalt"}
         type="button"
         data-toggle="collapse"
         data-target="#navbarToggler"
