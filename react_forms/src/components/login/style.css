@@ -1,15 +1,38 @@
 .login-button:hover {
-    background-color: white !important;
-    color: #002a5c !important;
-    }
+  background-color: white !important;
+  color: #002a5c !important;
+}
 
-    
-    .button {
-        text-transform: none !important;
-        background-color: white !important;
-        color: #002a5c !important;
-    }
+.button {
+  text-transform: none !important;
+  background-color: white !important;
+  color: #002a5c !important;
+}
 .button:hover {
-    background-color: #002a5c !important;
-    color:white !important;
-    }
+  background-color: #002a5c !important;
+  color: white !important;
+}
+
+.form-title {
+  color: #002a5c;
+  font-weight: 800 !important;
+  padding: 5px 0px;
+}
+
+.form-button {
+  background-color: #002a5c !important;
+  color: white !important;
+  align-self: flex-end;
+}
+.form-button:hover {
+  background-color: white !important;
+  color: #002a5c !important;
+}
+
+.card {
+    height: 100%;
+}
+.cardfooter {
+    display: flex;
+    height: 100%;
+}

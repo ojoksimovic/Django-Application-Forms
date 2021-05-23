@@ -129,11 +129,11 @@ const NavBar = () => {
             }}
           >
             <div className={classes.drawerHeader}>
-              <Typography variant='h5'>Olivera Joksimovic</Typography>
+              <Typography variant='h5' style = {{fontWeight: "800"}}>Olivera Joksimovic</Typography>
             </div>
             <div className = {classes.drawerHeader}>
-            <Button className = "button" onClick = {handleLogoutClick} color = "primary" variant = "contained">Logout</Button>
-            <Button className = "button" color = "secondary" variant = "contained">FIPPA <VerifiedUser style = {{marginLeft: 5}}/></Button>
+            <Button className = "button" onClick = {handleLogoutClick} variant = "contained">Logout</Button>
+            <Button  variant = "contained">FIPPA <VerifiedUser style = {{marginLeft: 5}}/></Button>
             </div>
             <Divider />
             <List>
