@@ -3,12 +3,12 @@ import 'bootstrap/dist/css/bootstrap.css';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import {Button, Drawer, Divider, Collapse, Link, Typography, List, ListItem, ListItemText} from '@material-ui/core';
+import {Button, Drawer, Divider, Collapse, Typography, List, ListItem, ListItemText} from '@material-ui/core';
 import {ExpandLess, ExpandMore, VerifiedUser} from '@material-ui/icons';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import './hamburgers.css'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import ROUTE from './route';
 import MyForms from '../my-forms/myForms';
 import NewForms from '../new-forms/newForms';
@@ -58,31 +58,13 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  },
+  }
 }));
 
 
 const NavBar = () => {
-    const [state, setState] = useState(false);
     const [open, setOpen] = useState(true);
-
-    const {authentication, setAuthentication} = useContext(Context)
+    const {authentication, setAuthentication, state, setState} = useContext(Context)
     const history = useHistory();
   
     const handleLogoutClick = () => {
@@ -103,7 +85,7 @@ const NavBar = () => {
 
     
       return (
-        <div style = {{height: "100%"}}>
+        <div >
 <AppBar
             position="fixed"
             className={classes.appBar}
@@ -134,7 +116,7 @@ const NavBar = () => {
           </AppBar>
 
         
-        <div style = {{height: "100%"}}className={classes.root}>
+        <div className={classes.root}>
           <CssBaseline />
           <Drawer
             className={classes.drawer}
@@ -161,29 +143,17 @@ const NavBar = () => {
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding style = {{paddingLeft: 20}}>
-          <ListItem button>
+          <ListItem button component = {Link} to = {ROUTE.MY_FORMS}>
             <ListItemText primary="My Forms" />
                 </ListItem>
-                <ListItem button>
-            <ListItemText primary="New Form" />
+                <ListItem button component = {Link} to = {ROUTE.NEW_FORM}>
+                <ListItemText primary="New Form" />
                 </ListItem>
                 </List>
                 </Collapse>
             </List>
           </Drawer>
-          <main style = {{height: "100%", padding: 0}}
-            className={clsx(classes.content, {
-              [classes.contentShift]: state,
-            })}
-          >
-            {/* <div className={classes.drawerHeader} /> */}
-            <Router>
-      <Switch>
-        <Route path={ROUTE.MY_FORMS} component={MyForms}></Route>
-        <Route path={ROUTE.NEW_FORM} component={NewForms}></Route>  
-      </Switch>
-      </Router>
-          </main>
+
         </div>
         </div> 
       );
