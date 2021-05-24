@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 export default function NewForms() {
   return (
     <div className = "container-fluid">
+            <Typography variant = "h5"> Available Forms</Typography>
       <div className = "row">
       <div className = "col-12 col-lg-6 mt-4 mb-4 col-xl-4">
         <Card className = "card">

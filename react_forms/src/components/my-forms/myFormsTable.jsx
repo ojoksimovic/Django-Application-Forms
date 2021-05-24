@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import './style.css';
+import '../app/style.css';
 
 const columns = [
   { field: 'collection', headerName: 'Collection', width: 200 },

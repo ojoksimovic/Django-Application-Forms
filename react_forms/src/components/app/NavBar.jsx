@@ -12,7 +12,7 @@ import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import ROUTE from './route';
 import MyForms from '../my-forms/myForms';
 import NewForms from '../new-forms/newForms';
-import '../login/style.css';
+import './style.css';
 import {Context, withContext} from '../app/context'
 import { useHistory } from "react-router-dom";
 

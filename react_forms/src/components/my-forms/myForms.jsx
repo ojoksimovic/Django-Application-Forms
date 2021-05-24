@@ -5,7 +5,7 @@ import {Typography} from '@material-ui/core';
 
 const MyForms = () => {
   return (
-    <div>
+    <div className = "container-fluid">
       <Typography variant = "h5"> My Forms</Typography>
       <FormsTable/>
     </div>
