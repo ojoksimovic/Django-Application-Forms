@@ -12,3 +12,9 @@ iwr http://127.0.0.1:8000/users/token/obtain/ -Method 'POST' -ContentType 'appli
 
 
 iwr http://127.0.0.1:8000/users/hello/ -Headers @{'Authorization'= 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjIxODgxODYzLCJqdGkiOiJlNWNhMTE0N2MwMWI0NTM2ODlkYTRlMDM4Njk5Yjg0ZSIsInVzZXJfaWQiOjMsImZhdl9jb2xvciI6IiJ9.3j1888Z8l3nfRF3MSFFf436NsYAFKdlX6jhOR3cSXHY'}
+
+iwr http://127.0.0.1:8000/api/payment-activation/ -Headers @{'Authorization'= 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjIxODgzNzk3LCJqdGkiOiI1NDYzMzFiMTJlZGE0NWJiOWM3ZGJlNjQ5NTllYzJmYiIsInVzZXJfaWQiOjMsImZhdl9jb2xvciI6IiJ9.ZyidfKFjycy-SLiS1MCZ4KJQr3MnhDL9JG8YVDxyq40'}
+
+
+
+

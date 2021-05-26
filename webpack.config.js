@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     mode: "development",
-    entry: ['babel-polyfill', path.resolve(__dirname, 'django_forms/frontend/src/index.js')],
+    entry: path.resolve(__dirname, 'django_forms/frontend/src/index.js'),
     output: {
         // options related to how webpack emits results
 
@@ -26,7 +26,13 @@ module.exports = {
                     loader: "babel-loader",
                     options: {presets: ["@babel/env"]}
                 },
-            }
+            },
+            {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
+            },
+            
         ],
+        
     },
 };
