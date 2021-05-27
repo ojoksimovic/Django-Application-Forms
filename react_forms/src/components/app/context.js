@@ -6,8 +6,11 @@ export const withContext = (Component) => {
     return function Provider(){
         const [authentication, setAuthentication] = useState(false);
         const [state, setState] = useState(true);
+        const [accessToken, setAccessToken] = useState();
+        const [refreshToken, setrefreshToken] = useState();
 
-      return <Context.Provider value={{authentication, setAuthentication, state, setState}} displayName='Authentication Context'>
+
+      return <Context.Provider value={{authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
           <Component />
       </Context.Provider>
     }
