@@ -58,7 +58,7 @@ Please enter your credentials.
       </Typography>
       </Button>
       {authentication? <Typography variant = "body1">authenticated!</Typography>:null}
-<p>{accessToken}</p>
+
 {error == 400? <div>
   <Typography variant = 'subtitle2' color = 'error'>Response Status: 400 Bad Request</Typography> 
     <Typography variant = 'subtitle1' color = 'error'>Please enter credentials</Typography></div>:null}

@@ -9,7 +9,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import '../app/style.css';
 import { createMuiTheme } from '@material-ui/core/styles';
-import Credentials from './credentials'
+import Credentials from './credentials';
+import { useHistory } from "react-router-dom";
+import ROUTE from '../app/route';
 
 const theme = createMuiTheme({
   palette: {
@@ -24,7 +26,8 @@ const theme = createMuiTheme({
 
 
 export default function Login() {
-
+  
+const history = useHistory();
 const [proceedLogin, setProceedLogin] = useState(false);
 const [credentials, setCredentials] = useState(false);
 
@@ -76,7 +79,7 @@ Login
       Log in with Credentials
       </Typography>
       </Button>
-      <Button  className = "login-button" variant = "contained" align = "center" style = {{textTransform: "none", width: "100%", backgroundColor: "#337AB7", color: "white", marginTop: 20, padding: 15}}>
+      <Button  className = "login-button" onClick = {() => history.push(ROUTE.REGISTER)} variant = "contained" align = "center" style = {{textTransform: "none", width: "100%", backgroundColor: "#337AB7", color: "white", marginTop: 20, padding: 15}}>
       <Typography variant = "body1" component = "h5">
       Register Account
       </Typography>

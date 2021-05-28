@@ -12,6 +12,7 @@ import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom
 import clsx from 'clsx';
 import {Context, withContext} from './components/app/context'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Register from './components/register/register';
 
 
 const drawerWidth = 240;
@@ -52,7 +53,7 @@ function App() {
       <Switch>
       <Route path={ROUTE.LOGIN} component={Login}></Route>
       <Route path = {ROUTE.LOGOUT} component = {Logout}></Route>
-
+      <Route path = {ROUTE.REGISTER} component = {Register}></Route>
       {!authentication? <Redirect to={ROUTE.LOGIN} />:
        null}
        <main style = {{height: "100%"}}

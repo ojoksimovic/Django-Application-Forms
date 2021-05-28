@@ -3,6 +3,11 @@
   color: #002a5c !important;
 }
 
+
+.register-button:disabled {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+
 .button {
   text-transform: none !important;
   background-color: white !important;
