@@ -14,7 +14,8 @@ export default function Credentials() {
   const [password, setPassword] = useState();
   const [error, setError] = useState();
 
-  const handleSubmit = () => {
+  const onSubmit = (event) => {
+    event.preventDefault();
     axios
     .post(
       `${ROUTE.HOST}/users/token/obtain/`, 
@@ -49,10 +50,10 @@ setPassword(e.target.value)
           <Typography variant = "h6" component = "p" style = {{marginBottom: 20}}>
 Please enter your credentials.         
  </Typography>
- <form noValidate autoComplete="off">
+ <form noValidate onSubmit = {onSubmit} autoComplete="off">
   <TextField id="username" label="Username" onChange = {(event) => handleUsernameChange(event)} variant="outlined" style = {{margin: 10, width: "100%"}} />
   <TextField id="password" label="Password" onChange = {(event) => handlePasswordChange(event)} variant="outlined" type = "password" style = {{margin: 10, width: "100%"}} />
-  <Button onClick = {handleSubmit} className = "login-button" variant = "contained" align = "center" style = {{textTransform: "none", width: "100%", backgroundColor: "#002a5c", color: "white", marginTop: 20, padding: 15}}>
+  <Button type = "submit" className = "login-button" variant = "contained" align = "center" style = {{textTransform: "none", width: "100%", backgroundColor: "#002a5c", color: "white", marginTop: 20, padding: 15}}>
       <Typography variant = "body1" component = "h5">
       Login
       </Typography>

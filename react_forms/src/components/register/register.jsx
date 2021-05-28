@@ -18,7 +18,8 @@ export default function Register() {
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [error, setError] = useState();
 
-  const handleSubmit = () => {
+  const onSubmit = (event) => {
+      event.preventDefault();
     axios
     .post(
       `${ROUTE.HOST}/users/user/create/`, 
@@ -69,12 +70,12 @@ const handlePasswordReEnter = (e) => {
           <Typography variant = "h5" component = "p" style = {{marginBottom: 20}}>
 User Registration         
  </Typography>
- <form noValidate autoComplete="off">
+ <form noValidate onSubmit={onSubmit} autoComplete="off">
   <TextField id="username" label="Username" onChange = {(event) => handleUsernameChange(event)} variant="outlined" style = {{margin: 10, width: "100%"}} />
   <TextField id="password" label="Password" onChange = {(event) => handlePasswordChange(event)} variant="outlined" type = "password" style = {{margin: 10, width: "100%"}} />
   <TextField error={!(passwordMatch)} helperText={!(passwordMatch)? "Passwords must match.":''} onChange = {(event) => handlePasswordReEnter(event)} id="password-reenter" label="Re-Enter Password" variant="outlined" type = "password" style = {{margin: 10, width: "100%"}} />
   <TextField error={!(emailValid)} helperText={!(emailValid)? "Enter a valid email.":''}id="email" label="Email" onChange = {(event) => handleEmailChange(event)} variant="outlined" type = "email" style = {{margin: 10, width: "100%"}} />
-  <Button disabled = {password && username && email && emailValid && passwordMatch? false: true} onClick = {handleSubmit} className = "register-button" variant = "contained" align = "center" style = {{textTransform: "none", width: "100%", backgroundColor: "#002a5c", color: "white", marginTop: 20, padding: 15}}>
+  <Button disabled = {password && username && email && emailValid && passwordMatch? false: true} type = "submit" className = "register-button" variant = "contained" align = "center" style = {{textTransform: "none", width: "100%", backgroundColor: "#002a5c", color: "white", marginTop: 20, padding: 15}}>
       <Typography variant = "body1" component = "h5">
       Register
       </Typography>
@@ -83,7 +84,7 @@ User Registration
 
 {error == 400? <div>
   <Typography variant = 'subtitle2' color = 'error'>Response Status: 400 Bad Request</Typography> 
-    <Typography variant = 'subtitle1' color = 'error'>Please enter credentials</Typography></div>:null}
+    <Typography variant = 'subtitle1' color = 'error'>Please enter valid password and/or username</Typography></div>:null}
 {error == 500? <div><Typography variant = 'subtitle2' color = 'error'>Response Status: 500 Internal Server Error</Typography> 
 <Typography variant = 'subtitle1' color = 'error'>Username already exists.</Typography></div>:null}
 
