@@ -42,4 +42,4 @@ class UserInfoView(APIView):
         serializer = self.serializer_class(dataset, many=True)
         print(user)
         print(serializer.data)
-        return Response((), status=status.HTTP_200_OK)
+        return Response(data = serializer.data, status=status.HTTP_200_OK)
