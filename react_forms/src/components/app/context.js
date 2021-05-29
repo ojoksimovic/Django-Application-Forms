@@ -1,6 +1,7 @@
 import React, {createContext, useState, useEffect, useContext} from 'react';
 import ROUTE from '../app/route';
 import axios from 'axios';
+import axiosInstance from './api';
 
 export const Context = createContext();
 
@@ -15,11 +16,11 @@ export const withContext = (Component) => {
 
         const getUserInfo = () => {
             console.log(accessToken)
-            axios
+            axiosInstance
             .get(
-              `${ROUTE.HOST}/users/user-info/`, 
-              { headers: { 'Authorization': 'JWT ' + accessToken  }
-            })
+              '/users/user-info/'
+            //   { headers: { 'Authorization': 'JWT ' + accessToken  }
+            )
             .then(response => {setUserInfo(response.data[0])
                 console.log(response)
           })

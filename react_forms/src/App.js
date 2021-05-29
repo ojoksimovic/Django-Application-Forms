@@ -48,14 +48,16 @@ function App() {
   return (
     <div style = {{height: "100vh"}}>
         <Router>
-{authentication?<NavBar/> : null}
+{localStorage.getItem("refresh_token")?
+<NavBar/> 
+ : null} 
 
       <Switch>
       <Route path={ROUTE.LOGIN} component={Login}></Route>
       <Route path = {ROUTE.LOGOUT} component = {Logout}></Route>
       <Route path = {ROUTE.REGISTER} component = {Register}></Route>
-      {!authentication? <Redirect to={ROUTE.LOGIN} />:
-       null}
+      {!localStorage.getItem("refresh_token")? <Redirect to={ROUTE.LOGIN} />:
+       null} 
        <main style = {{height: "100%"}}
             className={clsx(classes.content, {
               [classes.contentShift]: state,

@@ -5,6 +5,8 @@ import {Context, withContext} from '../app/context'
 import { useHistory, Link as Links } from "react-router-dom";
 import ROUTE from '../app/route';
 import axios from 'axios';
+import axiosInstance from '../app/api';
+
 
 export default function Credentials() {
 
@@ -16,14 +18,17 @@ export default function Credentials() {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    axios
+    axiosInstance
     .post(
-      `${ROUTE.HOST}/users/token/obtain/`, 
-      { username: username, password: password}, 
-      { headers: { 'Content-Type': 'application/json' }
-    })
+      '/users/token/obtain/', 
+      { username: username, password: password}
+    )
     .then(response => {setAccessToken(response.data.access)
-    setAuthentication(true)
+      axiosInstance.defaults.headers['Authorization'] = "JWT " + response.data.access;
+      localStorage.setItem('access_token', response.data.access);
+      localStorage.setItem('refresh_token', response.data.refresh);
+
+    setAuthentication(true);
     history.push(ROUTE.MY_FORMS);
   })
     .catch(error => {setError(error.response.status)})
