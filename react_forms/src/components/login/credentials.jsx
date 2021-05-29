@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import {Card, TextField, CardContent, Button, Typography} from '@material-ui/core';
+import {Card, Link, TextField, CardContent, Button, Typography} from '@material-ui/core';
 import {Context, withContext} from '../app/context'
-import { useHistory } from "react-router-dom";
+import { useHistory, Link as Links } from "react-router-dom";
 import ROUTE from '../app/route';
 import axios from 'axios';
 
@@ -50,6 +50,7 @@ setPassword(e.target.value)
           <Typography variant = "h6" component = "p" style = {{marginBottom: 20}}>
 Please enter your credentials.         
  </Typography>
+
  <form noValidate onSubmit = {onSubmit} autoComplete="off">
   <TextField id="username" label="Username" onChange = {(event) => handleUsernameChange(event)} variant="outlined" style = {{margin: 10, width: "100%"}} />
   <TextField id="password" label="Password" onChange = {(event) => handlePasswordChange(event)} variant="outlined" type = "password" style = {{margin: 10, width: "100%"}} />
@@ -58,6 +59,9 @@ Please enter your credentials.
       Login
       </Typography>
       </Button>
+      <Link href = {ROUTE.REGISTER} variant = "subtitle2" color="inherit">
+Don't have an account? Register here.     
+ </Link>
       {authentication? <Typography variant = "body1">authenticated!</Typography>:null}
 
 {error == 400? <div>

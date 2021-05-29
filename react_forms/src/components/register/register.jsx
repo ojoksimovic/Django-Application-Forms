@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import {Card, TextField, CardContent, Button, Typography} from '@material-ui/core';
+import {CircularProgress, Card, TextField, CardContent, Button, Typography} from '@material-ui/core';
 import {Context, withContext} from '../app/context'
 import { useHistory } from "react-router-dom";
 import '../app/style.css';
@@ -14,20 +14,26 @@ export default function Register() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
+  const [first, setFirst] = useState();
+  const [last, setLast] = useState();
   const [emailValid, setEmailValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [error, setError] = useState();
+  const [registered, setRegistered] = useState();
 
   const onSubmit = (event) => {
       event.preventDefault();
     axios
     .post(
       `${ROUTE.HOST}/users/user/create/`, 
-      { email: email, username: username, password: password}, 
+      { email: email, username: username, password: password, first_name: first, last_name: last}, 
       { headers: { 'Content-Type': 'application/json' }
     })
     .then(response => {console.log(response)
-    history.push(ROUTE.LOGIN);
+      // alert('Successfully registered! Credentials: ' + username + " " + password + " " + email);
+    setRegistered(true);
+    setTimeout(() => {history.push(ROUTE.LOGIN)}, 3000);
   })
     .catch(error => {setError(error.response.status)})
   }
@@ -36,8 +42,19 @@ export default function Register() {
 setUsername(e.target.value)
   }
 
+  const handleFirstChange = (e) => {
+    setFirst(e.target.value)
+      }
+
+      const handleLastChange = (e) => {
+        setLast(e.target.value)
+          }
+
   const handlePasswordChange = (e) => {
 setPassword(e.target.value)
+    e.target.value.length < 8?
+    setPasswordValid(false):
+    setPasswordValid(true)
   }
 
   const handleEmailChange = (e) => {
@@ -66,16 +83,29 @@ const handlePasswordReEnter = (e) => {
 
         </CardContent>
 
+{registered?
         <CardContent style = {{padding: "50px"}}>
+        <Typography variant = "h6" component = "p" style = {{marginBottom: 20}}>
+Successfully Registered!       
+</Typography>
+<Typography variant = "body1">Redirecting to login...</Typography>
+<CircularProgress style = {{marginTop: 10}} />
+
+
+
+</CardContent> 
+:        <CardContent style = {{padding: "50px"}}>
           <Typography variant = "h5" component = "p" style = {{marginBottom: 20}}>
 User Registration         
  </Typography>
  <form noValidate onSubmit={onSubmit} autoComplete="off">
+ <TextField id="first_name" label="First Name" onChange = {(event) => handleFirstChange(event)} variant="outlined" style = {{margin: 10, width: "100%"}} />
+ <TextField id="last_name" label="Last Name" onChange = {(event) => handleLastChange(event)} variant="outlined" style = {{margin: 10, width: "100%"}} />
   <TextField id="username" label="Username" onChange = {(event) => handleUsernameChange(event)} variant="outlined" style = {{margin: 10, width: "100%"}} />
-  <TextField id="password" label="Password" onChange = {(event) => handlePasswordChange(event)} variant="outlined" type = "password" style = {{margin: 10, width: "100%"}} />
-  <TextField error={!(passwordMatch)} helperText={!(passwordMatch)? "Passwords must match.":''} onChange = {(event) => handlePasswordReEnter(event)} id="password-reenter" label="Re-Enter Password" variant="outlined" type = "password" style = {{margin: 10, width: "100%"}} />
-  <TextField error={!(emailValid)} helperText={!(emailValid)? "Enter a valid email.":''}id="email" label="Email" onChange = {(event) => handleEmailChange(event)} variant="outlined" type = "email" style = {{margin: 10, width: "100%"}} />
-  <Button disabled = {password && username && email && emailValid && passwordMatch? false: true} type = "submit" className = "register-button" variant = "contained" align = "center" style = {{textTransform: "none", width: "100%", backgroundColor: "#002a5c", color: "white", marginTop: 20, padding: 15}}>
+  <TextField error={!(passwordValid)} helperText={!(passwordValid)? "The password must be at least 8 characters.":''} id="password" label="Password" onChange = {(event) => handlePasswordChange(event)} variant="outlined" type = "password" style = {{margin: 10, width: "100%"}} />
+  <TextField error={!(passwordMatch)} helperText={!(passwordMatch)? "The password and password confirmation do not match.":''} onChange = {(event) => handlePasswordReEnter(event)} id="password-confirm" label="Confirm Password" variant="outlined" type = "password" style = {{margin: 10, width: "100%"}} />
+  <TextField error={!(emailValid)} helperText={!(emailValid)? "Please enter a valid email.":''}id="email" label="Email" onChange = {(event) => handleEmailChange(event)} variant="outlined" type = "email" style = {{margin: 10, width: "100%"}} />
+  <Button disabled = {first && last && password && username && email && emailValid && passwordMatch? false: true} type = "submit" className = "register-button" variant = "contained" align = "center" style = {{textTransform: "none", width: "100%", backgroundColor: "#002a5c", color: "white", marginTop: 20, padding: 15}}>
       <Typography variant = "body1" component = "h5">
       Register
       </Typography>
@@ -90,7 +120,7 @@ User Registration
 
 </form>
 
-</CardContent> 
+</CardContent> }
 
     </Card>
     </div>
