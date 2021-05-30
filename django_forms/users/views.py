@@ -32,8 +32,6 @@ class HelloWorldView(APIView):
     serializer_class = CustomUserSerializer
 
     def get(self, request):
-        print(request.user)
-        print(request.user)
         return Response(data={"hello":"world"}, status=status.HTTP_200_OK)
 
 class UserInfoView(APIView):
@@ -43,8 +41,6 @@ class UserInfoView(APIView):
         user = request.user
         dataset = CustomUser.objects.filter(username = user)
         serializer = self.serializer_class(dataset, many=True)
-        print(user)
-        print(serializer.data)
         return Response(data = serializer.data, status=status.HTTP_200_OK)
 
 class LogoutAndBlacklistRefreshTokenForUserView(APIView):
