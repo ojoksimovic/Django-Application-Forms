@@ -48,23 +48,34 @@ function App() {
   return (
     <div style = {{height: "100vh"}}>
         <Router>
-{localStorage.getItem("refresh_token")?
-<NavBar/> 
- : null} 
 
       <Switch>
-      <Route path={ROUTE.LOGIN} component={Login}></Route>
       <Route path = {ROUTE.LOGOUT} component = {Logout}></Route>
-      <Route path = {ROUTE.REGISTER} component = {Register}></Route>
+
+      <Route path={ROUTE.LOGIN} component = {Login}>
+      {localStorage.getItem("refresh_token")? <Redirect to={ROUTE.MY_FORMS} />:
+       null} 
+      </Route>
+
+      <Route path = {ROUTE.REGISTER} component = {Register}>
+      {localStorage.getItem("refresh_token")? <Redirect to={ROUTE.MY_FORMS} />:
+       null}
+      </Route>
+
       {!localStorage.getItem("refresh_token")? <Redirect to={ROUTE.LOGIN} />:
        null} 
+       
+
        <main style = {{height: "100%"}}
             className={clsx(classes.content, {
               [classes.contentShift]: state,
             })}
           >
         <Route path={ROUTE.MY_FORMS} component={MyForms}></Route>
-        <Route path={ROUTE.NEW_FORM} component={NewForms}></Route>  
+        <Route path={ROUTE.NEW_FORM} component={NewForms}></Route> 
+
+            {localStorage.getItem("refresh_token")? <Redirect to={ROUTE.MY_FORMS} />:
+       null}   
       
         </main>
       </Switch>

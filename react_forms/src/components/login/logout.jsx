@@ -10,6 +10,9 @@ import Typography from "@material-ui/core/Typography";
 import "../app/style.css";
 import { createMuiTheme } from "@material-ui/core/styles";
 import Credentials from "./credentials";
+import ROUTE from '../app/route';
+import { useHistory } from "react-router-dom";
+
 
 const theme = createMuiTheme({
   palette: {
@@ -23,6 +26,11 @@ const theme = createMuiTheme({
 });
 
 export default function Logout() {
+  const history = useHistory();
+
+  useEffect(() => {
+    setTimeout(() => {history.push(ROUTE.LOGIN)}, 3000);
+  })
 
   return (
     <div

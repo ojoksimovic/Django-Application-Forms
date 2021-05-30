@@ -7,9 +7,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import NavBar from '../app/NavBar'
 
 export default function NewForms() {
   return (
+    <div>
+    <NavBar/>
     <div className = "container-fluid">
             <Typography variant = "h5"> Available Forms</Typography>
       <div className = "row">
@@ -60,7 +63,7 @@ export default function NewForms() {
           </CardContent>
         </Card>
         </div>
-
+</div>
         </div>
     </div>
   );
