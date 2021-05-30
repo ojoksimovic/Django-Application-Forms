@@ -11,8 +11,11 @@ const ROUTE = {
     LOGOUT:    '/logout',
     MY_FORMS:  '/my-forms',
     NEW_FORM: '/new-form',
-    OGS: '/new-form/ogs',
-    PAYMENT_ACTIVATION: '/new-form/payment-activation'
+    PAYMENT_ACTIVATION: '/new-form/1',
+    OGS: '/new-form/2',
+    TRAVEL_GRANT: '/new-form/3',
+    GYM_BURSARY: '/new-form/4',
+
 }
 
 export default ROUTE;

@@ -7,7 +7,10 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import NavBar from '../app/NavBar'
+import NavBar from '../app/NavBar';
+import ROUTE from '../app/route'
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+
 
 export default function NewForms() {
   return (
@@ -23,7 +26,7 @@ export default function NewForms() {
 <Typography variant = "body2">Available to those at both the master's and doctoral levels to fund all disciplines of academic study.</Typography>
           </CardContent>
           <CardContent className = "cardfooter">
-            <Button variant = "contained" className = "form-button">Start Form +</Button>
+            <Button variant = "contained" component = {Link} to = {ROUTE.OGS} className = "form-button">Start Form +</Button>
           </CardContent>
         </Card>
         </div>
@@ -35,7 +38,7 @@ export default function NewForms() {
 <Typography variant = "body2">This form is used to activate payment of your award through the School.</Typography>
           </CardContent>
           <CardContent className = "cardfooter">
-            <Button variant = "contained" className = "form-button">Start Form +</Button>
+            <Button variant = "contained" component = {Link} to = {ROUTE.PAYMENT_ACTIVATION} className = "form-button">Start Form +</Button>
           </CardContent>
         </Card>
         </div>
@@ -47,7 +50,7 @@ export default function NewForms() {
 <Typography variant = "body2">The Travel Grant assists those in the Humanities and Social Sciences with research travel that is necessary to the final stages of their program.</Typography>
           </CardContent>
           <CardContent className = "cardfooter">
-            <Button variant = "contained" className = "form-button">Start Form +</Button>
+            <Button variant = "contained" component = {Link} to = {ROUTE.TRAVEL_GRANT} className = "form-button">Start Form +</Button>
           </CardContent>
         </Card>
         </div>
@@ -59,7 +62,7 @@ export default function NewForms() {
 <Typography variant = "body2">This form is used to apply for the Summer Gym Bursary.</Typography>
           </CardContent>
           <CardContent className = "cardfooter">
-            <Button variant = "contained" className = "form-button">Start Form +</Button>
+            <Button variant = "contained" component = {Link} to = {ROUTE.GYM_BURSARY} className = "form-button">Start Form +</Button>
           </CardContent>
         </Card>
         </div>

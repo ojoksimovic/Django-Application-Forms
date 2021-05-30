@@ -13,6 +13,10 @@ import clsx from 'clsx';
 import {Context, withContext} from './components/app/context'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Register from './components/register/register';
+import PaymentActivation from './components/new-forms/PaymentActivation';
+import OGS from './components/new-forms/OGS';
+import TravelGrant from './components/new-forms/TravelGrant';
+import GymBursary from './components/new-forms/GymBursary';
 
 
 const drawerWidth = 240;
@@ -71,8 +75,13 @@ function App() {
               [classes.contentShift]: state,
             })}
           >
-        <Route path={ROUTE.MY_FORMS} component={MyForms}></Route>
-        <Route path={ROUTE.NEW_FORM} component={NewForms}></Route> 
+        <Route path={ROUTE.MY_FORMS} component={MyForms}/>
+        <Route exact path={ROUTE.NEW_FORM} component={NewForms}/>
+        <Route path={ROUTE.PAYMENT_ACTIVATION} component={PaymentActivation}/> 
+        <Route path={ROUTE.OGS} component={OGS}/> 
+        <Route path={ROUTE.TRAVEL_GRANT} component={TravelGrant}/> 
+        <Route path={ROUTE.GYM_BURSARY} component={GymBursary}/> 
+        
 
             {localStorage.getItem("refresh_token")? <Redirect to={ROUTE.MY_FORMS} />:
        null}   
