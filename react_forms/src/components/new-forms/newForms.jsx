@@ -19,6 +19,20 @@ export default function NewForms() {
     <div className = "container-fluid">
             <Typography variant = "h5"> Available Forms</Typography>
       <div className = "row">
+
+      <div    className = "col-12 col-lg-6 mt-4 mb-4 col-xl-4" >
+        <Card className = "card">
+          <CardContent>
+            <Typography gutterBottom = "true" variant = "h5" className = "form-title">Award Payment Activation Form</Typography>
+<Typography variant = "body2">This form is used to activate payment of your award through the School.</Typography>
+          </CardContent>
+          <CardContent className = "cardfooter">
+            <Button variant = "contained" component = {Link} to = {ROUTE.PAYMENT_ACTIVATION} className = "form-button">Start Form +</Button>
+          </CardContent>
+        </Card>
+        </div>
+
+        
       <div className = "col-12 col-lg-6 mt-4 mb-4 col-xl-4">
         <Card className = "card">
           <CardContent>
@@ -27,18 +41,6 @@ export default function NewForms() {
           </CardContent>
           <CardContent className = "cardfooter">
             <Button variant = "contained" component = {Link} to = {ROUTE.OGS} className = "form-button">Start Form +</Button>
-          </CardContent>
-        </Card>
-        </div>
-
-        <div    className = "col-12 col-lg-6 mt-4 mb-4 col-xl-4" >
-        <Card className = "card">
-          <CardContent>
-            <Typography gutterBottom = "true" variant = "h5" className = "form-title">Award Payment Activation Form</Typography>
-<Typography variant = "body2">This form is used to activate payment of your award through the School.</Typography>
-          </CardContent>
-          <CardContent className = "cardfooter">
-            <Button variant = "contained" component = {Link} to = {ROUTE.PAYMENT_ACTIVATION} className = "form-button">Start Form +</Button>
           </CardContent>
         </Card>
         </div>

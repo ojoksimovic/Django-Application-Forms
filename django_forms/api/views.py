@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.shortcuts import render
 from django.contrib.auth import authenticate
 from rest_framework import generics, status
 from .models import Test, Payment_Activation, OGS
@@ -47,7 +46,7 @@ class PaymentActivationView(generics.ListAPIView):
 
         #add user to serializer when front end completed
 
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.serializer_class(data=request.data, user = user)
         if serializer.is_valid():
             serializer.save()
         return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
