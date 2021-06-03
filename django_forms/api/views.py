@@ -46,7 +46,7 @@ class PaymentActivationView(generics.ListAPIView):
 
         #add user to serializer when front end completed
 
-        serializer = self.serializer_class(data=request.data, user = user)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
         return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
@@ -67,5 +67,5 @@ class OGSView(generics.ListAPIView):
         serializer = self.serializer_class(data= request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'message': 'OGS Application Submitted!'}, status=status.HTTP_200_OK)
+        return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
 
