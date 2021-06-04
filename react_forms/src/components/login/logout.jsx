@@ -1,12 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import {Card, CardContent, Typography, LinearProgress} from "@material-ui/core";
 import "../app/style.css";
 import { createMuiTheme } from "@material-ui/core/styles";
 import Credentials from "./credentials";
@@ -27,12 +21,25 @@ const theme = createMuiTheme({
 
 export default function Logout() {
   const history = useHistory();
+const [progress, setProgress] = useState(0);
+  // useEffect(() => {
+  // })
 
   useEffect(() => {
     setTimeout(() => {history.push(ROUTE.LOGIN)}, 3000);
-  })
-
+    const timer = setInterval(() => {
+      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 34));
+    }, 800);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
   return (
+    <div       style={{
+      height: "100%",
+      width: "100%"}}>
+            <LinearProgress variant="determinate" value={progress} />
+    
     <div
       style={{
         height: "100%",
@@ -43,6 +50,8 @@ export default function Logout() {
           "radial-gradient(circle,hsla(0,0%,100%,.3) -52%,#002a5c 66%)",
       }}
     >
+
+
       <Card
         style={{
           alignSelf: "center",
@@ -72,6 +81,7 @@ export default function Logout() {
           </Typography>
         </CardContent>
       </Card>
+    </div>
     </div>
   );
 }
