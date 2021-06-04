@@ -38,6 +38,7 @@ export default function PaymentActivation() {
   const [paymentType, setPaymentType] = useState();
   const [startDateAward, setStartDateAward] = useState();
   const [confirm, setConfirm] = useState();
+  const [complete, setComplete] = useState();
   const [submit, setSubmit] = useState();
 
   const myRef = useRef(null)
@@ -59,7 +60,11 @@ export default function PaymentActivation() {
   const handleNext = () => {
     setSubmit(true);
  executeScroll();
-    // setActiveStep((prevActiveStep) => prevActiveStep + 1);
+ if (!studentNumber || !faculty || !department || !program || !startDateProgram || !agency || !duration || !paymentType || !startDateAward || !confirm) {
+   setComplete(false)}
+   else {
+   setComplete(true);
+   setActiveStep((prevActiveStep) => prevActiveStep + 1)}
   };
 
   const handleBack = () => {
@@ -83,6 +88,8 @@ export default function PaymentActivation() {
     switch (stepIndex) {
       case 0:
         return <div ref={myRef}>
+                    {complete? <Typography>Complete</Typography>:<Typography>Not Complete</Typography>}
+
           <Typography gutterBottom variant = "body1" className = "form-field-title">
           First Name
           </Typography>
