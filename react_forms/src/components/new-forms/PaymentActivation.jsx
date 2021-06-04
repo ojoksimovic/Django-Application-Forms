@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import {
   Card,
@@ -38,9 +38,11 @@ export default function PaymentActivation() {
   const [paymentType, setPaymentType] = useState();
   const [startDateAward, setStartDateAward] = useState();
   const [confirm, setConfirm] = useState();
-  const [submit, setSubmit] = useState(true);
+  const [submit, setSubmit] = useState();
 
+  const myRef = useRef(null)
   
+  const executeScroll = () => myRef.current.scrollIntoView()   
 
   const steps = getSteps();
   const {
@@ -53,8 +55,11 @@ export default function PaymentActivation() {
     setState,
   } = useContext(Context);
 
+
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSubmit(true);
+ executeScroll();
+    // setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
@@ -77,7 +82,7 @@ export default function PaymentActivation() {
   function getStepContent(stepIndex, userInfo) {
     switch (stepIndex) {
       case 0:
-        return <div>
+        return <div ref={myRef}>
           <Typography gutterBottom variant = "body1" className = "form-field-title">
           First Name
           </Typography>
