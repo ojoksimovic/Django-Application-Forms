@@ -146,12 +146,6 @@ export default function PaymentActivation() {
       case 0:
         return (
           <div ref={myRef}>
-            {complete ? (
-              <Typography>Complete</Typography>
-            ) : (
-              <Typography>Not Complete</Typography>
-            )}
-
             <Typography
               gutterBottom
               variant="body1"
@@ -232,9 +226,9 @@ export default function PaymentActivation() {
                 }}
               >
                 <option aria-label="None" value="" />
-                <option value={10}>Arts and Science</option>
-                <option value={20}>Medicine</option>
-                <option value={30}>Engineering</option>
+                <option value={'Arts and Science'}>Arts and Science</option>
+                <option value={'Medicine'}>Medicine</option>
+                <option value={'Engineering'}>Engineering</option>
               </Select>
             </FormControl>
             <Typography
@@ -267,9 +261,9 @@ export default function PaymentActivation() {
                 }}
               >
                 <option aria-label="None" value="" />
-                <option value={10}>Ecology and Evolutionary Biology</option>
-                <option value={20}>Cell and Systems Biology</option>
-                <option value={30}>Computer Science</option>
+                <option value={'Ecology and Evolutionary Biology'}>Ecology and Evolutionary Biology</option>
+                <option value={'Cell and Systems Biology'}>Cell and Systems Biology</option>
+                <option value={'Computer Science'}>Computer Science</option>
               </Select>
             </FormControl>
             <Typography
@@ -523,7 +517,128 @@ export default function PaymentActivation() {
           </div>
         );
       case 1:
-        return "Review and Submit buttons..";
+        return <div>
+           <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              First Name
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              {userInfo?.first_name}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              Last Name
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              {userInfo?.last_name}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              Student Number
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              {studentNumber}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              Email
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              {userInfo?.email}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              Faculty
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              {faculty}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              Graduate Unit (Department)
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              {department}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              Degree Program
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              {program}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              Start date of degree program
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              {startDateProgram}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              Please identify the funding agency
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              {agency}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              Please indicate the duration
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              {duration}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              Type of payment requested
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              {paymentType}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              Requested start date
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              {startDateAward}
+            </Typography>
+        </div>;
       default:
         return "Unknown stepIndex";
     }
