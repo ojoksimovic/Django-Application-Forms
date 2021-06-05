@@ -146,7 +146,7 @@ export default function PaymentActivation() {
     switch (stepIndex) {
       case 0:
         return (
-          <div ref={myRef}>
+          <div>
             <Typography
               gutterBottom
               variant="body1"
@@ -212,7 +212,6 @@ export default function PaymentActivation() {
               </InputLabel>
               <Select
                 error={!faculty && submitCheck}
-                helperText={!faculty && submitCheck ? "Required field" : null}
                 onChange={(e) =>
                   e.target.value
                     ? setFaculty(e.target.value)
@@ -231,6 +230,9 @@ export default function PaymentActivation() {
                 <option value={'Medicine'}>Medicine</option>
                 <option value={'Engineering'}>Engineering</option>
               </Select>
+              <Typography variant="caption" color="error">
+                  {!faculty && submitCheck ? "Required field" : null}
+                </Typography>
             </FormControl>
             <Typography
               gutterBottom
@@ -245,7 +247,6 @@ export default function PaymentActivation() {
               </InputLabel>
               <Select
                 error={!department && submitCheck}
-                helperText={!department && submitCheck ? "Required field" : null}
                 onChange={(e) =>
                   e.target.value
                     ? setDepartment(e.target.value)
@@ -266,6 +267,9 @@ export default function PaymentActivation() {
                 <option value={'Cell and Systems Biology'}>Cell and Systems Biology</option>
                 <option value={'Computer Science'}>Computer Science</option>
               </Select>
+              <Typography variant="caption" color="error">
+                  {!department && submitCheck ? "Required field" : null}
+                </Typography>
             </FormControl>
             <Typography
               gutterBottom
@@ -280,7 +284,6 @@ export default function PaymentActivation() {
               </InputLabel>
               <Select
                 error={!program && submitCheck}
-                helperText={!program && submitCheck ? "Required field" : null}
                 onChange={(e) =>
                   e.target.value
                     ? setProgram(e.target.value)
@@ -301,6 +304,9 @@ export default function PaymentActivation() {
                 <option value={'Master of Arts'}>Master of Arts</option>
                 <option value={'Master of Applied Sciences'}>Master of Applied Sciences</option>
               </Select>
+              <Typography variant="caption" color="error">
+                  {!program && submitCheck ? "Required field" : null}
+                </Typography>
             </FormControl>
             <Typography
               gutterBottom
@@ -817,9 +823,11 @@ export default function PaymentActivation() {
                   </Step>
                 ))}
               </Stepper>
-              <div>
+              <hr />
+              <div ref={myRef}>
               <Typography className="form-field-title" gutterBottom variant = 'h6'>Payment Activation Form</Typography>
               <Typography gutterBottom variant = 'body2'>This form is used to activate payment.</Typography>
+              <hr />
               <Typography className="form-field-title" gutterBottom variant = 'h6'>User Information</Typography>
                 {activeStep === steps.length ? (
                   <div>
@@ -828,7 +836,7 @@ export default function PaymentActivation() {
                   </div>
                 ) : (
                   <div>
-                    <hr />
+  
                     {getStepContent(activeStep, userInfo)}
                     <div>
                       <hr />
