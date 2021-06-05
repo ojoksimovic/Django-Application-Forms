@@ -20,8 +20,9 @@ import {
   FormControlLabel,
   InputLabel,
   Select,
-  Paper,
+  Paper
 } from "@material-ui/core";
+import {Alert, AlertTitle} from '@material-ui/lab'
 import NavBar from "../app/NavBar";
 import { Context, withContext } from "../app/context";
 import { useHistory } from "react-router-dom";
@@ -518,6 +519,10 @@ export default function PaymentActivation() {
         );
       case 1:
         return <div>
+          <Alert severity="info">
+  <AlertTitle style = {{fontWeight: 800}}>You are almost done.</AlertTitle>
+  Please review the information below to ensure it is accurate, then click <strong>Submit</strong> at the bottom of the page.
+</Alert>
            <Typography
               gutterBottom
               variant="body1"
@@ -813,6 +818,9 @@ export default function PaymentActivation() {
                 ))}
               </Stepper>
               <div>
+              <Typography className="form-field-title" gutterBottom variant = 'h6'>Payment Activation Form</Typography>
+              <Typography gutterBottom variant = 'body2'>This form is used to activate payment.</Typography>
+              <Typography className="form-field-title" gutterBottom variant = 'h6'>User Information</Typography>
                 {activeStep === steps.length ? (
                   <div>
                     <Typography>All steps completed</Typography>
