@@ -65,9 +65,9 @@ export default function PaymentActivation() {
     setFormInfo,
   } = useContext(Context);
 
-  // useEffect(() => {
-  //   getPaymentActivationForm()
-  // })
+  useEffect(() => {
+    getPaymentActivationForm()
+  })
 
   const handleNext = () => {
     setSubmitCheck(true);

@@ -3,3 +3,5 @@
 **/__pycache__
 **/node_modules/
 **/db.sqlite3
+**/curl request from powershell cmd.txt
+**/sql queries.txt
