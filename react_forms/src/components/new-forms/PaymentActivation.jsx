@@ -296,9 +296,9 @@ export default function PaymentActivation() {
                 }}
               >
                 <option aria-label="None" value="" />
-                <option value={10}>Master of Science</option>
-                <option value={20}>Master of Arts</option>
-                <option value={30}>Master of Applied Sciences</option>
+                <option value={'Master of Science'}>Master of Science</option>
+                <option value={'Master of Arts'}>Master of Arts</option>
+                <option value={'Master of Applied Sciences'}>Master of Applied Sciences</option>
               </Select>
             </FormControl>
             <Typography
