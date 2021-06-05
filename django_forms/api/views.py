@@ -42,14 +42,14 @@ class PaymentActivationView(generics.ListAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
-        user = request.user
-
-        #add user to serializer when front end completed
-
-        serializer = self.serializer_class(data=request.data)
+        serializer = PaymentActivationSerializer(data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.save()
-        return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
+            payment_activation_form = serializer.save()
+            if payment_activation_form:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class OGSView(generics.ListAPIView):
@@ -63,9 +63,10 @@ class OGSView(generics.ListAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
-
         serializer = self.serializer_class(data= request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
+            return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'Application Not Submitted!'}, status=status.status.HTTP_400_BAD_REQUEST)
 

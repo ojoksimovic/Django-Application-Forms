@@ -15,11 +15,9 @@ export const withContext = (Component) => {
         const [error, setError] = useState();
 
         const getUserInfo = () => {
-            console.log(accessToken)
             axiosInstance
             .get(
               '/users/user-info/'
-            //   { headers: { 'Authorization': 'JWT ' + accessToken  }
             )
             .then(response => {setUserInfo(response.data[0])
                 console.log(response)
@@ -28,7 +26,45 @@ export const withContext = (Component) => {
             console.log(error.response)})
           }
 
-      return <Context.Provider value={{error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
+          const getPaymentActivationForm = () => {
+            axiosInstance
+            .get(
+              '/api/payment-activation/'
+            )
+            .then(response => {
+                console.log(response)
+          })
+            .catch(error => {setError(error.response.status)
+            console.log(error.response)})
+          }
+
+          const createPaymentActivationForm = (data) => {
+            console.log(data)
+            axiosInstance
+            .post(
+              '/api/payment-activation/', data
+            )
+            .then(response => {
+                console.log(response)
+          })
+            .catch(error => {setError(error.response.status)
+            console.log(error.response)})
+          }
+
+          const editPaymentActivationForm = (data) => {
+            console.log(accessToken)
+            axiosInstance
+            .patch(
+              '/api/payment-activation/', data
+            )
+            .then(response => {
+                console.log(response)
+          })
+            .catch(error => {setError(error.response.status)
+            console.log(error.response)})
+          }
+
+      return <Context.Provider value={{getPaymentActivationForm, createPaymentActivationForm, editPaymentActivationForm, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
           <Component />
       </Context.Provider>
     }

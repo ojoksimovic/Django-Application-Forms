@@ -53,9 +53,16 @@ export default function PaymentActivation() {
     authentication,
     setAuthentication,
     state,
-    setState,
+    setState, 
+    createPaymentActivationForm,
+    editPaymentActivationForm,
+    getPaymentActivationForm
+
   } = useContext(Context);
 
+// useEffect(() => {
+//   getPaymentActivationForm()
+// })
 
   const handleNext = () => {
     setSubmit(true);
@@ -64,8 +71,13 @@ export default function PaymentActivation() {
    setComplete(false)}
    else {
    setComplete(true);
-   setActiveStep((prevActiveStep) => prevActiveStep + 1)}
+   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  createPaymentActivationForm({user: userInfo.username, faculty: faculty, graduate_unit: department, program: program, degree_start_date: startDateProgram, award: agency, award_duration: duration, type_payment_request: paymentType, award_start_session: startDateAward, submitted: false })}
   };
+
+  
+
+
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
