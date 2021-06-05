@@ -603,40 +603,192 @@ export default function PaymentActivation() {
               variant="body1"
               className="form-field-title"
             >
-              Please identify the funding agency
+              Please identify the funding agency (required)
             </Typography>
-            <Typography gutterBottom variant="body1">
-              {agency}
-            </Typography>
+            <FormControl disabled component="fieldset">
+              <RadioGroup
+              
+                value={agency}
+                onChange={(e) =>
+                  e.target.value ? setAgency(e.target.value) : setAgency(false)
+                }
+                aria-label="agency"
+                name="customized-radios"
+              >
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="CIHR"
+                  label="CIHR"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="NSERC"
+                  label="NSERC"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="SSHRC"
+                  label="SSHRC"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="OGS"
+                  label="OGS"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="QEII-GSST"
+                  label="QEII-GSST"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="Trillium"
+                  label="Trillium"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="Connaught"
+                  label="Connaught"
+                />
+
+                <Typography variant="caption" color="error">
+                  {!agency && submitCheck ? "Required field" : null}
+                </Typography>
+              </RadioGroup>
+            </FormControl>
             <Typography
               gutterBottom
               variant="body1"
               className="form-field-title"
             >
-              Please indicate the duration
+              Please indicate the duration (required)
             </Typography>
-            <Typography gutterBottom variant="body1">
-              {duration}
-            </Typography>
+            <FormControl disabled component="fieldset">
+              <RadioGroup
+                value={duration}
+                onChange={(e) =>
+                  e.target.value
+                    ? setduration(e.target.value)
+                    : setduration(false)
+                }
+                aria-label="duration"
+                name="customized-radios"
+              >
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="12 months"
+                  label="12 months"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="36 months"
+                  label="36 months"
+                />
+                <Typography variant="caption" color="error">
+                  {!duration && submitCheck ? "Required field" : null}
+                </Typography>
+              </RadioGroup>
+            </FormControl>
             <Typography
               gutterBottom
               variant="body1"
               className="form-field-title"
             >
-              Type of payment requested
+              Type of payment requested (required)
             </Typography>
-            <Typography gutterBottom variant="body1">
-              {paymentType}
-            </Typography>
+            <FormControl disabled component="fieldset">
+              <RadioGroup
+                value={paymentType}
+                onChange={(e) =>
+                  e.target.value
+                    ? setPaymentType(e.target.value)
+                    : setPaymentType(false)
+                }
+                aria-label="payment-type"
+                name="customized-radios"
+              >
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="New activation"
+                  label="New activation"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="Renewal"
+                  label="Renewal"
+                />
+                <Typography variant="caption" color="error">
+                  {!paymentType && submitCheck ? "Required field" : null}
+                </Typography>
+              </RadioGroup>
+            </FormControl>
             <Typography
               gutterBottom
               variant="body1"
               className="form-field-title"
             >
-              Requested start date
+              Requested start date (required)
+            </Typography>
+            <FormControl disabled component="fieldset">
+              <RadioGroup
+                value={startDateAward}
+                onChange={(e) =>
+                  e.target.value
+                    ? setStartDateAward(e.target.value)
+                    : setStartDateAward(false)
+                }
+                aria-label="start-date"
+                name="customized-radios"
+              >
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="May 2021"
+                  label="May 2021"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="September 2021"
+                  label="September 2021"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="January 2022"
+                  label="January 2022"
+                />
+                <Typography variant="caption" color="error">
+                  {!startDateAward && submitCheck ? "Required field" : null}
+                </Typography>
+              </RadioGroup>
+            </FormControl>
+            <Typography
+              gutterBottom
+              variant="body1"
+              className="form-field-title"
+            >
+              Please confirm by checking the box below that:
             </Typography>
             <Typography gutterBottom variant="body1">
-              {startDateAward}
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </Typography>
+            <Typography gutterBottom variant="body1" style={{ marginTop: 10 }}>
+              <strong>Note: </strong>Once submitted, the form will be sent to
+              the administrator for approval.
+            </Typography>
+            <Typography gutterBottom variant="body1">
+              <Checkbox disabled
+                checked={confirm}
+                onChange={(e) => {
+                  setConfirm(e.target.checked);
+                }}
+                color="primary"
+              />
+              I confirm that above
+            </Typography>
+            <Typography variant="caption" color="error">
+              {!confirm && submitCheck ? "Required field" : null}
             </Typography>
         </div>;
       default:
