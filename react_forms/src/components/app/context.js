@@ -12,6 +12,7 @@ export const withContext = (Component) => {
         const [accessToken, setAccessToken] = useState();
         const [refreshToken, setrefreshToken] = useState();
         const [userInfo, setUserInfo] = useState();
+        const [formInfo, setFormInfo] = useState();
         const [error, setError] = useState();
 
         const getUserInfo = () => {
@@ -39,12 +40,11 @@ export const withContext = (Component) => {
           }
 
           const createPaymentActivationForm = (data) => {
-            console.log(data)
             axiosInstance
             .post(
               '/api/payment-activation/', data
             )
-            .then(response => {
+            .then(response => { setFormInfo(response.data)
                 console.log(response)
           })
             .catch(error => {setError(error.response.status)
@@ -52,19 +52,18 @@ export const withContext = (Component) => {
           }
 
           const editPaymentActivationForm = (data) => {
-            console.log(accessToken)
             axiosInstance
             .patch(
               '/api/payment-activation/', data
             )
-            .then(response => {
+            .then(response => { setFormInfo(response.data)
                 console.log(response)
           })
             .catch(error => {setError(error.response.status)
             console.log(error.response)})
           }
 
-      return <Context.Provider value={{getPaymentActivationForm, createPaymentActivationForm, editPaymentActivationForm, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
+      return <Context.Provider value={{formInfo, setFormInfo, getPaymentActivationForm, createPaymentActivationForm, editPaymentActivationForm, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
           <Component />
       </Context.Provider>
     }

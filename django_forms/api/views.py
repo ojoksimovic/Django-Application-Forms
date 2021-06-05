@@ -50,6 +50,20 @@ class PaymentActivationView(generics.ListAPIView):
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def patch(self, request, format=None):
+        confirmation_number = request.data.get('confirmation_number')
+        print(confirmation_number)
+        form_object = Payment_Activation.objects.get(confirmation_number = confirmation_number)
+        serializer = PaymentActivationSerializer(form_object, data=request.data, partial=True)
+        if serializer.is_valid():
+            payment_activation_form = serializer.save()
+            if payment_activation_form:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 class OGSView(generics.ListAPIView):
