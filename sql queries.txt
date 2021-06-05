@@ -1,4 +1,0 @@
-cd django_forms
-python manage.py dbshell 
-.tables
-.schema
