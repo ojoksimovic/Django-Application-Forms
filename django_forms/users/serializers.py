@@ -1,3 +1,6 @@
+from api.models import Payment_Activation
+from rest_framework.relations import PrimaryKeyRelatedField
+from api.serializers import PaymentActivationSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from .models import CustomUser
@@ -25,11 +28,12 @@ class CustomUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=8, write_only=True)
     first_name = serializers.CharField()
     last_name = serializers.CharField()
+    payment_activation = PaymentActivationSerializer(many=True)
 
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'password', 'first_name', 'last_name')
+        fields = ('email', 'username', 'password', 'first_name', 'last_name', 'payment_activation')
         extra_kwargs = {'password': {'write_only': True}}
 
 
