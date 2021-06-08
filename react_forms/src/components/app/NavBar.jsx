@@ -77,23 +77,31 @@ const NavBar = () => {
     authentication,
     setAuthentication,
     state,
-    setState,
+    setState, rows, setRows, convertDate, createRows
   } = useContext(Context);
   const history = useHistory();
 
+
   useEffect(() => {
     if (!loaded){
-    getUserInfo()
-    setLoaded(true)}
-  });
+      getUserInfo()
+      setLoaded(true)}
+    return () => {
+      setUserInfo(null);
+    };
+  }, []);
 
   const handleLogoutClick = async () => {
+
     try {
       const response = await axiosInstance.post('/users/blacklist/', {
           "refresh_token": localStorage.getItem("refresh_token")
       });
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
+      setLoaded(false);
+      setRows([]);
+      setUserInfo(null);
       setAuthentication(false);
       history.push(ROUTE.LOGOUT);
       axiosInstance.defaults.headers['Authorization'] = null;

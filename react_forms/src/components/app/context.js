@@ -14,14 +14,17 @@ export const withContext = (Component) => {
         const [userInfo, setUserInfo] = useState();
         const [formInfo, setFormInfo] = useState();
         const [error, setError] = useState();
+        const [rows, setRows] = useState([]);
 
         const getUserInfo = () => {
+          setUserInfo(null)
             axiosInstance
             .get(
               '/users/user-info/'
             )
             .then(response => {setUserInfo(response.data[0])
                 console.log(response)
+                
           })
             .catch(error => {setError(error.response.status)
             console.log(error.response)})
@@ -63,7 +66,25 @@ export const withContext = (Component) => {
             console.log(error.response)})
           }
 
-      return <Context.Provider value={{formInfo, setFormInfo, getPaymentActivationForm, createPaymentActivationForm, editPaymentActivationForm, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
+
+          const convertDate = (date) => {
+            var d = new Date(date);
+            let options = {
+              weekday: "short",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric",
+            };
+            options.hour12 = true;
+            var dt = d.toLocaleString("en-US", options);
+            return dt;
+          };
+        
+
+      return <Context.Provider value={{convertDate, rows, setRows, formInfo, setFormInfo, getPaymentActivationForm, createPaymentActivationForm, editPaymentActivationForm, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
           <Component />
       </Context.Provider>
     }
