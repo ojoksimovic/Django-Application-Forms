@@ -10,9 +10,21 @@ import Typography from '@material-ui/core/Typography';
 import NavBar from '../app/NavBar';
 import ROUTE from '../app/route'
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { Context, withContext } from "../app/context";
+
 
 
 export default function NewForms() {
+  const {
+    setFormInfo,
+  } = useContext(Context);
+  
+
+  
+  // useEffect(() => {
+  //   setFormInfo(null)
+  // })
+
   return (
     <div>
     <NavBar/>
@@ -40,7 +52,7 @@ export default function NewForms() {
 <Typography variant = "body2">Available to those at both the master's and doctoral levels to fund all disciplines of academic study.</Typography>
           </CardContent>
           <CardContent className = "cardfooter">
-            <Button variant = "contained" component = {Link} to = {ROUTE.OGS} className = "form-button">Start Form +</Button>
+            <Button disabled variant = "contained" component = {Link} to = {ROUTE.OGS}>Coming soon!</Button>
           </CardContent>
         </Card>
         </div>
@@ -52,7 +64,7 @@ export default function NewForms() {
 <Typography variant = "body2">The Travel Grant assists those in the Humanities and Social Sciences with research travel that is necessary to the final stages of their program.</Typography>
           </CardContent>
           <CardContent className = "cardfooter">
-            <Button variant = "contained" component = {Link} to = {ROUTE.TRAVEL_GRANT} className = "form-button">Start Form +</Button>
+            <Button disabled variant = "contained" component = {Link} to = {ROUTE.TRAVEL_GRANT} >Coming soon!</Button>
           </CardContent>
         </Card>
         </div>
@@ -64,7 +76,7 @@ export default function NewForms() {
 <Typography variant = "body2">This form is used to apply for the Summer Gym Bursary.</Typography>
           </CardContent>
           <CardContent className = "cardfooter">
-            <Button variant = "contained" component = {Link} to = {ROUTE.GYM_BURSARY} className = "form-button">Start Form +</Button>
+            <Button disabled variant = "contained" component = {Link} to = {ROUTE.GYM_BURSARY} >Coming soon!</Button>
           </CardContent>
         </Card>
         </div>

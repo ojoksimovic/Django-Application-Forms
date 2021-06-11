@@ -27,6 +27,9 @@ import NavBar from "../app/NavBar";
 import { Context, withContext } from "../app/context";
 import { useHistory } from "react-router-dom";
 import ROUTE from "../app/route";
+import axios from 'axios';
+import axiosInstance from '../app/api';
+import {departmentsObject} from './departments';
 
 
 export default function PaymentActivation() {
@@ -44,6 +47,11 @@ export default function PaymentActivation() {
   const [complete, setComplete] = useState();
   const [submitCheck, setSubmitCheck] = useState();
   const [submit, setSubmit] = useState(false);
+  const [formInfo, setFormInfo] = useState();
+  const [error, setError] = useState();
+  const [departmentList, setDepartmentList] = useState([]);
+  const [programList, setProgramList] = useState([]);
+
 
   const history = useHistory();
   const myRef = useRef(null);
@@ -59,16 +67,68 @@ export default function PaymentActivation() {
     setAuthentication,
     state,
     setState,
-    createPaymentActivationForm,
-    editPaymentActivationForm,
-    getPaymentActivationForm,
-    formInfo,
-    setFormInfo,
   } = useContext(Context);
 
-  useEffect(() => {
-    getPaymentActivationForm()
+  const getPaymentActivationForm = () => {
+    axiosInstance
+    .get(
+      '/api/payment-activation/'
+    )
+    .then(response => {
   })
+    .catch(error => {setError(error.response.status)
+    console.log(error.response)})
+  }
+
+  const createPaymentActivationForm = (data) => {
+    axiosInstance
+    .post(
+      '/api/payment-activation/', data
+    )
+    .then(response => { setFormInfo(response.data)
+  })
+    .catch(error => {setError(error.response.status)
+    console.log(error.response)})
+  }
+
+  const editPaymentActivationForm = (data) => {
+    axiosInstance
+    .patch(
+      '/api/payment-activation/', data
+    )
+    .then(response => { setFormInfo(response.data)
+  })
+    .catch(error => {setError(error.response.status)
+    console.log(error.response)})
+  }
+
+  useEffect(() => {
+    getPaymentActivationForm();
+})
+
+const getDepartments = (e) => {
+  setFaculty(e)
+  setDepartmentList([])
+      for (let i = 0; i < departmentsObject.length; i++){
+        if (departmentsObject[i].faculty == e) {  
+          for (let j = 0; j < departmentsObject[i]['departments'].length; j++) {
+setDepartmentList(departmentList => [...departmentList, departmentsObject[i]['departments'][j].department])
+          }}
+  }
+}
+
+const getPrograms = (e) => {
+  setDepartment(e)
+  setProgramList([])
+      for (let i = 0; i < departmentsObject.length; i++){
+        if (departmentsObject[i].faculty == faculty) {  
+          for (let j = 0; j < departmentsObject[i]['departments'].length; j++) {
+            if (departmentsObject[i]['departments'][j].department == e) {
+              for (let k = 0; k < departmentsObject[i]['departments'][j].programs.length; k++) {
+setProgramList(programList => [...programList, departmentsObject[i]['departments'][j].programs[k]])
+          }}
+  }
+}}}
 
   const handleNext = () => {
     setSubmitCheck(true);
@@ -81,12 +141,15 @@ export default function PaymentActivation() {
       !startDateProgram ||
       !agency ||
       !duration ||
-      !paymentType ||
       !startDateAward ||
       !confirm
     ) {
       setComplete(false);
-    } else {
+    }
+    else if (agency == 'Connaught' || agency == 'Trillium' && !paymentType){
+      setComplete(false);
+    }
+    else {
       setComplete(true);
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       handleFormUpdate()
@@ -122,11 +185,66 @@ export default function PaymentActivation() {
       });
   }
 
+  const renderSwitch = (agency) => {
+    switch(agency){
+      case 'CIHR':
+      case 'NSERC':
+      case 'SSHRC':
+        return <><FormControlLabel
+        control={<Radio color="primary" />}
+        value="CGS M (12 months)"
+        label="CGS M (12 months)"
+      />
+      <FormControlLabel
+        control={<Radio color="primary" />}
+        value="Vanier (36 months)"
+        label="Vanier (36 months)"
+      /></>
+      case 'OGS':
+        return <><FormControlLabel
+        control={<Radio color="primary" />}
+        value="OGS (2 sessions)"
+        label="OGS (2 sessions)"
+      />
+      <FormControlLabel
+        control={<Radio color="primary" />}
+        value="OGS (3 sessions)"
+        label="OGS (3 sessions)"
+      /></>
+      case 'QEII-GSST':
+        return <><FormControlLabel
+        control={<Radio color="primary" />}
+        value="QEII-GSST (2 sessions)"
+        label="QEII-GSST (2 sessions)"
+      />
+      <FormControlLabel
+        control={<Radio color="primary" />}
+        value="QEII-GSST (3 sessions)"
+        label="QEII-GSST (3 sessions)"
+      /></>
+      case 'Connaught':
+        return <FormControlLabel
+        control={<Radio color="primary" />}
+        value="Renewable annually and may be held for max of 4 years"
+        label="Renewable annually and may be held for max of 4 years"
+      />
+      case 'Trillium':
+       return  <FormControlLabel
+        control={<Radio color="primary" />}
+        value="Renewable annually and may be held for max of 4-5 years in accordance with program normal period of funding"
+        label="Renewable annually and may be held for max of 4-5 years in accordance with program normal period of funding"
+      />
+
+
+    }
+  }
+
   const handleSubmit = () => {
     setSubmit(true)
     editPaymentActivationForm({
       confirmation_number: formInfo.confirmation_number,
       submitted: true,})
+      setUserInfo();
     history.push(ROUTE.MY_FORMS);
 
   }
@@ -180,7 +298,7 @@ export default function PaymentActivation() {
               helperText={!studentNumber && submitCheck ? "Required field" : null}
               onChange={(e) =>
                 e.target.value
-                  ? setStudentNumber(e.target.value)
+                  ? setStudentNumber(e.target.value) && getDepartments
                   : setStudentNumber(false)
               }
               gutterBottom
@@ -214,7 +332,7 @@ export default function PaymentActivation() {
                 error={!faculty && submitCheck}
                 onChange={(e) =>
                   e.target.value
-                    ? setFaculty(e.target.value)
+                    ? getDepartments(e.target.value)
                     : setFaculty(false)
                 }
                 native
@@ -226,9 +344,9 @@ export default function PaymentActivation() {
                 }}
               >
                 <option aria-label="None" value="" />
-                <option value={'Arts and Science'}>Arts and Science</option>
-                <option value={'Medicine'}>Medicine</option>
-                <option value={'Engineering'}>Engineering</option>
+                {departmentsObject.map((unit) =>
+                <option value={unit.faculty}>{unit.faculty}</option>
+  )}
               </Select>
               <Typography variant="caption" color="error">
                   {!faculty && submitCheck ? "Required field" : null}
@@ -249,7 +367,7 @@ export default function PaymentActivation() {
                 error={!department && submitCheck}
                 onChange={(e) =>
                   e.target.value
-                    ? setDepartment(e.target.value)
+                    ? getPrograms(e.target.value)
                     : setDepartment(false)
                 }
                 native
@@ -263,9 +381,9 @@ export default function PaymentActivation() {
                 }}
               >
                 <option aria-label="None" value="" />
-                <option value={'Ecology and Evolutionary Biology'}>Ecology and Evolutionary Biology</option>
-                <option value={'Cell and Systems Biology'}>Cell and Systems Biology</option>
-                <option value={'Computer Science'}>Computer Science</option>
+                {departmentList?.map((unit) =>
+                <option value={unit}>{unit}</option>
+  )}
               </Select>
               <Typography variant="caption" color="error">
                   {!department && submitCheck ? "Required field" : null}
@@ -300,9 +418,10 @@ export default function PaymentActivation() {
                 }}
               >
                 <option aria-label="None" value="" />
-                <option value={'Master of Science'}>Master of Science</option>
-                <option value={'Master of Arts'}>Master of Arts</option>
-                <option value={'Master of Applied Sciences'}>Master of Applied Sciences</option>
+
+                {programList?.map((unit) =>
+                <option value={unit}>{unit}</option>
+  )}
               </Select>
               <Typography variant="caption" color="error">
                   {!program && submitCheck ? "Required field" : null}
@@ -387,6 +506,7 @@ export default function PaymentActivation() {
                 </Typography>
               </RadioGroup>
             </FormControl>
+            {agency?<>
             <Typography
               gutterBottom
               variant="body1"
@@ -394,6 +514,7 @@ export default function PaymentActivation() {
             >
               Please indicate the duration (required)
             </Typography>
+
             <FormControl component="fieldset">
               <RadioGroup
                 value={duration}
@@ -405,22 +526,16 @@ export default function PaymentActivation() {
                 aria-label="duration"
                 name="customized-radios"
               >
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="12 months"
-                  label="12 months"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="36 months"
-                  label="36 months"
-                />
+{renderSwitch(agency)}
                 <Typography variant="caption" color="error">
                   {!duration && submitCheck ? "Required field" : null}
                 </Typography>
               </RadioGroup>
             </FormControl>
-            <Typography
+            </>
+            :null}
+            {agency == 'Connaught' || agency == 'Trillium'?
+            <><Typography
               gutterBottom
               variant="body1"
               className="form-field-title"
@@ -452,7 +567,8 @@ export default function PaymentActivation() {
                   {!paymentType && submitCheck ? "Required field" : null}
                 </Typography>
               </RadioGroup>
-            </FormControl>
+            </FormControl></>
+            :null}
             <Typography
               gutterBottom
               variant="body1"
@@ -685,21 +801,15 @@ export default function PaymentActivation() {
                 aria-label="duration"
                 name="customized-radios"
               >
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="12 months"
-                  label="12 months"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="36 months"
-                  label="36 months"
-                />
+{renderSwitch(agency)}
+
                 <Typography variant="caption" color="error">
                   {!duration && submitCheck ? "Required field" : null}
                 </Typography>
               </RadioGroup>
             </FormControl>
+            {agency == 'Connaught' || agency == 'Trillium'?
+            <>
             <Typography
               gutterBottom
               variant="body1"
@@ -733,6 +843,8 @@ export default function PaymentActivation() {
                 </Typography>
               </RadioGroup>
             </FormControl>
+            </>
+            :null}
             <Typography
               gutterBottom
               variant="body1"

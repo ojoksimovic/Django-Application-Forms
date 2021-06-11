@@ -12,71 +12,30 @@ export const withContext = (Component) => {
         const [accessToken, setAccessToken] = useState();
         const [refreshToken, setrefreshToken] = useState();
         const [userInfo, setUserInfo] = useState();
-        const [formInfo, setFormInfo] = useState();
         const [error, setError] = useState();
         const [rows, setRows] = useState([]);
+        const [navBarInfo, setNavBarInfo] = useState();
 
         const getUserInfo = () => {
-          setUserInfo(null)
             axiosInstance
             .get(
               '/users/user-info/'
             )
             .then(response => {setUserInfo(response.data[0])
-                console.log(response)
-                
+              setNavBarInfo(response.data[0])
           })
-            .catch(error => {setError(error.response.status)
+            .catch(error => {setError(error.response)
             console.log(error.response)})
           }
-
-          const getPaymentActivationForm = () => {
-            axiosInstance
-            .get(
-              '/api/payment-activation/'
-            )
-            .then(response => {
-                console.log(response)
-          })
-            .catch(error => {setError(error.response.status)
-            console.log(error.response)})
-          }
-
-          const createPaymentActivationForm = (data) => {
-            axiosInstance
-            .post(
-              '/api/payment-activation/', data
-            )
-            .then(response => { setFormInfo(response.data)
-                console.log(response)
-          })
-            .catch(error => {setError(error.response.status)
-            console.log(error.response)})
-          }
-
-          const editPaymentActivationForm = (data) => {
-            axiosInstance
-            .patch(
-              '/api/payment-activation/', data
-            )
-            .then(response => { setFormInfo(response.data)
-                console.log(response)
-          })
-            .catch(error => {setError(error.response.status)
-            console.log(error.response)})
-          }
-
 
           const convertDate = (date) => {
             var d = new Date(date);
             let options = {
-              weekday: "short",
               year: "numeric",
-              month: "long",
+              month: "short",
               day: "numeric",
               hour: "numeric",
-              minute: "numeric",
-              second: "numeric",
+              minute: "numeric"
             };
             options.hour12 = true;
             var dt = d.toLocaleString("en-US", options);
@@ -84,7 +43,7 @@ export const withContext = (Component) => {
           };
         
 
-      return <Context.Provider value={{convertDate, rows, setRows, formInfo, setFormInfo, getPaymentActivationForm, createPaymentActivationForm, editPaymentActivationForm, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
+      return <Context.Provider value={{navBarInfo, setNavBarInfo, convertDate, rows, setRows, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
           <Component />
       </Context.Provider>
     }

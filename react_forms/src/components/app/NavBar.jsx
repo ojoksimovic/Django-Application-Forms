@@ -70,7 +70,8 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = () => {
   const [open, setOpen] = useState(true);
   const [loaded, setLoaded] = useState(false);
-  const {
+
+  const {navBarInfo, setNavBarInfo, 
     userInfo,
     setUserInfo,
     getUserInfo,
@@ -92,7 +93,6 @@ const NavBar = () => {
   }, []);
 
   const handleLogoutClick = async () => {
-
     try {
       const response = await axiosInstance.post('/users/blacklist/', {
           "refresh_token": localStorage.getItem("refresh_token")
@@ -100,6 +100,7 @@ const NavBar = () => {
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
       setLoaded(false);
+      setNavBarInfo();
       setRows([]);
       setUserInfo(null);
       setAuthentication(false);
@@ -169,7 +170,7 @@ const NavBar = () => {
         >
           <div className={classes.drawerHeader}>
             <Typography variant="h5" style={{ fontWeight: "800" }}>
-              {userInfo?.first_name} {userInfo?.last_name}
+              {navBarInfo?.first_name} {navBarInfo?.last_name}
             </Typography>
           </div>
           <div className={classes.drawerHeader}>

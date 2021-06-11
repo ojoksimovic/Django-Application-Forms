@@ -31,7 +31,7 @@ export default function Register() {
   const [last, setLast] = useState();
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
-  const [passwordMatch, setPasswordMatch] = useState(true);
+  const [passwordMatch, setPasswordMatch] = useState(false);
   const [error, setError] = useState();
   const [registered, setRegistered] = useState();
 
@@ -126,7 +126,7 @@ export default function Register() {
         </CardContent>
 
         {registered ? (
-          <CardContent style={{ padding: "50px" }}>
+          <CardContent style={{ padding: "30px" }}>
             <Typography variant="h6" component="p" style={{ marginBottom: 20 }}>
               Successfully Registered!
             </Typography>
@@ -134,7 +134,7 @@ export default function Register() {
             <CircularProgress style={{ marginTop: 10 }} />
           </CardContent>
         ) : (
-          <CardContent style={{ padding: "50px" }}>
+          <CardContent style={{ padding: "30px" }}>
             <Typography variant="h5" component="p" style={{ marginBottom: 20 }}>
               User Registration
             </Typography>
@@ -144,21 +144,21 @@ export default function Register() {
                 label="First Name"
                 onChange={(event) => handleFirstChange(event)}
                 variant="outlined"
-                style={{ margin: 10, width: "100%" }}
+                style={{ margin: "10px 0px", width: "100%" }}
               />
               <TextField
                 id="last_name"
                 label="Last Name"
                 onChange={(event) => handleLastChange(event)}
                 variant="outlined"
-                style={{ margin: 10, width: "100%" }}
+                style={{ margin: "10px 0px", width: "100%" }}
               />
               <TextField
                 id="username"
                 label="Username"
                 onChange={(event) => handleUsernameChange(event)}
                 variant="outlined"
-                style={{ margin: 10, width: "100%" }}
+                style={{ margin: "10px 0px", width: "100%" }}
               />
               <TextField
                 error={!passwordValid}
@@ -172,7 +172,7 @@ export default function Register() {
                 onChange={(event) => handlePasswordChange(event)}
                 variant="outlined"
                 type="password"
-                style={{ margin: 10, width: "100%" }}
+                style={{ margin: "10px 0px", width: "100%" }}
               />
               <TextField
                 error={!passwordMatch}
@@ -186,7 +186,7 @@ export default function Register() {
                 label="Confirm Password"
                 variant="outlined"
                 type="password"
-                style={{ margin: 10, width: "100%" }}
+                style={{ margin: "10px 0px", width: "100%" }}
               />
               <TextField
                 error={!emailValid}
@@ -196,7 +196,7 @@ export default function Register() {
                 onChange={(event) => handleEmailChange(event)}
                 variant="outlined"
                 type="email"
-                style={{ margin: 10, width: "100%" }}
+                style={{ margin: "10px 0px", width: "100%" }}
               />
               <Button
                 disabled={

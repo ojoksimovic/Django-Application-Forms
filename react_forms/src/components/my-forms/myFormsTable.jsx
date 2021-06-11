@@ -1,64 +1,93 @@
 import React, { useState, useContext, useEffect } from "react";
-import { DataGrid } from "@material-ui/data-grid";
+import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import "../app/style.css";
 import { Context, withContext } from "../app/context";
 import Moment from "react-moment";
+import { Button } from "@material-ui/core";
 
 export default function FormsTable() {
-  const {
-    userInfo,
-    setUserInfo,
-    getUserInfo,
-    authentication,
-    setAuthentication,
-    state,
-    setState, rows, setRows, convertDate
-  } = useContext(Context);
+  const { userInfo, rows, setRows, convertDate } = useContext(Context);
   const [loaded, setLoaded] = useState(false);
+  const [formInfo, setFormInfo] = useState();
 
-  
   useEffect(() => {
-    if (!loaded){
-  createRows();
-  setLoaded(true)}
-})
+    if (!loaded) {
+      setFormInfo(null);
+      createRows();
+      setLoaded(true);
+    }
+  });
 
   const createRows = () => {
-    setRows([])
+    setRows([]);
     for (let i = 0; i < userInfo?.payment_activation.length; i++) {
-      setRows(rows => [...rows, {
-        id: i+1,
-        collection: "Award Payment Activation Form",
-        initiator: userInfo?.last_name + ", " + userInfo?.first_name,
-        academicYear: "2021-2022",
-        lastModified: convertDate(userInfo?.payment_activation[i].modified_at),
-        submitted: userInfo?.payment_activation[i].submitted
-          ? convertDate(userInfo?.payment_activation[i].modified_at)
-          : null,
-        progress: userInfo?.payment_activation[i].submitted
-          ? "Submitted"
-          : "Draft",
-        status: null,
-        actions: null,
-      }]);
+      setRows((rows) => [
+        ...rows,
+        {
+          id: i + 1,
+          collection: "Payment Activation Form",
+          type:
+            userInfo?.payment_activation[i].award +
+            " " +
+            userInfo?.payment_activation[i].award_duration,
+          initiator: userInfo?.last_name + ", " + userInfo?.first_name,
+          academicYear:
+            userInfo?.payment_activation[i].award_start_session == "May 2021" ||
+            "Fall 2021" ||
+            "Winter 2022"
+              ? "2021-2022"
+              : null,
+          lastModified: convertDate(
+            userInfo?.payment_activation[i].modified_at
+          ),
+          submitted: userInfo?.payment_activation[i].submitted
+            ? convertDate(userInfo?.payment_activation[i].modified_at)
+            : null,
+          progress: userInfo?.payment_activation[i].submitted
+            ? "Submitted"
+            : "Draft",
+          status: null,
+          actions: null,
+          confirmationNumber: userInfo?.payment_activation[i].confirmation_number
+        },
+      ]);
     }
-    console.log(rows)
   };
 
   const columns = [
     { field: "collection", headerName: "Collection", width: 200 },
+    { field: "type", headerName: "Type", width: 160 },
     { field: "initiator", headerName: "Initiator", width: 160 },
     { field: "academicYear", headerName: "Academic Year", width: 120 },
-    { field: "lastModified", headerName: "Last Modified", width: 220 },
-    { field: "submitted", headerName: "Submitted", width: 220 },
-    { field: "progress", headerName: "Progress", width: 100 },
-    { field: "status", headerName: "Status", width: 130 },
-    { field: "actions", headerName: "Actions", width: 130 },
+    { field: "lastModified", type: 'date', headerName: "Last Modified", width: 175 },
+    { field: "submitted", type: 'date', headerName: "Submitted", width: 175 },
+    { field: "progress", headerName: "Progress", width: 120 },
+    { field: "status", headerName: "Status", width: 100 },
+    { field: "actions", type: "string", headerName: "Actions", flex: 1 },
   ];
 
   return (
-    <div style={{ height: "800px", width: "100%", marginTop: 50 }}>
-      <DataGrid rows={rows} columns={columns} pageSize={10} checkboxSelection />
+    <div style={{ height: "100%", width: "100%", marginTop: 50 }}>
+      <DataGrid
+        components={{
+          Toolbar: GridToolbar,
+        }}
+        sortModel={[
+          {
+            field: "lastModified",
+            sort: "desc",
+          },
+        ]}
+        rows={rows}
+        columns={columns}
+        autoPageSize="true"
+        pageSize={10}
+        autoHeight='true'
+        autoPageSize='true'
+        checkboxSelection
+        onRowSelected={(e) => console.log(e.data)} // log row data
+
+      />
     </div>
   );
 }

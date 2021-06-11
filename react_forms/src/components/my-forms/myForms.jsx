@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import FormsTable from './myFormsTable';
-import {Typography} from '@material-ui/core';
+import {Typography, Paper} from '@material-ui/core';
 import NavBar from '../app/NavBar';
 import { Context, withContext } from "../app/context";
 
@@ -15,8 +15,10 @@ const MyForms = () => {
     <div>
 <NavBar/>
     <div className = "container-fluid">
+    <Paper elevation={3} style = {{padding: 25}}>
       <Typography variant = "h5"> My Forms</Typography>
      { userInfo? <FormsTable/> :null}
+     </Paper>
     </div>
     </div>
   );
