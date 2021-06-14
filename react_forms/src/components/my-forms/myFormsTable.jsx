@@ -1,14 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
+import {useHistory} from 'react-router-dom';
 import "../app/style.css";
 import { Context, withContext } from "../app/context";
 import Moment from "react-moment";
+import ROUTE from "../app/route";
 import { Button } from "@material-ui/core";
 
 export default function FormsTable() {
   const { userInfo, rows, setRows, convertDate } = useContext(Context);
   const [loaded, setLoaded] = useState(false);
   const [formInfo, setFormInfo] = useState();
+const history = useHistory();
 
   useEffect(() => {
     if (!loaded) {
@@ -67,7 +70,7 @@ export default function FormsTable() {
   ];
 
   return (
-    <div style={{ height: 700, width: "100%", marginTop: 50 }}>
+    <div style={{ height: 700, width: "100%", marginTop: 50, cursor: 'pointer' }}>
       <DataGrid
         components={{
           Toolbar: GridToolbar,
@@ -81,6 +84,7 @@ export default function FormsTable() {
         rows={rows}
         columns={columns}
         pageSize={10}
+        onRowClick={(e) => history.push(ROUTE.MY_FORMS+'/'+e.row.confirmationNumber)}
         // autoHeight='true'
         // autoPageSize='true'
         checkboxSelection

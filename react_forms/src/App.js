@@ -17,6 +17,7 @@ import PaymentActivation from './components/new-forms/PaymentActivation';
 import OGS from './components/new-forms/OGS';
 import TravelGrant from './components/new-forms/TravelGrant';
 import GymBursary from './components/new-forms/GymBursary';
+import formView from './components/my-forms/formView';
 
 
 const drawerWidth = 240;
@@ -75,7 +76,8 @@ function App() {
               [classes.contentShift]: state,
             })}
           >
-        <Route path={ROUTE.MY_FORMS} component={MyForms}/>
+        <Route exact path={ROUTE.MY_FORMS} component={MyForms}/>
+        <Route path={ROUTE.FORM_VIEW} component={formView}/>
         <Route exact path={ROUTE.NEW_FORM} component={NewForms}/>
         <Route path={ROUTE.PAYMENT_ACTIVATION} component={PaymentActivation}/> 
         <Route path={ROUTE.OGS} component={OGS}/> 
@@ -83,8 +85,8 @@ function App() {
         <Route path={ROUTE.GYM_BURSARY} component={GymBursary}/> 
         
 
-            {localStorage.getItem("refresh_token")? <Redirect to={ROUTE.MY_FORMS} />:
-       null}   
+            {/* {localStorage.getItem("refresh_token")? <Redirect to={ROUTE.MY_FORMS} />:
+       null}    */}
       
         </main>
       </Switch>

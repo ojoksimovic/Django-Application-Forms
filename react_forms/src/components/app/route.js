@@ -10,6 +10,7 @@ const ROUTE = {
     LOGIN:     '/login',
     LOGOUT:    '/logout',
     MY_FORMS:  '/my-forms',
+    FORM_VIEW:  '/my-forms/:confirmationNumber',
     NEW_FORM: '/new-form',
     PAYMENT_ACTIVATION: '/new-form/1',
     OGS: '/new-form/2',
