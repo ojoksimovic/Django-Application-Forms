@@ -67,7 +67,7 @@ export default function FormsTable() {
   ];
 
   return (
-    <div style={{ height: "100%", width: "100%", marginTop: 50 }}>
+    <div style={{ height: 700, width: "100%", marginTop: 50 }}>
       <DataGrid
         components={{
           Toolbar: GridToolbar,
@@ -80,10 +80,9 @@ export default function FormsTable() {
         ]}
         rows={rows}
         columns={columns}
-        autoPageSize="true"
         pageSize={10}
-        autoHeight='true'
-        autoPageSize='true'
+        // autoHeight='true'
+        // autoPageSize='true'
         checkboxSelection
         onRowSelected={(e) => console.log(e.data)} // log row data
 

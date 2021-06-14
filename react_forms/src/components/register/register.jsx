@@ -31,7 +31,7 @@ export default function Register() {
   const [last, setLast] = useState();
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
-  const [passwordMatch, setPasswordMatch] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(true);
   const [error, setError] = useState();
   const [registered, setRegistered] = useState();
 
