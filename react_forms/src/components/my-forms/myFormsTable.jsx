@@ -88,7 +88,7 @@ const history = useHistory();
         // autoHeight='true'
         // autoPageSize='true'
         checkboxSelection
-        onRowSelected={(e) => console.log(e.data)} // log row data
+        // onRowSelected={(e) => console.log(e.data)}
 
       />
     </div>
