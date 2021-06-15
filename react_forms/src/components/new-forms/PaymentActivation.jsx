@@ -160,6 +160,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
     formInfo?.confirmation_number? 
     editPaymentActivationForm({
         confirmation_number: formInfo.confirmation_number,
+        student_number: studentNumber,
         user: userInfo.username,
         faculty: faculty,
         graduate_unit: department,
@@ -173,6 +174,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
       })
     : createPaymentActivationForm({
         user: userInfo.username,
+        student_number: studentNumber,
         faculty: faculty,
         graduate_unit: department,
         program: program,

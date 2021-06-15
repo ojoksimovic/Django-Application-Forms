@@ -29,6 +29,8 @@ export const withContext = (Component) => {
           }
 
           const convertDate = (date) => {
+            if (date) {
+
             var d = new Date(date);
             let options = {
               year: "numeric",
@@ -40,7 +42,7 @@ export const withContext = (Component) => {
             options.hour12 = true;
             var dt = d.toLocaleString("en-US", options);
             return dt;
-          };
+          }};
         
 
       return <Context.Provider value={{navBarInfo, setNavBarInfo, convertDate, rows, setRows, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>

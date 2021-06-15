@@ -40,11 +40,11 @@ const history = useHistory();
             "Winter 2022"
               ? "2021-2022"
               : null,
-          lastModified: convertDate(
+          lastModified: 
             userInfo?.payment_activation[i].modified_at
-          ),
+          ,
           submitted: userInfo?.payment_activation[i].submitted
-            ? convertDate(userInfo?.payment_activation[i].modified_at)
+            ? userInfo?.payment_activation[i].modified_at
             : null,
           progress: userInfo?.payment_activation[i].submitted
             ? "Submitted"
@@ -62,8 +62,8 @@ const history = useHistory();
     { field: "type", headerName: "Type", width: 160 },
     { field: "initiator", headerName: "Initiator", width: 160 },
     { field: "academicYear", headerName: "Academic Year", width: 120 },
-    { field: "lastModified", type: 'date', headerName: "Last Modified", width: 175 },
-    { field: "submitted", type: 'date', headerName: "Submitted", width: 175 },
+    { field: "lastModified", valueFormatter: (params) => {return convertDate(params.value)}, type: 'date', headerName: "Last Modified", width: 175 },
+    { field: "submitted", valueFormatter: (params) => {return convertDate(params.value)}, type: 'date', headerName: "Submitted", width: 175 },
     { field: "progress", headerName: "Progress", width: 120 },
     { field: "status", headerName: "Status", width: 100 },
     { field: "actions", type: "string", headerName: "Actions", flex: 1 },
@@ -85,8 +85,8 @@ const history = useHistory();
         columns={columns}
         pageSize={10}
         onRowClick={(e) => history.push(ROUTE.MY_FORMS+'/'+e.row.confirmationNumber)}
-        // autoHeight='true'
-        // autoPageSize='true'
+        autoHeight='true'
+        autoPageSize='true'
         checkboxSelection
         // onRowSelected={(e) => console.log(e.data)}
 

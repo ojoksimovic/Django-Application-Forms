@@ -111,8 +111,10 @@ const getPaymentActivationForm = () => {
   return (
     <div>
 <NavBar/>
-    <div className = "container-fluid">
-    <Paper elevation={3} style = {{padding: 25}}>
+    <div className="container-fluid">
+        <div className="row">
+          <div className="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2">
+    <Paper elevation={3} style = {{padding: 25, marginBottom: 40}}>
 
 {formInfo?
     <div>
@@ -147,7 +149,7 @@ const getPaymentActivationForm = () => {
               Student Number
             </Typography>
             <Typography gutterBottom variant="body1">
-              {formInfo?.forstudentNumber}
+              {formInfo?.student_number}
             </Typography>
             <Typography
               gutterBottom
@@ -177,7 +179,7 @@ const getPaymentActivationForm = () => {
               Graduate Unit (Department)
             </Typography>
             <Typography gutterBottom variant="body1">
-              {formInfo?.department}
+              {formInfo?.graduate_unit}
             </Typography>
             <Typography
               gutterBottom
@@ -365,6 +367,8 @@ const getPaymentActivationForm = () => {
         </div>
         :null}
      </Paper>
+    </div>
+    </div>
     </div>
     </div>
   );
