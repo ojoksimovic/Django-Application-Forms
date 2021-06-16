@@ -300,7 +300,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
               helperText={!studentNumber && submitCheck ? "Required field" : null}
               onChange={(e) =>
                 e.target.value
-                  ? setStudentNumber(e.target.value) && getDepartments
+                  ? setStudentNumber(e.target.value)
                   : setStudentNumber(false)
               }
               gutterBottom

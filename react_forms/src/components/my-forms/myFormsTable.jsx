@@ -70,7 +70,7 @@ const history = useHistory();
   ];
 
   return (
-    <div style={{ height: 700, width: "100%", marginTop: 50, cursor: 'pointer' }}>
+    <div style={{ width: "100%", marginTop: 50, cursor: 'pointer' }}>
       <DataGrid
         components={{
           Toolbar: GridToolbar,
