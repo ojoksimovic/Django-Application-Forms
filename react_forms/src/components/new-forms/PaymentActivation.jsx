@@ -268,27 +268,26 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
         return (
           <div>
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
               First Name
             </Typography>
-            <Typography gutterBottom variant="body1">
+            <Typography variant="body1">
               {userInfo?.first_name}
             </Typography>
             <Typography
-              gutterBottom
+             
               variant="body1"
               className="form-field-title"
             >
               Last Name
             </Typography>
-            <Typography gutterBottom variant="body1">
+            <Typography variant="body1">
               {userInfo?.last_name}
             </Typography>
             <Typography
-              gutterBottom
+              
               variant="body1"
               className="form-field-title"
             >
@@ -303,24 +302,23 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                   ? setStudentNumber(e.target.value)
                   : setStudentNumber(false)
               }
-              gutterBottom
+              
               variant="outlined"
               type="number"
               fullWidth
             />
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
               Email
             </Typography>
-            <Typography gutterBottom variant="body1">
+            <Typography variant="body1">
               {userInfo?.email}
             </Typography>
 
             <Typography
-              gutterBottom
+
               variant="body1"
               className="form-field-title"
             >
@@ -355,7 +353,6 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                 </Typography>
             </FormControl>
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
@@ -392,7 +389,6 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                 </Typography>
             </FormControl>
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
@@ -430,7 +426,6 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                 </Typography>
             </FormControl>
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
@@ -445,14 +440,12 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                   ? setStartDateProgram(e.target.value)
                   : setStartDateProgram(false)
               }
-              gutterBottom
               variant="outlined"
               type="date"
               fullWidth
             />
 
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
@@ -510,7 +503,6 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
             </FormControl>
             {agency?<>
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
@@ -538,7 +530,6 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
             :null}
             {agency == 'Connaught' || agency == 'Trillium'?
             <><Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
@@ -572,7 +563,6 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
             </FormControl></>
             :null}
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
@@ -610,19 +600,18 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
               </RadioGroup>
             </FormControl>
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
               Please confirm by checking the box below that:
             </Typography>
-            <Typography gutterBottom variant="body1">
+            <Typography variant="body1">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </Typography>
-            <Typography gutterBottom variant="body1" style={{ marginTop: 10 }}>
+            <Typography variant="body1" style={{ marginTop: 10 }}>
               <strong>Note: </strong>Once submitted, the form will be sent to
               the administrator for approval.
             </Typography>
@@ -648,77 +637,70 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
   Please review the information below to ensure it is accurate, then click <strong>Submit</strong> at the bottom of the page.
 </Alert>
            <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
               First Name
             </Typography>
-            <Typography gutterBottom variant="body1">
+            <Typography variant="body1">
               {userInfo?.first_name}
             </Typography>
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
               Last Name
             </Typography>
-            <Typography gutterBottom variant="body1">
+            <Typography variant="body1">
               {userInfo?.last_name}
             </Typography>
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
               Student Number
             </Typography>
-            <Typography gutterBottom variant="body1">
+            <Typography variant="body1">
               {studentNumber}
             </Typography>
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
               Email
             </Typography>
-            <Typography gutterBottom variant="body1">
+            <Typography variant="body1">
               {userInfo?.email}
             </Typography>
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
               Faculty
             </Typography>
-            <Typography gutterBottom variant="body1">
+            <Typography variant="body1">
               {faculty}
             </Typography>
             <Typography
-              gutterBottom
+  
               variant="body1"
               className="form-field-title"
             >
               Graduate Unit (Department)
             </Typography>
-            <Typography gutterBottom variant="body1">
+            <Typography  variant="body1">
               {department}
             </Typography>
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >
               Degree Program
             </Typography>
-            <Typography gutterBottom variant="body1">
+            <Typography  variant="body1">
               {program}
             </Typography>
             <Typography
-              gutterBottom
               variant="body1"
               className="form-field-title"
             >

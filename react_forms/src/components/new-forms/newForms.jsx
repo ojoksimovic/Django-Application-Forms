@@ -52,7 +52,7 @@ export default function NewForms() {
 <Typography variant = "body2">Available to those at both the master's and doctoral levels to fund all disciplines of academic study.</Typography>
           </CardContent>
           <CardContent className = "cardfooter">
-            <Button disabled variant = "contained" component = {Link} to = {ROUTE.OGS}>Coming soon!</Button>
+            <Button className = 'form-button-disabled' disabled variant = "contained" component = {Link} to = {ROUTE.OGS}>Coming soon!</Button>
           </CardContent>
         </Card>
         </div>
@@ -64,7 +64,7 @@ export default function NewForms() {
 <Typography variant = "body2">The Travel Grant assists those in the Humanities and Social Sciences with research travel that is necessary to the final stages of their program.</Typography>
           </CardContent>
           <CardContent className = "cardfooter">
-            <Button disabled variant = "contained" component = {Link} to = {ROUTE.TRAVEL_GRANT} >Coming soon!</Button>
+            <Button className = 'form-button-disabled' disabled variant = "contained" component = {Link} to = {ROUTE.TRAVEL_GRANT} >Coming soon!</Button>
           </CardContent>
         </Card>
         </div>
@@ -76,7 +76,7 @@ export default function NewForms() {
 <Typography variant = "body2">This form is used to apply for the Summer Gym Bursary.</Typography>
           </CardContent>
           <CardContent className = "cardfooter">
-            <Button disabled variant = "contained" component = {Link} to = {ROUTE.GYM_BURSARY} >Coming soon!</Button>
+            <Button className = 'form-button-disabled' disabled variant = "contained" component = {Link} to = {ROUTE.GYM_BURSARY} >Coming soon!</Button>
           </CardContent>
         </Card>
         </div>

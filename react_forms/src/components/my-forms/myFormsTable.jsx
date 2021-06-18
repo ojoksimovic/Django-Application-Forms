@@ -5,12 +5,13 @@ import "../app/style.css";
 import { Context, withContext } from "../app/context";
 import Moment from "react-moment";
 import ROUTE from "../app/route";
-import { Button } from "@material-ui/core";
+import { Paper, Typography, Button } from "@material-ui/core";
 
 export default function FormsTable() {
   const { userInfo, rows, setRows, convertDate } = useContext(Context);
   const [loaded, setLoaded] = useState(false);
   const [formInfo, setFormInfo] = useState();
+  const [selectedRow, setSelectedRow] = useState();
 const history = useHistory();
 
   useEffect(() => {
@@ -83,14 +84,27 @@ const history = useHistory();
         ]}
         rows={rows}
         columns={columns}
-        pageSize={10}
-        onRowClick={(e) => history.push(ROUTE.MY_FORMS+'/'+e.row.confirmationNumber)}
+        pageSize={5}
+        rowsPerPageOptions={[5, 10, 25]}
+        onRowClick={(e) => setSelectedRow(e.row)}
         autoHeight='true'
-        autoPageSize='true'
-        checkboxSelection
+        // checkboxSelection
         // onRowSelected={(e) => console.log(e.data)}
 
       />
+{selectedRow?
+<>
+        <Button variant = 'contained' className = 'form-button' style = {{margin: 10}} onClick={(e) => history.push(ROUTE.MY_FORMS+'/'+selectedRow.confirmationNumber)}>
+          {selectedRow.submitted? 'View Applicant Form' : 'Complete Applicant Form'} 
+          </Button>
+          {selectedRow.submitted?
+                  <Button variant = 'contained' className = 'form-button' style = {{margin: 10}} onClick={(e) => history.push(ROUTE.MY_FORMS+'/'+selectedRow.confirmationNumber)}>
+                  {selectedRow.admin_submitted? 'View Administrator Form' : 'Complete Administrator Form'} 
+                  </Button>
+                  :null}
+                  </>
+          :null}
+
     </div>
   );
 }

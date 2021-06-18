@@ -59,6 +59,14 @@ def generate_confirmation_number():
         if Payment_Activation.objects.filter(confirmation_number = confirmation_number.count==0):
             break
         return confirmation_number
+
+def admin_generate_confirmation_number():
+    length = 19
+    while True:
+        admin_confirmation_number = 'a'.join(random.choices(string.ascii_lowercase + string.digits, k=length))
+        if Payment_Activation.objects.filter(admin_confirmation_number = admin_confirmation_number.count==0):
+            break
+        return admin_confirmation_number
         
 
 class Payment_Activation(models.Model):
@@ -74,5 +82,18 @@ class Payment_Activation(models.Model):
     type_payment_request = models.CharField(max_length = 200, blank=True, null=True)
     award_start_session = models.CharField(max_length=200, blank=True, null=True)
     submitted = models.BooleanField(blank=True, null = True)
+    submitted_at = models.DateTimeField(blank=True, null=True)
     modified_at = models.DateTimeField(auto_now = True, null = True, blank = True)
     confirmation_number = models.CharField(max_length = 25, default = generate_confirmation_number, unique=True)
+    admin_research_requirement = models.CharField(max_length=200, blank=True, null=True)
+    admin_matching_portion = models.CharField(max_length=500, blank=True, null=True)
+    admin_utf = models.IntegerField (blank=True, null=True)
+    admin_departmental_award = models.IntegerField (blank=True, null=True)
+    admin_ta = models.IntegerField (blank=True, null=True)
+    admin_ra = models.IntegerField (blank=True, null=True)
+    admin_other_source = models.IntegerField (blank=True, null=True)
+    admin_payment_notes = models.CharField(max_length=500, blank=True, null=True)
+    admin_submitted = models.BooleanField(blank=True, null = True)
+    admin_submitted_at = models.DateTimeField(blank=True, null=True)
+    admin_confirmation_number = models.CharField(max_length = 25, default = admin_generate_confirmation_number, unique=True)
+
