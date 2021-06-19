@@ -20,7 +20,8 @@ import {
   FormControlLabel,
   InputLabel,
   Select,
-  Paper
+  Paper,
+  InputAdornment
 } from "@material-ui/core";
 import {Alert, AlertTitle} from '@material-ui/lab'
 import NavBar from "../app/NavBar";
@@ -44,9 +45,7 @@ export default function FormViewDraftAdmin({retrievedFormInfo}) {
     const [confirm, setConfirm] = useState();
     const [error, setError] = useState();
     const [formInfo, setFormInfo] = useState(retrievedFormInfo);
-    const [departmentList, setDepartmentList] = useState([]);
-    const [programList, setProgramList] = useState([]);
-  
+
   
     const history = useHistory();
     const myRef = useRef(null);
@@ -87,45 +86,36 @@ export default function FormViewDraftAdmin({retrievedFormInfo}) {
 
   
     const handleNext = () => {
-    //   setSubmitCheck(true);
-    //   executeScroll();
-    //   if (
-    //     !formInfo.student_number ||
-    //     !formInfo.faculty ||
-    //     !formInfo.graduate_unit ||
-    //     !formInfo.program ||
-    //     !formInfo.degree_start_date ||
-    //     !formInfo.award ||
-    //     !formInfo.award_duration ||
-    //     !formInfo.award_start_session ||
-    //     !confirm
-    //   ) {
-    //     setComplete(false);
-    //   }
-    //   else if (formInfo.award == 'Connaught' && !formInfo.type_payment_request || formInfo.award == 'Trillium' && !formInfo.type_payment_request){
-    //     setComplete(false);
-    //   }
-    //   else {
-    //     setComplete(true);
-    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //     handleFormUpdate()
-    //   }
+      setSubmitCheck(true);
+      executeScroll();
+      if (
+        formInfo.award_duration == 'CGS M (12 months)' && !formInfo.admin_research_requirement ||
+        formInfo.award == 'OGS' && !formInfo.admin_matching_portion ||
+        !confirm
+      ) {
+        setComplete(false);
+      }
+      else if (formInfo.award == 'Connaught' && !formInfo.type_payment_request || formInfo.award == 'Trillium' && !formInfo.type_payment_request){
+        setComplete(false);
+      }
+      else {
+        setComplete(true);
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        handleFormUpdate()
+      }
     };
   
     const handleFormUpdate = () => {
       editPaymentActivationForm({
-          confirmation_number: formInfo.confirmation_number,
-          student_number: formInfo.student_number,
-          user: userInfo.username,
-          faculty: formInfo.faculty,
-          graduate_unit: formInfo.graduate_unit,
-          program: formInfo.program,
-          degree_start_date: formInfo.degree_start_date,
-          award: formInfo.award,
-          award_duration: formInfo.award_duration,
-          type_payment_request: formInfo.type_payment_request,
-          award_start_session: formInfo.award_start_session,
-          submitted: formInfo.submitted,
+        admin_research_requirement: formInfo.admin_research_requirement,
+        admin_matching_portion: formInfo.admin_matching_portion,
+        admin_utf: formInfo.admin_utf,
+        admin_departmental_award: formInfo.admin_departmental_award,
+        admin_ta: formInfo.admin_ta,
+        admin_ra: formInfo.admin_ra,
+        admin_other_source: formInfo.admin_other_source,
+        admin_payment_notes: formInfo.admin_payment_notes,
+        admin_submitted: formInfo.admin_submitted,
         })
     }
   
@@ -133,7 +123,8 @@ export default function FormViewDraftAdmin({retrievedFormInfo}) {
       setSubmit(true)
       editPaymentActivationForm({
         confirmation_number: formInfo.confirmation_number,
-        submitted: true,})
+        admin_submitted: true,
+        admin_submitted_at: new Date().toISOString()})
         setUserInfo();
       history.push(ROUTE.MY_FORMS);
   
@@ -278,12 +269,251 @@ export default function FormViewDraftAdmin({retrievedFormInfo}) {
             </Typography>
             <Typography variant = 'body1'> {formInfo.award_start_session}</Typography>
             <Typography
+            ref={myRef}
               gutterBottom
               variant="body1"
               className="form-field-title"
             >
-              Submitted: {convertDate(formInfo.modified_at)}
+              Submitted: {convertDate(formInfo.submitted_at)}
             </Typography>
+<hr/>
+            <Typography className="form-field-title" gutterBottom variant = 'h6'>Administration Information</Typography>
+            <hr/>
+{formInfo?.award_duration == 'CGS M (12 months)'?
+<>
+            <Typography
+              variant="body1"
+              className="form-field-title"
+            >
+              Indicate the nature of the research requirement(s) of the awardee's program (required)
+            </Typography>
+            <FormControl component="fieldset">
+              <RadioGroup
+                value={formInfo?.admin_research_requirement}
+                onChange={(e) =>
+                  e.target.value
+                    ? setFormInfo(formInfo=> ({...formInfo, admin_research_requirement: e.target.value}))
+                    : setFormInfo(formInfo=> ({...formInfo, admin_research_requirement: null}))
+                }
+                aria-label="start-date"
+                name="customized-radios"
+              >
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="Thesis"
+                  label="Thesis"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="Major Research Project/Paper"
+                  label="Major Research Project/Paper"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="Other (specify)"
+                  label="Other (specify)"
+                />
+                <Typography variant="caption" color="error">
+                {!formInfo.admin_research_requirement && submitCheck ? "Required field" : null}
+                </Typography>
+              </RadioGroup>
+            </FormControl>
+            </>:null}
+
+
+            {formInfo?.award == 'OGS'?
+<>
+            <Typography
+              variant="body1"
+              className="form-field-title"
+            >
+              Matching portion will be paid from (required)
+            </Typography>
+            <FormControl component="fieldset">
+              <RadioGroup
+                value={formInfo?.admin_matching_portion}
+                onChange={(e) =>
+                  e.target.value
+                    ? setFormInfo(formInfo=> ({...formInfo, admin_matching_portion: e.target.value}))
+                    : setFormInfo(formInfo=> ({...formInfo, admin_matching_portion: null}))
+                }
+                aria-label="start-date"
+                name="customized-radios"
+              >
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="Non-RA Department resource (eg UTF or named OGS"
+                  label="Non-RA Department resource (eg UTF or named OGS"
+                />
+                <FormControlLabel
+                  control={<Radio color="primary" />}
+                  value="Research assistantship through payroll"
+                  label="Research assistantship through payroll"
+                />
+                <Typography variant="caption" color="error">
+                {!formInfo.admin_matching_portion && submitCheck ? "Required field" : null}
+                </Typography>
+              </RadioGroup>
+            </FormControl>
+            </>:null}
+            {formInfo?.award == 'Connaught' || formInfo?.award == 'Trillium'?
+            <>
+            <Typography
+              variant="body1"
+              className="form-field-title"
+            >
+UTF (required)            
+</Typography>
+<TextField
+                value={formInfo.admin_utf}
+                error={!formInfo.admin_utf && submitCheck}
+                helperText={!formInfo.admin_utf && submitCheck ? "Required field" : null}
+                onChange={(e) =>
+                  e.target.value
+                    ? setFormInfo(formInfo=> ({...formInfo, admin_utf: e.target.value}))
+                    : setFormInfo(formInfo=> ({...formInfo, admin_utf: null}))
+
+                }
+                variant="outlined"
+                type="number"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                fullWidth
+              />
+
+<Typography
+              variant="body1"
+              className="form-field-title"
+            >
+Departmental/Endowment (required)            
+</Typography>
+<TextField
+                value={formInfo.admin_departmental_award}
+                error={!formInfo.admin_departmental_award && submitCheck}
+                helperText={!formInfo.admin_departmental_award && submitCheck ? "Required field" : null}
+                onChange={(e) =>
+                  e.target.value
+                    ? setFormInfo(formInfo=> ({...formInfo, admin_departmental_award: e.target.value}))
+                    : setFormInfo(formInfo=> ({...formInfo, admin_departmental_award: null}))
+
+                }
+                variant="outlined"
+                type="number"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                fullWidth
+              />
+
+<Typography
+              variant="body1"
+              className="form-field-title"
+            >
+Teaching Assistantship (required)            
+</Typography>
+<TextField
+                value={formInfo.admin_ta}
+                error={!formInfo.admin_ta && submitCheck}
+                helperText={!formInfo.admin_ta && submitCheck ? "Required field" : null}
+                onChange={(e) =>
+                  e.target.value
+                    ? setFormInfo(formInfo=> ({...formInfo, admin_ta: e.target.value}))
+                    : setFormInfo(formInfo=> ({...formInfo, admin_ta: null}))
+
+                }
+                variant="outlined"
+                type="number"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                fullWidth
+              />
+
+<Typography
+              variant="body1"
+              className="form-field-title"
+            >
+Research Assistantship (required)            
+</Typography>
+<TextField
+                value={formInfo.admin_ra}
+                error={!formInfo.admin_ra && submitCheck}
+                helperText={!formInfo.admin_ra && submitCheck ? "Required field" : null}
+                onChange={(e) =>
+                  e.target.value
+                    ? setFormInfo(formInfo=> ({...formInfo, admin_ra: e.target.value}))
+                    : setFormInfo(formInfo=> ({...formInfo, admin_ra: null}))
+
+                }
+                variant="outlined"
+                type="number"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                fullWidth
+              />
+
+<Typography
+              variant="body1"
+              className="form-field-title"
+            >
+Other Source (optional)            
+</Typography>
+<TextField
+                value={formInfo.admin_other_source}
+                error={!formInfo.admin_other_source && submitCheck}
+                helperText={!formInfo.admin_other_source && submitCheck ? "Required field" : null}
+                onChange={(e) =>
+                  e.target.value
+                    ? setFormInfo(formInfo=> ({...formInfo, admin_other_source: e.target.value}))
+                    : setFormInfo(formInfo=> ({...formInfo, admin_other_source: null}))
+
+                }
+                variant="outlined"
+                type="number"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                fullWidth
+              />
+
+<Typography
+              variant="body1"
+              className="form-field-title"
+            >
+Total            
+</Typography>
+<Typography
+              variant="body1"
+            >
+${+formInfo.admin_utf + +formInfo.admin_departmental_award + +formInfo.admin_ta + +formInfo.admin_ra + +formInfo.admin_other_source}            
+</Typography>
+</>
+:null}
+            <Typography
+              variant="body1"
+              className="form-field-title"
+            >
+Payment Notes (optional)            
+</Typography>
+<TextField variant='outlined' fullWidth multiline rows = {5} rowsMax={10}/>
+<Checkbox
+                  checked={confirm}
+                  onChange={(e) => {
+                    setConfirm(e.target.checked);
+                  }}
+                  color="primary"
+                />
+              <Typography style = {{marginLeft: 50, marginTop: -35, color: 'grey'}} variant="body2">
+
+                I confirm that above info is correct and                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </Typography>
+              <Typography variant="caption" color="error">
+                {!confirm && submitCheck ? "Required field" : null}
+              </Typography>
             </div>
             )
         default:
@@ -301,11 +531,11 @@ export default function FormViewDraftAdmin({retrievedFormInfo}) {
                   ))}
                 </Stepper>
                 <hr />
-                <div ref={myRef}>
-                <Typography className="form-field-title" gutterBottom variant = 'h6'>Administrator - Payment Activation Form</Typography>
+                <div>
+                <Typography className="form-field-title" gutterBottom variant = 'h6'>Payment Activation Form</Typography>
                 <Typography gutterBottom variant = 'body2'>This form is used to activate payment.</Typography>
                 <hr />
-                <Typography className="form-field-title" gutterBottom variant = 'h6'>User Information</Typography>
+                <Typography className="form-field-title" gutterBottom variant = 'h6'>User Information</Typography><hr/>
                   {activeStep === steps.length ? (
                     <div>
                       <Typography>All steps completed</Typography>
