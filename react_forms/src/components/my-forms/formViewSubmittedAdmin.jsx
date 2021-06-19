@@ -31,7 +31,7 @@ import axios from 'axios';
 import axiosInstance from '../app/api';
 
 
-export default function FormViewSubmitted({formInfo}) {  
+export default function FormViewSubmittedAdmin({formInfo}) {  
 
     const {userInfo, convertDate} = useContext(Context);
 
@@ -102,7 +102,7 @@ export default function FormViewSubmitted({formInfo}) {
     return(
 
 <div>
-                    <Typography className="form-field-title" gutterBottom variant = 'h5'>Payment Activation Form</Typography>
+                    <Typography className="form-field-title" gutterBottom variant = 'h5'>Administrator - Payment Activation Form</Typography>
               <Typography gutterBottom variant = 'body2'>This form is used to activate payment.</Typography>
               <hr />
            <Typography

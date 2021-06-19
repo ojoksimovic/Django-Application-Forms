@@ -354,7 +354,7 @@ export default function FormViewSubmitted({formInfo}) {
               variant="body1"
               className="form-field-title"
             >
-              Submitted: {convertDate(formInfo.modified_at)}
+              Submitted: {convertDate(formInfo.submitted_at)}
             </Typography>
         </div>
     )

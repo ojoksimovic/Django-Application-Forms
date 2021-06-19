@@ -9,10 +9,12 @@ import { useHistory, useParams } from "react-router-dom";
 import axiosInstance from '../app/api';
 import FormViewSubmitted from "./formViewSubmitted";
 import FormViewDraft from "./formViewDraft";
+import FormViewDraftAdmin from "./formViewDraftAdmin";
+import FormViewSubmittedAdmin from "./formViewSubmittedAdmin";
 
 export default function FormView() {  
 
-const { confirmationNumber} = useParams();
+const {confirmationNumber} = useParams();
 const [formInfo, setFormInfo] = useState();
 const [formView, setFormView] = useState();
 const {userInfo} = useContext(Context);
@@ -50,12 +52,17 @@ const getPaymentActivationForm = () => {
           <div className="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2">
     <Paper elevation={3} style = {{padding: 25, marginBottom: 40}}>
 
-{formInfo?
-formView == 'applicant'?
+{formInfo && formView == 'applicant'?
 formInfo.submitted?
 <FormViewSubmitted formInfo = {formInfo}/>
         :<FormViewDraft retrievedFormInfo = {formInfo}/>
-      :null:null}
+:null}
+{formInfo && formView == 'administrator'?
+formInfo.admin_submitted?
+<FormViewSubmittedAdmin formInfo = {formInfo}/>
+        :<FormViewDraftAdmin retrievedFormInfo = {formInfo}/>
+        :null}
+
      </Paper>
     </div>
     </div>

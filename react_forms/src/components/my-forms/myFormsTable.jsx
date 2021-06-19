@@ -6,6 +6,7 @@ import { Context, withContext } from "../app/context";
 import Moment from "react-moment";
 import ROUTE from "../app/route";
 import { Paper, Typography, Button } from "@material-ui/core";
+import { CodeSharp } from "@material-ui/icons";
 
 export default function FormsTable() {
   const { userInfo, rows, setRows, convertDate } = useContext(Context);
@@ -19,6 +20,7 @@ const history = useHistory();
       setFormInfo(null);
       createRows();
       setLoaded(true);
+      console.log(userInfo)
     }
   });
 
@@ -44,15 +46,14 @@ const history = useHistory();
           lastModified: 
             userInfo?.payment_activation[i].modified_at
           ,
-          submitted: userInfo?.payment_activation[i].submitted
-            ? userInfo?.payment_activation[i].modified_at
-            : null,
+          submitted: userInfo?.payment_activation[i].submitted_at,
           progress: userInfo?.payment_activation[i].submitted
             ? "Submitted"
             : "Draft",
           status: null,
           actions: null,
-          confirmationNumber: userInfo?.payment_activation[i].confirmation_number
+          confirmationNumber: userInfo?.payment_activation[i].confirmation_number,
+          adminConfirmationNumber: userInfo?.payment_activation[i].admin_confirmation_number
         },
       ]);
     }
@@ -98,7 +99,7 @@ const history = useHistory();
           {selectedRow.submitted? 'View Applicant Form' : 'Complete Applicant Form'} 
           </Button>
           {selectedRow.submitted?
-                  <Button variant = 'contained' className = 'form-button' style = {{margin: 10}} onClick={(e) => history.push(ROUTE.MY_FORMS+'/'+selectedRow.confirmationNumber)}>
+                  <Button variant = 'contained' className = 'form-button' style = {{margin: 10}} onClick={(e) => history.push(ROUTE.MY_FORMS+'/'+selectedRow.adminConfirmationNumber)}>
                   {selectedRow.admin_submitted? 'View Administrator Form' : 'Complete Administrator Form'} 
                   </Button>
                   :null}

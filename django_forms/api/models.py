@@ -58,16 +58,11 @@ def generate_confirmation_number():
         confirmation_number = ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
         if Payment_Activation.objects.filter(confirmation_number = confirmation_number.count==0):
             break
+        if Payment_Activation.objects.filter(admin_confirmation_number = confirmation_number.count==0):
+            break
+
         return confirmation_number
 
-def admin_generate_confirmation_number():
-    length = 19
-    while True:
-        admin_confirmation_number = 'a'.join(random.choices(string.ascii_lowercase + string.digits, k=length))
-        if Payment_Activation.objects.filter(admin_confirmation_number = admin_confirmation_number.count==0):
-            break
-        return admin_confirmation_number
-        
 
 class Payment_Activation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='payment_activation', to_field="username", on_delete=models.CASCADE)
@@ -95,5 +90,5 @@ class Payment_Activation(models.Model):
     admin_payment_notes = models.CharField(max_length=500, blank=True, null=True)
     admin_submitted = models.BooleanField(blank=True, null = True)
     admin_submitted_at = models.DateTimeField(blank=True, null=True)
-    admin_confirmation_number = models.CharField(max_length = 25, default = admin_generate_confirmation_number, unique=True)
+    admin_confirmation_number = models.CharField(max_length = 25, default = generate_confirmation_number, unique=True)
 

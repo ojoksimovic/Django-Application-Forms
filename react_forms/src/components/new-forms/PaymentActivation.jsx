@@ -245,7 +245,9 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
     setSubmit(true)
     editPaymentActivationForm({
       confirmation_number: formInfo.confirmation_number,
-      submitted: true,})
+      submitted: true,
+    submitted_at: new Date().toISOString()
+  })
       setUserInfo();
     history.push(ROUTE.MY_FORMS);
 

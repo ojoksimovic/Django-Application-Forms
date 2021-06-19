@@ -69,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = () => {
   const [open, setOpen] = useState(true);
+  const [securityOpen, setSecurityOpen] = useState(true);
   const [loaded, setLoaded] = useState(false);
 
   const {navBarInfo, setNavBarInfo, 
@@ -112,12 +113,7 @@ const NavBar = () => {
       console.log(e);
   }
 
-
   };
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
   const handleHamburgerClick = () => {
     setState(!state);
   };
@@ -187,18 +183,35 @@ const NavBar = () => {
           </div>
           <Divider />
           <List>
-            <ListItem button onClick={handleClick}>
+            <ListItem button onClick={(() => setOpen(!open))}>
               <ListItemText primary="Forms" />
 
               {open ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding style={{ paddingLeft: 20 }}>
+              <List component="div" disablePadding style={{ paddingLeft: 20}}>
                 <ListItem button component={Link} to={ROUTE.MY_FORMS}>
-                  <ListItemText primary="My Forms" />
+                  <ListItemText style = {{color: 'black'}} primary="My Forms" />
                 </ListItem>
                 <ListItem button component={Link} to={ROUTE.NEW_FORM}>
-                  <ListItemText primary="New Form" />
+                  <ListItemText style = {{color: 'black'}} primary="New Form" />
+                </ListItem>
+              </List>
+            </Collapse>
+          </List>
+          <List>
+            <ListItem button onClick={(() => setSecurityOpen(!securityOpen))}>
+              <ListItemText primary="Security" />
+
+              {securityOpen ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={securityOpen} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding style={{ paddingLeft: 20 }}>
+                <ListItem button>
+                  <ListItemText style = {{color: 'black'}}  primary="Groups" />
+                </ListItem>
+                <ListItem button>
+                  <ListItemText style = {{color: 'black'}}  primary="Users" />
                 </ListItem>
               </List>
             </Collapse>

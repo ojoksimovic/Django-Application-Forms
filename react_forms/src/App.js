@@ -85,8 +85,8 @@ function App() {
         <Route path={ROUTE.GYM_BURSARY} component={GymBursary}/> 
         
 
-            {/* {localStorage.getItem("refresh_token")? <Redirect to={ROUTE.MY_FORMS} />:
-       null}    */}
+            {localStorage.getItem("refresh_token")? <Redirect to={ROUTE.MY_FORMS} />:
+       null}   
       
         </main>
       </Switch>
