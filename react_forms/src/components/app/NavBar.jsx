@@ -23,7 +23,7 @@ import "./style.css";
 import { Context, withContext } from "../app/context";
 import { useHistory } from "react-router-dom";
 import axiosInstance from './api';
-import { useMediaQuery } from 'react-responsive';
+
 
 
 const drawerWidth = 240;
@@ -73,14 +73,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 const NavBar = () => {
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-  const [open, setOpen] = useState(true);
-  const [securityOpen, setSecurityOpen] = useState(true);
-  const [loaded, setLoaded] = useState(false);
-
-
-
-  const {navBarInfo, setNavBarInfo, 
+  
+  const {isMobile, navBarInfo, setNavBarInfo, 
     userInfo,
     setUserInfo,
     getUserInfo,
@@ -89,6 +83,13 @@ const NavBar = () => {
     state,
     setState, rows, setRows, convertDate, createRows
   } = useContext(Context);
+
+  const [open, setOpen] = useState(true);
+  const [securityOpen, setSecurityOpen] = useState(true);
+  const [loaded, setLoaded] = useState(false);
+
+
+
   const history = useHistory();
 
 

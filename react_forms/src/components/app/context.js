@@ -2,6 +2,7 @@ import React, {createContext, useState, useEffect, useContext} from 'react';
 import ROUTE from '../app/route';
 import axios from 'axios';
 import axiosInstance from './api';
+import { useMediaQuery } from 'react-responsive';
 
 export const Context = createContext();
 
@@ -15,6 +16,8 @@ export const withContext = (Component) => {
         const [error, setError] = useState();
         const [rows, setRows] = useState([]);
         const [navBarInfo, setNavBarInfo] = useState();
+
+        const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
         const getUserInfo = () => {
             axiosInstance
@@ -45,7 +48,7 @@ export const withContext = (Component) => {
           }};
         
 
-      return <Context.Provider value={{navBarInfo, setNavBarInfo, convertDate, rows, setRows, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
+      return <Context.Provider value={{isMobile, navBarInfo, setNavBarInfo, convertDate, rows, setRows, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
           <Component />
       </Context.Provider>
     }
