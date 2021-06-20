@@ -39,6 +39,7 @@ export default function FormViewDraft({retrievedFormInfo}) {
     const [activeStep, setActiveStep] = useState(0);
 
     const [complete, setComplete] = useState();
+    const [loaded, setLoaded] = useState();
     const [submitCheck, setSubmitCheck] = useState();
     const [submit, setSubmit] = useState(false);
     const [confirm, setConfirm] = useState();
@@ -65,10 +66,13 @@ export default function FormViewDraft({retrievedFormInfo}) {
     } = useContext(Context);
   
     useEffect(()=> {
+      if (!loaded){
       if (formInfo.faculty) 
       {getDepartments(formInfo.faculty)}
       if (formInfo.graduate_unit) 
       {getPrograms(formInfo.graduate_unit)}
+      setLoaded(true)
+      }
     })
     const getPaymentActivationForm = () => {
       axiosInstance
@@ -82,12 +86,13 @@ export default function FormViewDraft({retrievedFormInfo}) {
     }
   
   
-    const editPaymentActivationForm = (data) => {
+    const editPaymentActivationForm = (data, redirect) => {
       axiosInstance
       .patch(
         '/api/payment-activation/', data
       )
       .then(response => { setFormInfo(response.data)
+      if (redirect){history.push(redirect)}
     })
       .catch(error => {setError(error.response.status)
       console.log(error.response)})
@@ -220,9 +225,10 @@ export default function FormViewDraft({retrievedFormInfo}) {
       editPaymentActivationForm({
         confirmation_number: formInfo.confirmation_number,
         submitted: true,
-        submitted_at: new Date().toISOString()})
+        submitted_at: new Date().toISOString()},
+        ROUTE.MY_FORMS)
         setUserInfo();
-      history.push(ROUTE.MY_FORMS);
+      ;
   
     }
   

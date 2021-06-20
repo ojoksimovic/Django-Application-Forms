@@ -71,12 +71,14 @@ export default function FormViewDraftAdmin({retrievedFormInfo}) {
     }
   
   
-    const editPaymentActivationForm = (data) => {
+    const editPaymentActivationForm = (data, redirect) => {
       axiosInstance
       .patch(
         '/api/payment-activation/', data
       )
       .then(response => { setFormInfo(response.data)
+        if (redirect){history.push(redirect)}
+
     })
       .catch(error => {setError(error.response.status)
       console.log(error.response)})
@@ -124,10 +126,9 @@ export default function FormViewDraftAdmin({retrievedFormInfo}) {
       editPaymentActivationForm({
         confirmation_number: formInfo.confirmation_number,
         admin_submitted: true,
-        admin_submitted_at: new Date().toISOString()})
-        setUserInfo();
-      history.push(ROUTE.MY_FORMS);
-  
+        admin_submitted_at: new Date().toISOString()},
+        ROUTE.MY_FORMS)
+        setUserInfo();  
     }
   
     const handleBack = () => {

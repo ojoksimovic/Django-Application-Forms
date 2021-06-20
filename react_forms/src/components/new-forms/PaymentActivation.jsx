@@ -91,12 +91,13 @@ export default function PaymentActivation() {
     console.log(error.response)})
   }
 
-  const editPaymentActivationForm = (data) => {
+  const editPaymentActivationForm = (data, redirect) => {
     axiosInstance
     .patch(
       '/api/payment-activation/', data
     )
     .then(response => { setFormInfo(response.data)
+      history.push(redirect);
   })
     .catch(error => {setError(error.response.status)
     console.log(error.response)})
@@ -146,7 +147,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
     ) {
       setComplete(false);
     }
-    else if (agency == 'Connaught' || agency == 'Trillium' && !paymentType){
+    else if (agency == 'Connaught' && !paymentType || agency == 'Trillium' && !paymentType){
       setComplete(false);
     }
     else {
@@ -247,9 +248,8 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
       confirmation_number: formInfo.confirmation_number,
       submitted: true,
     submitted_at: new Date().toISOString()
-  })
+  },ROUTE.MY_FORMS)
       setUserInfo();
-    history.push(ROUTE.MY_FORMS);
 
   }
 
