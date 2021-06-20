@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(1),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -76,6 +76,10 @@ function App() {
               [classes.contentShift]: state,
             })}
           >
+
+        <Route exact path={ROUTE.HOME}>
+          <Redirect to={ROUTE.MY_FORMS}/>
+        </Route>
         <Route exact path={ROUTE.MY_FORMS} component={MyForms}/>
         <Route path={ROUTE.FORM_VIEW} component={formView}/>
         <Route exact path={ROUTE.NEW_FORM} component={NewForms}/>
@@ -85,9 +89,6 @@ function App() {
         <Route path={ROUTE.GYM_BURSARY} component={GymBursary}/> 
         
 
-            {localStorage.getItem("refresh_token")? <Redirect to={ROUTE.MY_FORMS} />:
-       null}   
-      
         </main>
       </Switch>
       </Router>

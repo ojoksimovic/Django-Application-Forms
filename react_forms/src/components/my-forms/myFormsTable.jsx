@@ -43,17 +43,36 @@ const history = useHistory();
             "Winter 2022"
               ? "2021-2022"
               : null,
-          lastModified: 
-            userInfo?.payment_activation[i].modified_at
-          ,
-          submitted: userInfo?.payment_activation[i].submitted_at,
           progress: userInfo?.payment_activation[i].submitted
             ? "Submitted"
             : "Draft",
-          status: null,
+          status: userInfo?.payment_activation[i].submitted? userInfo?.payment_activation[i].admin_submitted? "Complete":"Recieved" : "Incomplete",
           actions: null,
-          confirmationNumber: userInfo?.payment_activation[i].confirmation_number,
-          adminConfirmationNumber: userInfo?.payment_activation[i].admin_confirmation_number
+created_at: userInfo?.payment_activation[i].created_at,
+student_number: userInfo?.payment_activation[i].student_number,
+faculty: userInfo?.payment_activation[i].faculty,
+graduate_unit: userInfo?.payment_activation[i].graduate_unit,
+program: userInfo?.payment_activation[i].program,
+degree_start_date: userInfo?.payment_activation[i].degree_start_date,
+award: userInfo?.payment_activation[i].award,
+award_duration: userInfo?.payment_activation[i].award_duration,
+type_payment_request: userInfo?.payment_activation[i].type_payment_request,
+award_start_session: userInfo?.payment_activation[i].award_start_session,
+submitted: userInfo?.payment_activation[i].submitted,
+submitted_at: userInfo?.payment_activation[i].submitted_at,
+modified_at: userInfo?.payment_activation[i].modified_at,
+confirmation_number: userInfo?.payment_activation[i].confirmation_number,
+admin_research_requirement: userInfo?.payment_activation[i].admin_research_requirement,
+admin_matching_portion: userInfo?.payment_activation[i].admin_matching_portion,
+admin_utf: userInfo?.payment_activation[i].admin_utf,
+admin_departmental_award: userInfo?.payment_activation[i].admin_departmental_award,
+admin_ta: userInfo?.payment_activation[i].admin_ta,
+admin_ra: userInfo?.payment_activation[i].admin_ra,
+admin_other_source: userInfo?.payment_activation[i].admin_other_source,
+admin_payment_notes: userInfo?.payment_activation[i].admin_payment_notes,
+admin_submitted: userInfo?.payment_activation[i].admin_submitted,
+admin_submitted_at: userInfo?.payment_activation[i].admin_submitted_at,
+admin_confirmation_number: userInfo?.payment_activation[i].admin_confirmation_number,
         },
       ]);
     }
@@ -64,11 +83,11 @@ const history = useHistory();
     { field: "type", headerName: "Type", width: 160 },
     { field: "initiator", headerName: "Initiator", width: 160 },
     { field: "academicYear", headerName: "Academic Year", width: 120 },
-    { field: "lastModified", valueFormatter: (params) => {return convertDate(params.value)}, type: 'date', headerName: "Last Modified", width: 175 },
-    { field: "submitted", valueFormatter: (params) => {return convertDate(params.value)}, type: 'date', headerName: "Submitted", width: 175 },
+    { field: "modified_at", valueFormatter: (params) => {return convertDate(params.value)}, type: 'date', headerName: "Last Modified", width: 175 },
+    { field: "submitted_at", valueFormatter: (params) => {return convertDate(params.value)}, type: 'date', headerName: "Submitted", width: 175 },
     { field: "progress", headerName: "Progress", width: 120 },
-    { field: "status", headerName: "Status", width: 100 },
-    { field: "actions", type: "string", headerName: "Actions", flex: 1 },
+    { field: "status", headerName: "Status", width: 120 },
+    { field: "actions", hide: 'true', type: "string", headerName: "Actions", flex: 1 },
   ];
 
   return (
@@ -79,7 +98,7 @@ const history = useHistory();
         }}
         sortModel={[
           {
-            field: "lastModified",
+            field: "modified_at",
             sort: "desc",
           },
         ]}
@@ -95,11 +114,11 @@ const history = useHistory();
       />
 {selectedRow?
 <>
-        <Button variant = 'contained' className = 'form-button' style = {{margin: 10}} onClick={(e) => history.push(ROUTE.MY_FORMS+'/'+selectedRow.confirmationNumber)}>
+        <Button variant = 'contained' className = 'form-button' style = {{margin: 10}} onClick={(e) => history.push(ROUTE.MY_FORMS+'/'+selectedRow.confirmation_number)}>
           {selectedRow.submitted? 'View Applicant Form' : 'Complete Applicant Form'} 
           </Button>
           {selectedRow.submitted?
-                  <Button variant = 'contained' className = 'form-button' style = {{margin: 10}} onClick={(e) => history.push(ROUTE.MY_FORMS+'/'+selectedRow.adminConfirmationNumber)}>
+                  <Button variant = 'contained' className = 'form-button' style = {{margin: 10}} onClick={(e) => history.push(ROUTE.MY_FORMS+'/'+selectedRow.admin_confirmation_number)}>
                   {selectedRow.admin_submitted? 'View Administrator Form' : 'Complete Administrator Form'} 
                   </Button>
                   :null}

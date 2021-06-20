@@ -20,7 +20,8 @@ import {
   FormControlLabel,
   InputLabel,
   Select,
-  Paper
+  Paper,
+  InputAdornment
 } from "@material-ui/core";
 import {Alert, AlertTitle} from '@material-ui/lab'
 import NavBar from "../app/NavBar";
@@ -47,314 +48,327 @@ export default function FormViewSubmittedAdmin({formInfo}) {
     }
   
 
-    const renderSwitch = (award) => {
-        switch(formInfo.award){
-          case 'CIHR':
-          case 'NSERC':
-          case 'SSHRC':
-            return <><FormControlLabel
-            control={<Radio color="primary" />}
-            value="CGS M (12 months)"
-            label="CGS M (12 months)"
-          />
-          <FormControlLabel
-            control={<Radio color="primary" />}
-            value="Vanier (36 months)"
-            label="Vanier (36 months)"
-          /></>
-          case 'OGS':
-            return <><FormControlLabel
-            control={<Radio color="primary" />}
-            value="OGS (2 sessions)"
-            label="OGS (2 sessions)"
-          />
-          <FormControlLabel
-            control={<Radio color="primary" />}
-            value="OGS (3 sessions)"
-            label="OGS (3 sessions)"
-          /></>
-          case 'QEII-GSST':
-            return <><FormControlLabel
-            control={<Radio color="primary" />}
-            value="QEII-GSST (2 sessions)"
-            label="QEII-GSST (2 sessions)"
-          />
-          <FormControlLabel
-            control={<Radio color="primary" />}
-            value="QEII-GSST (3 sessions)"
-            label="QEII-GSST (3 sessions)"
-          /></>
-          case 'Connaught':
-            return <FormControlLabel
-            control={<Radio color="primary" />}
-            value="Renewable annually and may be held for max of 4 years"
-            label="Renewable annually and may be held for max of 4 years"
-          />
-          case 'Trillium':
-           return  <FormControlLabel
-            control={<Radio color="primary" />}
-            value="Renewable annually and may be held for max of 4-5 years in accordance with program normal period of funding"
-            label="Renewable annually and may be held for max of 4-5 years in accordance with program normal period of funding"
-          />
-        }
-      }
-
     return(
 
 <div>
                     <Typography className="form-field-title" gutterBottom variant = 'h5'>Administrator - Payment Activation Form</Typography>
               <Typography gutterBottom variant = 'body2'>This form is used to activate payment.</Typography>
               <hr />
-           <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              First Name
-            </Typography>
-            <Typography gutterBottom variant="body1">
-              {userInfo?.first_name}
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Last Name
-            </Typography>
-            <Typography gutterBottom variant="body1">
-              {userInfo?.last_name}
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Student Number
-            </Typography>
-          
-            <Typography gutterBottom variant="body1">
-              {formInfo.student_number}
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Email
-            </Typography>
-            <Typography gutterBottom variant="body1">
-              {userInfo?.email}
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Faculty
-            </Typography>
-            <Typography gutterBottom variant="body1">
-              {formInfo.faculty}
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Graduate Unit (Department)
-            </Typography>
-            <Typography gutterBottom variant="body1">
-              {formInfo?.graduate_unit}
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Degree Program
-            </Typography>
-            <Typography gutterBottom variant="body1">
-              {formInfo?.program}
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Start date of degree program
-            </Typography>
-            <Typography gutterBottom variant="body1">
-              {formInfo?.degree_start_date}
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Please identify the funding agency (required)
-            </Typography>
-            <FormControl disabled component="fieldset">
-              <RadioGroup
-              
-                value={formInfo?.award}
-                aria-label="agency"
-                name="customized-radios"
-              >
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="CIHR"
-                  label="CIHR"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="NSERC"
-                  label="NSERC"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="SSHRC"
-                  label="SSHRC"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="OGS"
-                  label="OGS"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="QEII-GSST"
-                  label="QEII-GSST"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="Trillium"
-                  label="Trillium"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="Connaught"
-                  label="Connaught"
-                />
+                <Typography className="form-field-title" gutterBottom variant = 'h6'>User Information</Typography>
+                <hr />
+                <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   First Name
+                 </Typography>
+                 <Typography gutterBottom variant="body1">
+                   {userInfo?.first_name}
+                 </Typography>
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Last Name
+                 </Typography>
+                 <Typography gutterBottom variant="body1">
+                   {userInfo?.last_name}
+                 </Typography>
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Student Number
+                 </Typography>
+               
+                 <Typography gutterBottom variant="body1">
+                   {formInfo.student_number}
+                 </Typography>
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Email
+                 </Typography>
+                 <Typography gutterBottom variant="body1">
+                   {userInfo?.email}
+                 </Typography>
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Faculty
+                 </Typography>
+                 <Typography gutterBottom variant="body1">
+                   {formInfo.faculty}
+                 </Typography>
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Graduate Unit (Department)
+                 </Typography>
+                 <Typography gutterBottom variant="body1">
+                   {formInfo.graduate_unit}
+                 </Typography>
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Degree Program
+                 </Typography>
+                 <Typography gutterBottom variant="body1">
+                   {formInfo.program}
+                 </Typography>
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Start date of degree program
+                 </Typography>
+                 <Typography gutterBottom variant="body1">
+                   {formInfo.degree_start_date}
+                 </Typography>
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Funding agency (required)
+                 </Typography>
+                 <Typography gutterBottom variant="body1">
+                   {formInfo.award}
+                 </Typography>
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Duration (required)
+                 </Typography>
+                 <Typography gutterBottom variant="body1">
+                   {formInfo.award_duration}
+                 </Typography>
+     
+                 {formInfo.award == 'Connaught' || formInfo.award == 'Trillium'?
+                 <>
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Type of payment requested (required)
+                 </Typography>
+                 <Typography variant = 'body1'>{formInfo.type_payment_request}</Typography>
+                 </>
+                 :null}
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Requested start date (required)
+                 </Typography>
+                 <Typography variant = 'body1'> {formInfo.award_start_session}</Typography>
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Applicant Form Submitted: {convertDate(formInfo.submitted_at)}
+                 </Typography>
+     <hr/>
+                 <Typography className="form-field-title" gutterBottom variant = 'h6'>Administration Information</Typography>
+                 <hr/>
+     {formInfo?.award_duration == 'CGS M (12 months)'?
+     <>
+                 <Typography
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Indicate the nature of the research requirement(s) of the awardee's program (required)
+                 </Typography>
+                 <FormControl disabled component="fieldset">
+                   <RadioGroup 
+                     value={formInfo?.admin_research_requirement}
 
-                <Typography variant="caption" color="error">
-                </Typography>
-              </RadioGroup>
-            </FormControl>
+                     aria-label="start-date"
+                     name="customized-radios"
+                   >
+                     <FormControlLabel
+                       control={<Radio color="primary" />}
+                       value="Thesis"
+                       label="Thesis"
+                     />
+                     <FormControlLabel
+                       control={<Radio color="primary" />}
+                       value="Major Research Project/Paper"
+                       label="Major Research Project/Paper"
+                     />
+                     <FormControlLabel
+                       control={<Radio color="primary" />}
+                       value="Other (specify)"
+                       label="Other (specify)"
+                     />
+                   </RadioGroup>
+                 </FormControl>
+                 </>:null}
+     
+     
+                 {formInfo?.award == 'OGS'?
+     <>
+                 <Typography
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Matching portion will be paid from (required)
+                 </Typography>
+                 <FormControl disabled component="fieldset">
+                   <RadioGroup
+                     value={formInfo?.admin_matching_portion}
+                     aria-label="start-date"
+                     name="customized-radios"
+                   >
+                     <FormControlLabel
+                       control={<Radio color="primary" />}
+                       value="Non-RA Department resource (eg UTF or named OGS"
+                       label="Non-RA Department resource (eg UTF or named OGS"
+                     />
+                     <FormControlLabel
+                       control={<Radio color="primary" />}
+                       value="Research assistantship through payroll"
+                       label="Research assistantship through payroll"
+                     />
+                   </RadioGroup>
+                 </FormControl>
+                 </>:null}
+                 {formInfo?.award == 'Connaught' || formInfo?.award == 'Trillium'?
+                 <>
+                 <Typography
+                   variant="body1"
+                   className="form-field-title"
+                 >
+     UTF (required)            
+     </Typography>
+     <TextField disabled
+                     value={formInfo.admin_utf}
+                     variant="outlined"
+                     type="number"
+                     InputProps={{
+                       startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                     }}
+                     fullWidth
+                   />
+     
+     <Typography
+                   variant="body1"
+                   className="form-field-title"
+                 >
+     Departmental/Endowment (required)            
+     </Typography>
+     <TextField disabled
+                     value={formInfo.admin_departmental_award}
+                     variant="outlined"
+                     type="number"
+                     InputProps={{
+                       startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                     }}
+                     fullWidth
+                   />
+     
+     <Typography
+                   variant="body1"
+                   className="form-field-title"
+                 >
+     Teaching Assistantship (required)            
+     </Typography>
+     <TextField disabled
+                     value={formInfo.admin_ta}
+                     variant="outlined"
+                     type="number"
+                     InputProps={{
+                       startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                     }}
+                     fullWidth
+                   />
+     
+     <Typography
+                   variant="body1"
+                   className="form-field-title"
+                 >
+     Research Assistantship (required)            
+     </Typography>
+     <TextField disabled
+                     value={formInfo.admin_ra}
+                     variant="outlined"
+                     type="number"
+                     InputProps={{
+                       startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                     }}
+                     fullWidth
+                   />
+     
+     <Typography
+                   variant="body1"
+                   className="form-field-title"
+                 >
+     Other Source (optional)            
+     </Typography>
+     <TextField  disabled
+                     value={formInfo.admin_other_source}
+                     variant="outlined"
+                     type="number"
+                     InputProps={{
+                       startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                     }}
+                     fullWidth
+                   />
+     
+     <Typography
+                   variant="body1"
+                   className="form-field-title"
+                 >
+     Total            
+     </Typography>
+     <Typography
+                   variant="body1"
+                 >
+     ${+formInfo.admin_utf + +formInfo.admin_departmental_award + +formInfo.admin_ta + +formInfo.admin_ra + +formInfo.admin_other_source}            
+     </Typography>
+     </>
+     :null}
+                 <Typography
+                   variant="body1"
+                   className="form-field-title"
+                 >
+     Payment Notes (optional)            
+     </Typography>
+     <TextField disabled value = {formInfo.admin_payment_notes} variant='outlined' fullWidth multiline rows = {5} rowsMax={10}/>
+     <Checkbox disabled
+                       checked='true'
+                       color="primary"
+                     />
+                   <Typography style = {{marginLeft: 50, marginTop: -35, color: 'grey'}} variant="body2">
+     
+                     I confirm that above info is correct and                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                     enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                     nisi ut aliquip ex ea commodo consequat.
+                   </Typography>
+                 
             <Typography
               gutterBottom
               variant="body1"
               className="form-field-title"
             >
-              Please indicate the duration (required)
-            </Typography>
-            <FormControl disabled component="fieldset">
-              <RadioGroup
-                value={formInfo?.award_duration}
-
-                aria-label="duration"
-                name="customized-radios"
-              >
-{renderSwitch(formInfo?.award)}
-
-                <Typography variant="caption" color="error">
-                </Typography>
-              </RadioGroup>
-            </FormControl>
-            {formInfo?.award == 'Connaught' || formInfo?.award == 'Trillium'?
-            <>
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Type of payment requested (required)
-            </Typography>
-            <FormControl disabled component="fieldset">
-              <RadioGroup
-                value={formInfo?.type_payment_request}
-                aria-label="payment-type"
-                name="customized-radios"
-              >
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="New activation"
-                  label="New activation"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="Renewal"
-                  label="Renewal"
-                />
-                <Typography variant="caption" color="error">
-                </Typography>
-              </RadioGroup>
-            </FormControl>
-            </>
-            :null}
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Requested start date (required)
-            </Typography>
-            <FormControl disabled component="fieldset">
-              <RadioGroup
-                value={formInfo?.award_start_session}
-                aria-label="start-date"
-                name="customized-radios"
-              >
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="May 2021"
-                  label="May 2021"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="September 2021"
-                  label="September 2021"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="January 2022"
-                  label="January 2022"
-                />
-                <Typography variant="caption" color="error">
-                </Typography>
-              </RadioGroup>
-            </FormControl>
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Please confirm by checking the box below that:
-            </Typography>
-            <Typography gutterBottom variant="body1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </Typography>
-            <Typography gutterBottom variant="body1" style={{ marginTop: 10 }}>
-              <strong>Note: </strong>Once submitted, the form will be sent to
-              the administrator for approval.
-            </Typography>
-            <Typography gutterBottom variant="body1">
-              <Checkbox disabled
-                checked={formInfo?.submitted}
-                color="primary"
-              />
-              I confirm that above
-            </Typography>
-            <Typography variant="caption" color="error">
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Submitted: {convertDate(formInfo.modified_at)}
+              Administration Form Submitted: {convertDate(formInfo.admin_submitted_at)}
             </Typography>
         </div>
     )

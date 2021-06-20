@@ -23,6 +23,8 @@ import "./style.css";
 import { Context, withContext } from "../app/context";
 import { useHistory } from "react-router-dom";
 import axiosInstance from './api';
+import { useMediaQuery } from 'react-responsive';
+
 
 const drawerWidth = 240;
 
@@ -49,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
   drawer: {
+    zIndex: 0,
     width: drawerWidth,
     flexShrink: 0,
   },
@@ -67,10 +70,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 const NavBar = () => {
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   const [open, setOpen] = useState(true);
   const [securityOpen, setSecurityOpen] = useState(true);
   const [loaded, setLoaded] = useState(false);
+
+
 
   const {navBarInfo, setNavBarInfo, 
     userInfo,
@@ -87,6 +95,7 @@ const NavBar = () => {
   useEffect(() => {
     if (!loaded){
       getUserInfo()
+      if (isMobile){setState(false)}
       setLoaded(true)}
     return () => {
       setUserInfo(null);
@@ -129,8 +138,8 @@ const NavBar = () => {
             onClick={handleHamburgerClick}
             class={
               state
-                ? "navbar-toggler hamburger hamburger--arrowalt is-active"
-                : "navbar-toggler hamburger hamburger--arrowalt"
+                ? "navbar-toggler hamburger hamburger--vortex is-active"
+                : "navbar-toggler hamburger hamburger--vortex"
             }
             type="button"
             data-toggle="collapse"
