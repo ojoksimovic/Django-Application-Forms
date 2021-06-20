@@ -64,6 +64,12 @@ export default function FormViewDraft({retrievedFormInfo}) {
       setState,
     } = useContext(Context);
   
+    useEffect(()=> {
+      if (formInfo.faculty) 
+      {getDepartments(formInfo.faculty)}
+      if (formInfo.graduate_unit) 
+      {getPrograms(formInfo.graduate_unit)}
+    })
     const getPaymentActivationForm = () => {
       axiosInstance
       .get(

@@ -189,7 +189,7 @@ export default function FormsTable() {
   ];
 
   return (
-    <div style={{ width: "100%", marginTop: 50, cursor: "pointer" }}>
+    <div style={{ width: "100%", marginTop: 50, cursor: 'context-menu' }}>
       <DataGrid
         components={{
           Toolbar: isMobile? CustomToolbar : GridToolbar,
