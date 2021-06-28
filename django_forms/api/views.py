@@ -7,6 +7,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from django.http import JsonResponse
+from users.models import CustomUser
+from users.serializers import CustomUserSerializer
+from django.db.models.query_utils import Q
 
 
 class TestView(viewsets.ViewSet):
@@ -36,8 +39,19 @@ class PaymentActivationView(generics.ListAPIView):
 
     def get(self, request, format=None):
         user = request.user
-        dataset = Payment_Activation.objects.filter(user = user)
+        user_object = CustomUser.objects.get(username = user)
+        role = user_object.role
+        department = user_object.department
+
+        if role == 'administrator':
+            dataset = Payment_Activation.objects.filter(Q(graduate_unit = department)|Q(user=user))
+        elif role == 'super administrator':
+            dataset = Payment_Activation.objects.all()
+        else:
+            dataset = Payment_Activation.objects.filter(user = user)
+            
         serializer = self.serializer_class(dataset, many=True)
+        print(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 

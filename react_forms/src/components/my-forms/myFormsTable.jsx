@@ -5,11 +5,13 @@ import "../app/style.css";
 import { Context, withContext } from "../app/context";
 import Moment from "react-moment";
 import ROUTE from "../app/route";
-import { Paper, Typography, Button } from "@material-ui/core";
+import axios from 'axios';
+import axiosInstance from '../app/api';
+import { Paper, Typography, Button, FormControl, InputLabel, Select } from "@material-ui/core";
 import { CodeSharp } from "@material-ui/icons";
 
 export default function FormsTable() {
-  const { userInfo, rows, setRows, convertDate, isMobile } = useContext(Context);
+  const { role, setRole, userInfo, setUserInfo, rows, setRows, convertDate, isMobile } = useContext(Context);
   const [loaded, setLoaded] = useState(false);
   const [formInfo, setFormInfo] = useState();
   const [selectedRow, setSelectedRow] = useState();
@@ -32,6 +34,20 @@ export default function FormsTable() {
       console.log(userInfo);
     }
   });
+
+  const handleRoleChange = (e) => {
+setRole(e);
+console.log('formstable api call:' + {role})
+axiosInstance
+.post(
+  '/users/user-info/', {role: e}
+)
+.then(response => {setUserInfo(response.data[0])
+setLoaded(false)
+})
+.catch(error => {console.log(error.response)})
+}
+
 
   const createRows = () => {
     setRows([]);
@@ -189,6 +205,34 @@ export default function FormsTable() {
   ];
 
   return (
+    <div>
+             <div className = 'row'>
+        <div className = 'col-8 offset-4 text-end'>
+            <FormControl variant = 'filled' size = 'small' >
+              <InputLabel htmlFor="outlined-degree-native-simple">
+                Role
+              </InputLabel>
+              <Select
+                onChange={((e) =>
+                  handleRoleChange(e.target.value))}
+                native
+                value={role}
+                label="Degree Program"
+                inputProps={{
+                  name: "degree program",
+                  id: "outlined-degree-native-simple",
+                }}
+              >
+                <option aria-label="None" value="" />
+
+                <option value='student'>Student</option>
+                <option value='administrator'>Administrator - Department of Computer Science</option>
+                <option value='super administrator'>Super Administrator - All Departments</option>
+              </Select>
+            </FormControl>
+        </div>
+    </div>
+    
     <div style={{ width: "100%", marginTop: 50, cursor: 'context-menu' }}>
       <DataGrid
         components={{
@@ -243,6 +287,7 @@ export default function FormsTable() {
           ) : null}
         </>
       ) : null} */}
+    </div>
     </div>
   );
 }

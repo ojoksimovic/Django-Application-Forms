@@ -74,7 +74,7 @@ export default function PaymentActivation() {
     .get(
       '/api/payment-activation/'
     )
-    .then(response => {
+    .then(response => { console.log(response.data)
   })
     .catch(error => {setError(error.response.status)
     console.log(error.response)})

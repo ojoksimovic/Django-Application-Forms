@@ -16,13 +16,14 @@ export const withContext = (Component) => {
         const [error, setError] = useState();
         const [rows, setRows] = useState([]);
         const [navBarInfo, setNavBarInfo] = useState();
-
+        const [role, setRole] = useState('student');
         const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
         const getUserInfo = () => {
+          console.log('context api call:' + {role})
             axiosInstance
-            .get(
-              '/users/user-info/'
+            .post(
+              '/users/user-info/', {role: role}
             )
             .then(response => {setUserInfo(response.data[0])
               setNavBarInfo(response.data[0])
@@ -48,7 +49,7 @@ export const withContext = (Component) => {
           }};
         
 
-      return <Context.Provider value={{isMobile, navBarInfo, setNavBarInfo, convertDate, rows, setRows, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
+      return <Context.Provider value={{role, setRole, isMobile, navBarInfo, setNavBarInfo, convertDate, rows, setRows, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken}} displayName='Authentication Context'>
           <Component />
       </Context.Provider>
     }

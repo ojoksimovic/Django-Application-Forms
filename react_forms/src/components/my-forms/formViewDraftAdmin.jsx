@@ -1,11 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import {
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
   Button,
   Typography,
   Stepper,
@@ -14,13 +9,9 @@ import {
   TextField,
   Checkbox,
   FormControl,
-  FormLabel,
   RadioGroup,
   Radio,
   FormControlLabel,
-  InputLabel,
-  Select,
-  Paper,
   InputAdornment
 } from "@material-ui/core";
 import {Alert, AlertTitle} from '@material-ui/lab'
@@ -31,9 +22,6 @@ import ROUTE from "../app/route";
 import axios from 'axios';
 import axiosInstance from '../app/api';
 import { departmentsObject } from "../new-forms/departments";
-
-
-
 
 export default function FormViewDraftAdmin({retrievedFormInfo}) {  
 

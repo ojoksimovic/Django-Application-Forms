@@ -16,7 +16,6 @@ class Test(models.Model):
 
 class OGS(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
     faculty = models.CharField(max_length=100, blank=True, null=True)
     graduate_unit = models.CharField(max_length=100, blank=True, null=True)
     program = models.CharField(max_length=100, blank=True, null=True)

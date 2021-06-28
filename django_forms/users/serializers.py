@@ -13,7 +13,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
 
         # Add custom claims
-        token['fav_color'] = user.fav_color
+        token['last_name'] = user.last_name
         return token
 
 
@@ -28,12 +28,14 @@ class CustomUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=8, write_only=True)
     first_name = serializers.CharField()
     last_name = serializers.CharField()
+    department = serializers.CharField()
+    role = serializers.CharField()
     payment_activation = PaymentActivationSerializer(many=True)
 
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'password', 'first_name', 'last_name', 'payment_activation')
+        fields = ('email', 'username', 'password', 'first_name', 'last_name', 'department', 'role','payment_activation')
         extra_kwargs = {'password': {'write_only': True}}
 
 

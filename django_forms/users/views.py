@@ -43,6 +43,13 @@ class UserInfoView(APIView):
         serializer = self.serializer_class(dataset, many=True)
         return Response(data = serializer.data, status=status.HTTP_200_OK)
 
+    def post(self, request):
+        user = request.user
+        dataset = CustomUser.objects.filter(username = user)
+        serializer = self.serializer_class(dataset, many=True)
+        return Response(data = serializer.data, status=status.HTTP_200_OK)
+
+
 class LogoutAndBlacklistRefreshTokenForUserView(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
