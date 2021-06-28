@@ -51,8 +51,6 @@ class PaymentActivationView(generics.ListAPIView):
             dataset = Payment_Activation.objects.filter(user = user)
             
         serializer = self.serializer_class(dataset, many=True)
-        print(serializer.data)
-
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):

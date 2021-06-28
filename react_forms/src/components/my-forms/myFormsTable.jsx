@@ -14,6 +14,7 @@ export default function FormsTable() {
   const { role, setRole, userInfo, setUserInfo, rows, setRows, convertDate, isMobile } = useContext(Context);
   const [loaded, setLoaded] = useState(false);
   const [formInfo, setFormInfo] = useState();
+  const [PAFForms, setPAFForms] = useState();
   const [selectedRow, setSelectedRow] = useState();
   const history = useHistory();
 
@@ -28,90 +29,104 @@ export default function FormsTable() {
 
   useEffect(() => {
     if (!loaded) {
-      setFormInfo(null);
-      createRows();
       setLoaded(true);
-      console.log(userInfo);
+      getPaymentActivationForm();
+      setFormInfo(null);
+
     }
   });
 
+  const getPaymentActivationForm = () => {
+    axiosInstance
+    .get(
+      '/api/payment-activation/'
+    )
+    .then(response => { setPAFForms(response.data)
+      console.log(response.data)
+      createRows(response.data);
+  })
+    .catch(error => {console.log(error.response)})
+
+  }
+
+
   const handleRoleChange = (e) => {
 setRole(e);
-console.log('formstable api call:' + {role})
-axiosInstance
-.post(
-  '/users/user-info/', {role: e}
-)
-.then(response => {setUserInfo(response.data[0])
-setLoaded(false)
-})
-.catch(error => {console.log(error.response)})
+console.log('formstable api call:' + e)
+// axiosInstance
+// .post(
+//   '/users/user-info/', {role: e}
+// )
+// .then(response => {setUserInfo(response.data[0])
+// setLoaded(false)
+// })
+// .catch(error => {console.log(error.response)})
 }
 
 
-  const createRows = () => {
+  const createRows = (formData) => {
     setRows([]);
-    for (let i = 0; i < userInfo?.payment_activation.length; i++) {
+    for (let i = 0; i < formData.length; i++) {
       setRows((rows) => [
         ...rows,
         {
           id: i + 1, 
           collection: "Payment Activation Form",
           type:
-            userInfo?.payment_activation[i].award +
+          formData[i].award +
             " " +
-            userInfo?.payment_activation[i].award_duration,
-          initiator: userInfo?.last_name + ", " + userInfo?.first_name,
+            formData[i].award_duration,
+          initiator: formData[i].last_name + ", " + formData[i].first_name,
           academicYear:
-            userInfo?.payment_activation[i].award_start_session == "May 2021" ||
+          formData[i].award_start_session == "May 2021" ||
             "Fall 2021" ||
             "Winter 2022"
               ? "2021-2022"
               : null,
-          progress: userInfo?.payment_activation[i].submitted
+          progress: formData[i].submitted
             ? "Submitted"
             : "Draft",
-          status: userInfo?.payment_activation[i].submitted
-            ? userInfo?.payment_activation[i].admin_submitted
+          status: formData[i].submitted
+            ? formData[i].admin_submitted
               ? "Complete"
               : "Recieved"
             : "Incomplete",
           actions: null,
-          created_at: userInfo?.payment_activation[i].created_at,
-          student_number: userInfo?.payment_activation[i].student_number,
-          faculty: userInfo?.payment_activation[i].faculty,
-          graduate_unit: userInfo?.payment_activation[i].graduate_unit,
-          program: userInfo?.payment_activation[i].program,
-          degree_start_date: userInfo?.payment_activation[i].degree_start_date,
-          award: userInfo?.payment_activation[i].award,
-          award_duration: userInfo?.payment_activation[i].award_duration,
+          created_at: formData[i].created_at,
+          student_number: formData[i].student_number,
+          faculty: formData[i].faculty,
+          graduate_unit: formData[i].graduate_unit,
+          program: formData[i].program,
+          degree_start_date: formData[i].degree_start_date,
+          award: formData[i].award,
+          award_duration: formData[i].award_duration,
           type_payment_request:
-            userInfo?.payment_activation[i].type_payment_request,
+          formData[i].type_payment_request,
           award_start_session:
-            userInfo?.payment_activation[i].award_start_session,
-          submitted: userInfo?.payment_activation[i].submitted,
-          submitted_at: userInfo?.payment_activation[i].submitted_at,
-          modified_at: userInfo?.payment_activation[i].modified_at,
+            formData[i].award_start_session,
+          submitted: formData[i].submitted,
+          submitted_at: formData[i].submitted_at,
+          modified_at: formData[i].modified_at,
           confirmation_number:
-            userInfo?.payment_activation[i].confirmation_number,
+            formData[i].confirmation_number,
           admin_research_requirement:
-            userInfo?.payment_activation[i].admin_research_requirement,
+            formData[i].admin_research_requirement,
           admin_matching_portion:
-            userInfo?.payment_activation[i].admin_matching_portion,
-          admin_utf: userInfo?.payment_activation[i].admin_utf,
+            formData[i].admin_matching_portion,
+          admin_utf: formData[i].admin_utf,
           admin_departmental_award:
-            userInfo?.payment_activation[i].admin_departmental_award,
-          admin_ta: userInfo?.payment_activation[i].admin_ta,
-          admin_ra: userInfo?.payment_activation[i].admin_ra,
+            formData[i].admin_departmental_award,
+          admin_ta: formData[i].admin_ta,
+          admin_ra: formData[i].admin_ra,
           admin_other_source:
-            userInfo?.payment_activation[i].admin_other_source,
+            formData[i].admin_other_source,
           admin_payment_notes:
-            userInfo?.payment_activation[i].admin_payment_notes,
-          admin_submitted: userInfo?.payment_activation[i].admin_submitted,
+            formData[i].admin_payment_notes,
+          admin_submitted: formData[i].admin_submitted,
           admin_submitted_at:
-            userInfo?.payment_activation[i].admin_submitted_at,
+            formData[i].admin_submitted_at,
           admin_confirmation_number:
-            userInfo?.payment_activation[i].admin_confirmation_number,
+            formData[i].admin_confirmation_number,
         },
       ]);
     }
@@ -232,7 +247,7 @@ setLoaded(false)
             </FormControl>
         </div>
     </div>
-    
+    {PAFForms?
     <div style={{ width: "100%", marginTop: 50, cursor: 'context-menu' }}>
       <DataGrid
         components={{
@@ -287,7 +302,7 @@ setLoaded(false)
           ) : null}
         </>
       ) : null} */}
-    </div>
+    </div>:null}
     </div>
   );
 }
