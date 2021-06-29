@@ -113,7 +113,7 @@ export default function FormViewSubmitted({formInfo}) {
               First Name
             </Typography>
             <Typography gutterBottom variant="body1">
-              {userInfo?.first_name}
+              {formInfo?.first_name}
             </Typography>
             <Typography
               gutterBottom
@@ -123,7 +123,7 @@ export default function FormViewSubmitted({formInfo}) {
               Last Name
             </Typography>
             <Typography gutterBottom variant="body1">
-              {userInfo?.last_name}
+              {formInfo?.last_name}
             </Typography>
             <Typography
               gutterBottom
@@ -144,7 +144,7 @@ export default function FormViewSubmitted({formInfo}) {
               Email
             </Typography>
             <Typography gutterBottom variant="body1">
-              {userInfo?.email}
+              {formInfo?.email}
             </Typography>
             <Typography
               gutterBottom

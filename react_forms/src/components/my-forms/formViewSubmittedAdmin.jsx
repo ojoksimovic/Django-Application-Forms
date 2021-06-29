@@ -32,6 +32,8 @@ import axios from 'axios';
 import axiosInstance from '../app/api';
 
 
+
+
 export default function FormViewSubmittedAdmin({formInfo}) {  
 
     const {userInfo, convertDate} = useContext(Context);
@@ -64,7 +66,7 @@ export default function FormViewSubmittedAdmin({formInfo}) {
                    First Name
                  </Typography>
                  <Typography gutterBottom variant="body1">
-                   {userInfo?.first_name}
+                   {formInfo?.first_name}
                  </Typography>
                  <Typography
                    gutterBottom
@@ -74,7 +76,7 @@ export default function FormViewSubmittedAdmin({formInfo}) {
                    Last Name
                  </Typography>
                  <Typography gutterBottom variant="body1">
-                   {userInfo?.last_name}
+                   {formInfo?.last_name}
                  </Typography>
                  <Typography
                    gutterBottom
@@ -95,7 +97,7 @@ export default function FormViewSubmittedAdmin({formInfo}) {
                    Email
                  </Typography>
                  <Typography gutterBottom variant="body1">
-                   {userInfo?.email}
+                   {formInfo?.email}
                  </Typography>
                  <Typography
                    gutterBottom

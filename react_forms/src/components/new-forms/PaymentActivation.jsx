@@ -104,7 +104,7 @@ export default function PaymentActivation() {
   }
 
   useEffect(() => {
-    getPaymentActivationForm();
+    // getPaymentActivationForm();
 })
 
 const getDepartments = (e) => {

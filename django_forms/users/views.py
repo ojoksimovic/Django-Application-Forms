@@ -28,6 +28,21 @@ class CustomUserCreate(APIView):
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class CustomUserEdit(APIView):
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = ()
+
+    def patch(self, request, format=None):
+        username = request.data.get('username')
+        user_object = CustomUser.objects.get(username = username)
+        serializer = CustomUserSerializer(user_object, data=request.data, partial= True)
+        if serializer.is_valid():
+            user = serializer.save()
+            if user:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class HelloWorldView(APIView):
     serializer_class = CustomUserSerializer
 

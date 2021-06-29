@@ -11,7 +11,7 @@ import { Paper, Typography, Button, FormControl, InputLabel, Select } from "@mat
 import { CodeSharp } from "@material-ui/icons";
 
 export default function FormsTable() {
-  const { role, setRole, userInfo, setUserInfo, rows, setRows, convertDate, isMobile } = useContext(Context);
+  const { role, setRole, userInfo, setUserInfo, getUserInfo, rows, setRows, convertDate, isMobile } = useContext(Context);
   const [loaded, setLoaded] = useState(false);
   const [formInfo, setFormInfo] = useState();
   const [PAFForms, setPAFForms] = useState();
@@ -42,7 +42,6 @@ export default function FormsTable() {
       '/api/payment-activation/'
     )
     .then(response => { setPAFForms(response.data)
-      console.log(response.data)
       createRows(response.data);
   })
     .catch(error => {console.log(error.response)})
@@ -52,25 +51,34 @@ export default function FormsTable() {
 
   const handleRoleChange = (e) => {
 setRole(e);
-console.log('formstable api call:' + e)
-// axiosInstance
-// .post(
-//   '/users/user-info/', {role: e}
-// )
-// .then(response => {setUserInfo(response.data[0])
+let department;
+if (e == 'administrator'){
+  department = 'Computer Science'
+}
+let data = {username: userInfo.username, department: department, role: e}
+
+axiosInstance
+.patch(
+  '/users/user/edit/', data
+)
+.then(response => {getPaymentActivationForm();
+  getUserInfo();
 // setLoaded(false)
-// })
-// .catch(error => {console.log(error.response)})
+})
+.catch(error => {console.log(error.response)})
 }
 
 
   const createRows = (formData) => {
     setRows([]);
     for (let i = 0; i < formData.length; i++) {
+      if (formData[i].submitted || !formData[i].submitted && formData[i].user == userInfo.username){
+      
       setRows((rows) => [
         ...rows,
         {
           id: i + 1, 
+          username: formData[i].user,
           collection: "Payment Activation Form",
           type:
           formData[i].award +
@@ -129,7 +137,7 @@ console.log('formstable api call:' + e)
             formData[i].admin_confirmation_number,
         },
       ]);
-    }
+    }}
   };
 
   const columns = [
@@ -140,6 +148,7 @@ console.log('formstable api call:' + e)
       align: 'left',
       renderCell: (params: GridRowParams) => (
         <strong>
+          {params.row.submitted?
           <Button
             variant="contained"
             color="primary"
@@ -151,11 +160,21 @@ console.log('formstable api call:' + e)
                 ROUTE.MY_FORMS + "/" + params.row.confirmation_number
               )
             }
-          >
-            {params.row.submitted
-              ? "View Form"
-              : "Complete Form"}
-          </Button>
+          >View Form
+          </Button>: 
+                    <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    className = 'login-button'
+                    style={{backgroundColor: params.row.submitted?"#002a5c":"#337AB7"}}
+                    onClick={(e) =>
+                      history.push(
+                        ROUTE.MY_FORMS + "/" + params.row.confirmation_number
+                      )
+                    }
+                  >Complete Form
+                  </Button>}
         </strong>
       ),
     },
@@ -164,6 +183,7 @@ console.log('formstable api call:' + e)
       headerName: 'Admin Form',
       width: 150,
       align: 'left',
+      hide: userInfo.role != 'administrator' && userInfo.role != 'super administrator',
       renderCell: (params: GridRowParams) => (
         <strong>
           {params.row.submitted?
@@ -231,7 +251,7 @@ console.log('formstable api call:' + e)
                 onChange={((e) =>
                   handleRoleChange(e.target.value))}
                 native
-                value={role}
+                value={userInfo.role}
                 label="Degree Program"
                 inputProps={{
                   name: "degree program",
