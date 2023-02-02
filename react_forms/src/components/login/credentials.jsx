@@ -13,6 +13,7 @@ import { useHistory, Link as Links } from "react-router-dom";
 import ROUTE from "../app/route";
 import axios from "axios";
 import axiosInstance from "../app/api";
+import GoogleLogin from 'react-google-login';
 
 export default function Credentials() {
   const {
@@ -51,6 +52,9 @@ export default function Credentials() {
     setUsername(e.target.value);
   };
 
+  const responseGoogle = (response) => {
+    console.log(response);
+  }
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
@@ -132,23 +136,17 @@ export default function Credentials() {
               <hr />
             </div>
           </div>
-
-          <Button
-            type="submit"
-            className="login-button"
-            variant="contained"
-            align="center"
-            style={{
-              textTransform: "none",
-              width: "100%",
-              marginTop: 20,
-              padding: 15,
-            }}
-          >
-            <Typography variant="body1" component="h5">
-              Continue with Google
-            </Typography>
-          </Button>
+          <GoogleLogin
+    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+    buttonText="Continue with Google"
+    render={renderProps => (
+      <button onClick={renderProps.onClick} disabled={renderProps.disabled} className = "MuiButton-root"
+      style={{width:"100%", textTransform:"none", }}><Typography style = {{padding: 10}}>Continue with Google</Typography></button>
+    )}
+    onSuccess={responseGoogle}
+    onFailure={responseGoogle}
+    cookiePolicy={'single_host_origin'}
+  />
           {authentication ? (
             <Typography variant="body1">authenticated!</Typography>
           ) : null}
