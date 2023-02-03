@@ -14,6 +14,7 @@ import ROUTE from "../app/route";
 import axios from "axios";
 import axiosInstance from "../app/api";
 import GoogleLogin from 'react-google-login';
+import googleLogo from './google-icon.png';
 
 export default function Credentials() {
   const {
@@ -141,7 +142,9 @@ export default function Credentials() {
     buttonText="Continue with Google"
     render={renderProps => (
       <button onClick={renderProps.onClick} disabled={renderProps.disabled} className = "MuiButton-root"
-      style={{width:"100%", textTransform:"none", }}><Typography style = {{padding: 10}}>Continue with Google</Typography></button>
+      style={{width:"100%", textTransform:"none", }}>
+        <img src={googleLogo} style={{width: 20, verticalAlign: 'middle', marginBottom: 3}} />
+        <Typography style = {{padding: 10, display: 'inline'}}>Continue with Google</Typography></button>
     )}
     onSuccess={responseGoogle}
     onFailure={responseGoogle}
