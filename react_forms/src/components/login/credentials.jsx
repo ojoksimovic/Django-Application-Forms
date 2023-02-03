@@ -140,7 +140,7 @@ export default function Credentials() {
             </div>
           </div>
           <GoogleLogin
-            clientId=""
+            clientId="x.apps.googleusercontent.com"
             buttonText="Continue with Google"
             render={(renderProps) => (
               <Button
