@@ -13,8 +13,8 @@ import { useHistory, Link as Links } from "react-router-dom";
 import ROUTE from "../app/route";
 import axios from "axios";
 import axiosInstance from "../app/api";
-import GoogleLogin from 'react-google-login';
-import googleLogo from './google-icon.png';
+import GoogleLogin from "react-google-login";
+import googleLogo from "./google-icon.png";
 
 export default function Credentials() {
   const {
@@ -55,7 +55,7 @@ export default function Credentials() {
 
   const responseGoogle = (response) => {
     console.log(response);
-  }
+  };
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
@@ -121,15 +121,17 @@ export default function Credentials() {
           <Link href={ROUTE.REGISTER} variant="subtitle2" color="inherit">
             Don't have an account? Register here.
           </Link>
-          <div class="row align-items-center" 
-          style ={{ 
-            marginTop: 15
-          }}>
+          <div
+            class="row align-items-center"
+            style={{
+              marginTop: 15,
+            }}
+          >
             <div class="col">
               <hr />
             </div>
             <div class="col-auto">
-              <Typography variant="subtitle2" color="inherit" >
+              <Typography variant="subtitle2" color="inherit">
                 OR
               </Typography>
             </div>
@@ -138,18 +140,44 @@ export default function Credentials() {
             </div>
           </div>
           <GoogleLogin
-    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-    buttonText="Continue with Google"
-    render={renderProps => (
-      <button onClick={renderProps.onClick} disabled={renderProps.disabled} className = "MuiButton-root"
-      style={{width:"100%", textTransform:"none", }}>
-        <img src={googleLogo} style={{width: 20, verticalAlign: 'middle', marginBottom: 3}} />
-        <Typography style = {{padding: 10, display: 'inline'}}>Continue with Google</Typography></button>
-    )}
-    onSuccess={responseGoogle}
-    onFailure={responseGoogle}
-    cookiePolicy={'single_host_origin'}
-  />
+            clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+            buttonText="Continue with Google"
+            render={(renderProps) => (
+              <Button
+                type="submit"
+                className="login-button"
+                variant="contained"
+                align="center"
+                style={{
+                  textTransform: "none",
+                  width: "100%",
+                  backgroundColor: "#337AB7",
+                  color: "white",
+                  marginTop: 20,
+                  padding: 15,
+                }}
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                {" "}
+                <img
+                  src={googleLogo}
+                  style={{
+                    width: 20,
+                    marginRight: 7,
+                    verticalAlign: "middle",
+                    marginBottom: 3,
+                  }}
+                />
+                <Typography variant="body1" component="h5">
+                  Continue with Google
+                </Typography>
+              </Button>
+            )}
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+          />
           {authentication ? (
             <Typography variant="body1">authenticated!</Typography>
           ) : null}
