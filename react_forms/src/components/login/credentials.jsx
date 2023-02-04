@@ -164,9 +164,8 @@ export default function Credentials() {
                   src={googleLogo}
                   style={{
                     width: 20,
-                    marginRight: 7,
-                    verticalAlign: "middle",
-                    marginBottom: 3,
+                    marginRight: 10,
+                    verticalAlign: "middle"
                   }}
                 />
                 <Typography variant="body1" component="h5">
