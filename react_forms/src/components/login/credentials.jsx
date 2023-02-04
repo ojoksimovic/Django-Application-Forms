@@ -13,7 +13,7 @@ import { useHistory, Link as Links } from "react-router-dom";
 import ROUTE from "../app/route";
 import axios from "axios";
 import axiosInstance from "../app/api";
-import GoogleLogin from "react-google-login";
+import { useGoogleLogin } from "@react-oauth/google";
 import googleLogo from "./google-icon.png";
 
 export default function Credentials() {
@@ -53,11 +53,19 @@ export default function Credentials() {
     setUsername(e.target.value);
   };
 
-  const responseGoogle = (response) => {
-    console.log(response);
-  };
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
+  };
+
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => console.log(tokenResponse),
+  });
+
+  const responseMessage = (response) => {
+    console.log(response);
+  };
+  const errorMessage = (error) => {
+    console.log(error);
   };
 
   return (
@@ -102,6 +110,9 @@ export default function Credentials() {
           />
           <Button
             type="submit"
+            onError={errorMessage}
+            onSuccess={responseMessage}
+            on
             className="login-button"
             variant="contained"
             align="center"
@@ -139,44 +150,35 @@ export default function Credentials() {
               <hr />
             </div>
           </div>
-          <GoogleLogin
-            clientId="x.apps.googleusercontent.com"
-            buttonText="Continue with Google"
-            render={(renderProps) => (
-              <Button
-                type="submit"
-                className="login-button"
-                variant="contained"
-                align="center"
-                style={{
-                  textTransform: "none",
-                  width: "100%",
-                  backgroundColor: "#337AB7",
-                  color: "white",
-                  marginTop: 20,
-                  padding: 15,
-                }}
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-              >
-                {" "}
-                <img
-                  src={googleLogo}
-                  style={{
-                    width: 20,
-                    marginRight: 10,
-                    verticalAlign: "middle"
-                  }}
-                />
-                <Typography variant="body1" component="h5">
-                  Continue with Google
-                </Typography>
-              </Button>
-            )}
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={"single_host_origin"}
-          />
+
+          <Button
+            onClick={() => login()}
+            className="login-button"
+            variant="contained"
+            align="center"
+            style={{
+              textTransform: "none",
+              width: "100%",
+              backgroundColor: "#337AB7",
+              color: "white",
+              marginTop: 20,
+              padding: 15,
+            }}
+          >
+            {" "}
+            <img
+              src={googleLogo}
+              style={{
+                width: 20,
+                marginRight: 10,
+                verticalAlign: "middle",
+              }}
+            />
+            <Typography variant="body1" component="h5">
+              Continue with Google
+            </Typography>
+          </Button>
+
           {authentication ? (
             <Typography variant="body1">authenticated!</Typography>
           ) : null}
