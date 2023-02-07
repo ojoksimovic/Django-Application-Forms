@@ -61,12 +61,6 @@ export default function Credentials() {
     onSuccess: (tokenResponse) => console.log(tokenResponse),
   });
 
-  const responseMessage = (response) => {
-    console.log(response);
-  };
-  const errorMessage = (error) => {
-    console.log(error);
-  };
 
   return (
     <Card
@@ -110,9 +104,6 @@ export default function Credentials() {
           />
           <Button
             type="submit"
-            onError={errorMessage}
-            onSuccess={responseMessage}
-            on
             className="login-button"
             variant="contained"
             align="center"
