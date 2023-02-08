@@ -58,9 +58,15 @@ export default function Credentials() {
   };
 
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse),
-  });
+    onSuccess: (tokenResponse) => console.log(tokenResponse)
+    // on success:
+    // 1. update front end by adding state for Google Sign ins (may need to add internal access tokens), and forward user to main page.
+    // 2. send access_token to backend
+    // check if email exists
+    // if not, create user by accessing Google's People API (https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses)
+    // create column in django for Google ID
 
+  });
 
   return (
     <Card
