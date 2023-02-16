@@ -96,3 +96,17 @@ class OGSView(generics.ListAPIView):
         else:
             return Response({'message': 'Application Not Submitted!'}, status=status.status.HTTP_400_BAD_REQUEST)
 
+
+
+class GoogleLoginView(generics.ListAPIView):
+    queryset = Payment_Activation.objects.all()
+    serializer_class=PaymentActivationSerializer
+
+    def get(self, request, format=None):
+        # get profile info
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+        # check if user exists (using email address)
+        # if email does not exist, add user info
+        return Response(serializer.errors, status=status.HTTP_200_OK)
