@@ -24,6 +24,8 @@ export default function Credentials() {
     setAccessToken,
     refreshToken,
     setrefreshToken,
+    isGoogleLogged,
+    setIsGoogleLogged,
   } = useContext(Context);
   const history = useHistory();
   const [username, setUsername] = useState();
@@ -58,14 +60,18 @@ export default function Credentials() {
   };
 
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse)
+    onSuccess:
+      (tokenResponse) => console.log(tokenResponse) & setIsGoogleLogged(true),
+    prompt: "consent",
+    ux_mode: "redirect",
     // on success:
-    // 1. update front end by adding state for Google Sign ins (may need to add internal access tokens), and forward user to main page.
-    // 2. send access_token to backend
+    // 2. update front end by adding state for Google Sign ins (may need to add internal access tokens), and forward user to main page.
+    // 1. send access_token to backend
     // check if email exists
     // if not, create user by accessing Google's People API (https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses)
     // create column in django for Google ID
 
+    // add log out function to check if google logged
   });
 
   return (
@@ -162,7 +168,6 @@ export default function Credentials() {
               padding: 15,
             }}
           >
-            {" "}
             <img
               src={googleLogo}
               style={{
