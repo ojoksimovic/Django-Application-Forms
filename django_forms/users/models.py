@@ -6,3 +6,5 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(blank=True, max_length=100)
     department = models.CharField(blank=True, max_length=100)
     role = models.CharField(blank=True, max_length=100)
+    external_id = models.CharField(blank=True, max_length=100)
+    external_type = models.CharField(blank=True, max_length=100)

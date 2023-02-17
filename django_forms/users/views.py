@@ -74,3 +74,16 @@ class LogoutAndBlacklistRefreshTokenForUserView(APIView):
             token = RefreshToken(refresh_token)
             token.blacklist()
             return Response(status=status.HTTP_205_RESET_CONTENT)
+
+class GoogleLoginView(generics.ListAPIView):
+    queryset = Payment_Activation.objects.all()
+    serializer_class=PaymentActivationSerializer
+
+    def get(self, request, format=None):
+        # get profile info
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+        # check if user exists (using email address)
+        # if email does not exist, add user info
+        return Response(serializer.errors, status=status.HTTP_200_OK)
