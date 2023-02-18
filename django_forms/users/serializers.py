@@ -30,6 +30,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField()
     department = serializers.CharField()
     role = serializers.CharField()
+    external_id = serializers.CharField()
+    external_type = serializers.CharField()
     payment_activation = PaymentActivationSerializer(many=True)
 
 
