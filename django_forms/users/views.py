@@ -83,7 +83,7 @@ class CustomUserCreate(APIView):
     authentication_classes = ()
 
 
-class GoogleLoginView(generics.ListAPIView):
+class GoogleLoginView(APIView):
 
     def post(self, request, format=None):
         email = request.data["email"]
@@ -96,7 +96,7 @@ class GoogleLoginView(generics.ListAPIView):
             serializer = self.serializer_class(dataset_external_id, many=True)
             return Response(data = serializer.data, status=status.HTTP_200_OK)
 
-        else if dataset_email:
+        elif dataset_email:
             # user already exists, update CustomUser model to include external ID and Type 
             user_object = CustomUser.objects.get(email = email)
             serializer = CustomUserSerializer(user_object, data=request.data, partial=True)
