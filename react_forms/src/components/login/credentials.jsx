@@ -78,19 +78,11 @@ export default function Credentials() {
 
   const getProfileInfo = (e) => {
 
-  axiosInstance
+    axiosInstance
       .post("/users/google-profile/", { access_token: e['access_token']})
       .then((response) => {
         console.log(response);
         submitGoogleProfile(response.data)
-        // setAccessToken(response.data.access);
-        // axiosInstance.defaults.headers["Authorization"] =
-        //   "JWT " + response.data.access;
-        // localStorage.setItem("access_token", response.data.access);
-        // localStorage.setItem("refresh_token", response.data.refresh);
-
-        // setAuthentication(true);
-        // history.push(ROUTE.MY_FORMS);
       })
       .catch((error) => {
         setError(error.response.status);
@@ -99,19 +91,10 @@ export default function Credentials() {
 };  
 
 const submitGoogleProfile = (e) => {
-console.log(e)
   axiosInstance
-      .post("/users/google-login/", { email: e['emailAddresses'][0]['value'], external_id: e['data']['names'][0]['metadata']['source']['id']})
+      .post("/users/google-login/", { email: e['emailAddresses'][0]['value'], external_id: e['names'][0]['metadata']['source']['id']})
       .then((response) => {
         console.log(response);
-        // setAccessToken(response.data.access);
-        // axiosInstance.defaults.headers["Authorization"] =
-        //   "JWT " + response.data.access;
-        // localStorage.setItem("access_token", response.data.access);
-        // localStorage.setItem("refresh_token", response.data.refresh);
-
-        // setAuthentication(true);
-        // history.push(ROUTE.MY_FORMS);
       })
       .catch((error) => {
         setError(error.response.status);
