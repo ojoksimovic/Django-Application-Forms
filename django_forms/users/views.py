@@ -83,7 +83,9 @@ class CustomUserCreate(APIView):
     authentication_classes = ()
 
 
-class GoogleProfileInfo(APIView):
+class GoogleProfileInfoView(APIView):
+
+    permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
         access_token = request.data["access_token"]
@@ -91,10 +93,14 @@ class GoogleProfileInfo(APIView):
         headers = {"Authorization": f"Bearer {access_token}"}
         response = requests.get(url, headers=headers)
         profile_info = response.json()
-        print(profile_info)
+        if profile_info:
+            return Response(data= profile_info, status=status.HTTP_200_OK)
+        
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class GoogleLoginView(APIView):
+
+    permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
         email = request.data["email"]
@@ -127,5 +133,3 @@ class GoogleLoginView(APIView):
                     json = serializer.data
                     return Response(json, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
