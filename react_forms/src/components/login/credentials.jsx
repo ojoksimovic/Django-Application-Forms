@@ -60,49 +60,46 @@ export default function Credentials() {
   };
 
   const login = useGoogleLogin({
-    onSuccess:
-      (tokenResponse) => getProfileInfo(tokenResponse) 
-      & console.log(tokenResponse)
-      & setIsGoogleLogged(true),
-    prompt: "consent",
-    ux_mode: "redirect",
-    // on success:
-    // 2. update front end by adding state for Google Sign ins (may need to add internal access tokens), and forward user to main page.
-    // 1. send access_token to backend
-    // check if email exists
-    // if not, create user by accessing Google's People API (https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses)
-    // create column in django for Google ID
-
+    onSuccess: (tokenResponse) =>
+      getProfileInfo(tokenResponse)
     // add log out function to check if google logged
   });
 
   const getProfileInfo = (e) => {
-
     axiosInstance
-      .post("/users/google-profile/", { access_token: e['access_token']})
+      .post("/users/google-profile/", { access_token: e["access_token"] })
       .then((response) => {
         console.log(response);
-        submitGoogleProfile(response.data)
+        submitGoogleProfile(response.data);
       })
       .catch((error) => {
         setError(error.response.status);
       });
+  };
 
-};  
-
-const submitGoogleProfile = (e) => {
-  axiosInstance
-      .post("/users/google-login/", { email: e['emailAddresses'][0]['value'], external_id: e['names'][0]['metadata']['source']['id']})
-      .then((response) => {
-        console.log(response);
+  const submitGoogleProfile = (e) => {
+    axiosInstance
+      .post("/users/google-login/", {
+        email: e["emailAddresses"][0]["value"],
+        external_id: e["names"][0]["metadata"]["source"]["id"],
+        external_type: "google",
+        // send names to backend
       })
-      .catch((error) => {
-        setError(error.response.status);
-      });
+      .then((response) => {
+        setAccessToken(response.data.access);
+        axiosInstance.defaults.headers["Authorization"] =
+          "JWT " + response.data.access;
+        localStorage.setItem("access_token", response.data.access);
+        localStorage.setItem("refresh_token", response.data.refresh);
 
-};  
+        setAuthentication(true);
+        setIsGoogleLogged(true);
+        history.push(ROUTE.MY_FORMS);
+      })
+          // TO DO: obtain username and password from response, then call submit function
+  };
 
-return (
+  return (
     <Card
       style={{
         alignSelf: "center",
