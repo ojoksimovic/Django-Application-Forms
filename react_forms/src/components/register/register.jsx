@@ -244,7 +244,7 @@ export default function Register() {
                     Response Status: 500 Internal Server Error
                   </Typography>
                   <Typography variant="subtitle1" color="error">
-                    Username already exists.
+                    Username and/or email already exists.
                   </Typography>
                 </div>
               ) : null}
