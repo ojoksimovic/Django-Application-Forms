@@ -81,11 +81,6 @@ class LogoutAndBlacklistRefreshTokenForUserView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
 
 
-class CustomUserCreate(APIView):
-    permission_classes = (permissions.AllowAny,)
-    authentication_classes = ()
-
-
 class GoogleProfileInfoView(APIView):
 
     permission_classes = (permissions.AllowAny,)
