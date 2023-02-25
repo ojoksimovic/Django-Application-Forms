@@ -83,7 +83,8 @@ export default function Credentials() {
         email: e["emailAddresses"][0]["value"],
         external_id: e["names"][0]["metadata"]["source"]["id"],
         external_type: "google",
-        // send names to backend
+        first_name: e["names"][0]["givenName"],
+        last_name: e["names"][0]["familyName"]
       })
       .then((response) => {
         setAccessToken(response.data.access);
@@ -95,9 +96,7 @@ export default function Credentials() {
         setAuthentication(true);
         setIsGoogleLogged(true);
         history.push(ROUTE.MY_FORMS);
-      })
-          // TO DO: obtain username and password from response, then call submit function
-  };
+      })};
 
   return (
     <Card

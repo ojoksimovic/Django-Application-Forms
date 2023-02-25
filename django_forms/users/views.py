@@ -4,6 +4,7 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.models import BaseUserManager
 from .models import CustomUser
 import requests
 
@@ -35,9 +36,10 @@ class CustomUserEdit(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
 
+# updated to include email as identifier
     def patch(self, request, format=None):
-        username = request.data.get('username')
-        user_object = CustomUser.objects.get(username = username)
+        email = request.data.get('email')
+        user_object = CustomUser.objects.get(email = email)
         serializer = CustomUserSerializer(user_object, data=request.data, partial= True)
         if serializer.is_valid():
             user = serializer.save()
@@ -102,10 +104,10 @@ class GoogleProfileInfoView(APIView):
 class GoogleLoginView(APIView):
 
     permission_classes = (permissions.AllowAny,)
-    # add names to user account
 
     def post(self, request, format=None):
         email = request.data["email"]
+        request.data["username"] = BaseUserManager.normalize_email(email)
         external_id = request.data["external_id"]
         external_type = request.data["external_type"]
         dataset_external_id = CustomUser.objects.filter(external_id = external_id, external_type = external_type)
@@ -143,5 +145,3 @@ class GoogleLoginView(APIView):
         refresh_token = str(refresh)
 
         return Response({'data': json, 'access': access_token, 'refresh': refresh_token}, status=status.HTTP_200_OK)
-
-            # TO DO: assign username and password for gmail users to allow for internal JWT authentication
