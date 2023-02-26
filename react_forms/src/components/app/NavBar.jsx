@@ -81,7 +81,9 @@ const NavBar = () => {
     authentication,
     setAuthentication,
     state,
-    setState, rows, setRows, convertDate, createRows
+    setState, rows, setRows, convertDate, createRows,
+    isGoogleLogged,
+    setIsGoogleLogged,
   } = useContext(Context);
 
   const [open, setOpen] = useState(true);
@@ -117,6 +119,9 @@ const NavBar = () => {
       setAuthentication(false);
       history.push(ROUTE.LOGOUT);
       axiosInstance.defaults.headers['Authorization'] = null;
+      if (isGoogleLogged) {
+        setIsGoogleLogged(false)
+      };
       return response;
   }
   catch (e) {
