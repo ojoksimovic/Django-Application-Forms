@@ -38,8 +38,8 @@ class CustomUserEdit(APIView):
 
 # updated to include email as identifier
     def patch(self, request, format=None):
-        email = request.data.get('email')
-        user_object = CustomUser.objects.get(email = email)
+        username = request.data.get('username')
+        user_object = CustomUser.objects.get(username = username)
         serializer = CustomUserSerializer(user_object, data=request.data, partial= True)
         if serializer.is_valid():
             user = serializer.save()
