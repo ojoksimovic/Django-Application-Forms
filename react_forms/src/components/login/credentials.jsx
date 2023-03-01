@@ -15,6 +15,8 @@ import axios from "axios";
 import axiosInstance from "../app/api";
 import { useGoogleLogin } from "@react-oauth/google";
 import googleLogo from "./google-icon.png";
+import microsoftLogo from "./microsoft-icon.png";
+
 
 export default function Credentials() {
   const {
@@ -179,7 +181,7 @@ export default function Credentials() {
           </div>
 
           <Button
-            onClick={() => login()}
+            // onClick={() => loginOutlook()}
             className="login-button"
             variant="contained"
             align="center"
@@ -190,6 +192,33 @@ export default function Credentials() {
               color: "white",
               marginTop: 20,
               padding: 15,
+            }}
+          >
+            <img
+              src={microsoftLogo}
+              style={{
+                width: 20,
+                marginRight: 10,
+                verticalAlign: "middle",
+              }}
+            />
+            <Typography variant="body1" component="h5">
+              Continue with Microsoft Account
+            </Typography>
+          </Button>
+
+          <Button
+            onClick={() => login()}
+            className="login-button"
+            variant="contained"
+            align="center"
+            style={{
+              textTransform: "none",
+              width: "100%",
+              backgroundColor: "#337AB7",
+              color: "white",
+              marginTop: 20,
+              padding: 15
             }}
           >
             <img
