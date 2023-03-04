@@ -18,6 +18,8 @@ export const withContext = (Component) => {
         const [navBarInfo, setNavBarInfo] = useState();
         const [role, setRole] = useState('student');
         const [isGoogleLogged, setIsGoogleLogged] = useState(false);
+        const [isMicrosoftLogged, setIsMicrosoftLogged] = useState(false);
+        const [microsoftAccessToken, setMicrosoftAccessToken] = useState();
         const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
         const getUserInfo = () => {
@@ -50,7 +52,7 @@ export const withContext = (Component) => {
           }};
         
 
-      return <Context.Provider value={{role, setRole, isMobile, navBarInfo, setNavBarInfo, convertDate, rows, setRows, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken, isGoogleLogged, setIsGoogleLogged}} displayName='Authentication Context'>
+      return <Context.Provider value={{role, setRole, isMobile, navBarInfo, setNavBarInfo, convertDate, rows, setRows, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken, isGoogleLogged, setIsGoogleLogged, isMicrosoftLogged, setIsMicrosoftLogged, microsoftAccessToken, setMicrosoftAccessToken}} displayName='Authentication Context'>
           <Component />
       </Context.Provider>
     }

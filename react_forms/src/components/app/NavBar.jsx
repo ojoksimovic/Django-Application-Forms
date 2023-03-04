@@ -22,9 +22,8 @@ import ROUTE from "./route";
 import "./style.css";
 import { Context, withContext } from "../app/context";
 import { useHistory } from "react-router-dom";
-import axiosInstance from './api';
-
-
+import axiosInstance from "./api";
+import { useMsal } from "@azure/msal-react";
 
 const drawerWidth = 240;
 
@@ -70,64 +69,77 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
 const NavBar = () => {
-  
-  const {isMobile, navBarInfo, setNavBarInfo, 
+  const {
+    isMobile,
+    navBarInfo,
+    setNavBarInfo,
     userInfo,
     setUserInfo,
     getUserInfo,
     authentication,
     setAuthentication,
     state,
-    setState, rows, setRows, convertDate, createRows,
+    setState,
+    rows,
+    setRows,
+    convertDate,
+    createRows,
     isGoogleLogged,
     setIsGoogleLogged,
+    isMicrosoftLogged,
+    setIsMicrosoftLogged,
   } = useContext(Context);
 
   const [open, setOpen] = useState(true);
   const [securityOpen, setSecurityOpen] = useState(true);
   const [loaded, setLoaded] = useState(false);
-
-
-
   const history = useHistory();
 
-
   useEffect(() => {
-    if (!loaded){
-      getUserInfo()
-      if (isMobile){setState(false)}
-      setLoaded(true)}
+    if (!loaded) {
+      getUserInfo();
+      if (isMobile) {
+        setState(false);
+      }
+      setLoaded(true);
+    }
     return () => {
       setUserInfo(null);
     };
   }, []);
 
+  //Microsoft Account (MSAL)
+  const { instance } = useMsal();
+
   const handleLogoutClick = async () => {
     try {
-      const response = await axiosInstance.post('/users/blacklist/', {
-          "refresh_token": localStorage.getItem("refresh_token")
+      const response = await axiosInstance.post("/users/blacklist/", {
+        refresh_token: localStorage.getItem("refresh_token"),
       });
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
       setLoaded(false);
       setNavBarInfo();
       setRows([]);
       setUserInfo(null);
       setAuthentication(false);
       history.push(ROUTE.LOGOUT);
-      axiosInstance.defaults.headers['Authorization'] = null;
+      axiosInstance.defaults.headers["Authorization"] = null;
       if (isGoogleLogged) {
-        setIsGoogleLogged(false)
-      };
+        setIsGoogleLogged(false);
+      }
+      if (isMicrosoftLogged) {
+        instance.logoutPopup({
+          postLogoutRedirectUri: "/",
+          mainWindowRedirectUri: "/", // redirects the top level app after logout
+        });
+        setIsMicrosoftLogged(false);
+      }
       return response;
-  }
-  catch (e) {
+    } catch (e) {
       console.log(e);
-  }
-
+    }
   };
   const handleHamburgerClick = () => {
     setState(!state);
@@ -198,24 +210,24 @@ const NavBar = () => {
           </div>
           <Divider />
           <List>
-            <ListItem button onClick={(() => setOpen(!open))}>
+            <ListItem button onClick={() => setOpen(!open)}>
               <ListItemText primary="Forms" />
 
               {open ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding style={{ paddingLeft: 20}}>
+              <List component="div" disablePadding style={{ paddingLeft: 20 }}>
                 <ListItem button component={Link} to={ROUTE.MY_FORMS}>
-                  <ListItemText style = {{color: 'black'}} primary="My Forms" />
+                  <ListItemText style={{ color: "black" }} primary="My Forms" />
                 </ListItem>
                 <ListItem button component={Link} to={ROUTE.NEW_FORM}>
-                  <ListItemText style = {{color: 'black'}} primary="New Form" />
+                  <ListItemText style={{ color: "black" }} primary="New Form" />
                 </ListItem>
               </List>
             </Collapse>
           </List>
           <List>
-            <ListItem button onClick={(() => setSecurityOpen(!securityOpen))}>
+            <ListItem button onClick={() => setSecurityOpen(!securityOpen)}>
               <ListItemText primary="Security" />
 
               {securityOpen ? <ExpandLess /> : <ExpandMore />}
@@ -223,10 +235,10 @@ const NavBar = () => {
             <Collapse in={securityOpen} timeout="auto" unmountOnExit>
               <List component="div" disablePadding style={{ paddingLeft: 20 }}>
                 <ListItem button>
-                  <ListItemText style = {{color: 'black'}}  primary="Groups" />
+                  <ListItemText style={{ color: "black" }} primary="Groups" />
                 </ListItem>
                 <ListItem button>
-                  <ListItemText style = {{color: 'black'}}  primary="Users" />
+                  <ListItemText style={{ color: "black" }} primary="Users" />
                 </ListItem>
               </List>
             </Collapse>

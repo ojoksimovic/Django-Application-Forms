@@ -29,6 +29,10 @@ export default function Credentials() {
     setrefreshToken,
     isGoogleLogged,
     setIsGoogleLogged,
+    isMicrosoftLogged,
+    setIsMicrosoftLogged,
+    microsoftAccessToken, 
+    setMicrosoftAccessToken,
   } = useContext(Context);
   const history = useHistory();
   const [username, setUsername] = useState();
@@ -62,10 +66,10 @@ export default function Credentials() {
     setPassword(e.target.value);
   };
 
+  // Google Login
+
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) =>
-      getProfileInfo(tokenResponse)
-    // add log out function to check if google logged
+    onSuccess: (tokenResponse) => getProfileInfo(tokenResponse)
   });
 
   const getProfileInfo = (e) => {
@@ -87,7 +91,7 @@ export default function Credentials() {
         external_id: e["names"][0]["metadata"]["source"]["id"],
         external_type: "google",
         first_name: e["names"][0]["givenName"],
-        last_name: e["names"][0]["familyName"]
+        last_name: e["names"][0]["familyName"],
       })
       .then((response) => {
         setAccessToken(response.data.access);
@@ -99,17 +103,56 @@ export default function Credentials() {
         setAuthentication(true);
         setIsGoogleLogged(true);
         history.push(ROUTE.MY_FORMS);
-      })};
+      });
+  };
 
-      const { instance } = useMsal();
+// Microsoft Login
 
-      const handleMicrosoftLogin = (loginType) => {
-          if (loginType === "popup") {
-              instance.loginPopup(loginRequest).catch(e => {
-                  console.log(e);
-              });
-          }
-      }
+  const { instance } = useMsal();
+
+  const getName = (fullName) => {
+    const nameArray = fullName.split(" ");
+    const surname = nameArray.pop();
+    const givenName = nameArray.join(" ");
+    return {givenName: givenName, surname: surname}
+  }
+
+  const handleMicrosoftLogin = (loginType) => {
+    if (loginType === "popup") {
+      instance
+        .loginPopup(loginRequest)
+        .then((response) => {
+          submitMicrosoftProfile(response);
+          setMicrosoftAccessToken(response.accessToken)
+        })
+        .catch((error) => {
+          console.log(error);
+          instance.loginPopup(loginRequest);
+        });
+    }
+  };
+
+  const submitMicrosoftProfile = (e) => {
+    axiosInstance
+      .post("/users/google-login/", {
+        email: e.account.username,
+        external_id: e.account.localAccountId,
+        external_type: "microsoft",
+        first_name: getName(e.account.name).givenName,
+        last_name: getName(e.account.name).surname,
+      })
+      .then((response) => {
+        setAccessToken(response.data.access);
+        axiosInstance.defaults.headers["Authorization"] =
+          "JWT " + response.data.access;
+        localStorage.setItem("access_token", response.data.access);
+        localStorage.setItem("refresh_token", response.data.refresh);
+
+        setAuthentication(true);
+        setIsMicrosoftLogged(true);
+        history.push(ROUTE.MY_FORMS);
+      });
+  };
 
   return (
     <Card
@@ -229,7 +272,7 @@ export default function Credentials() {
               backgroundColor: "#337AB7",
               color: "white",
               marginTop: 20,
-              padding: 15
+              padding: 15,
             }}
           >
             <img
