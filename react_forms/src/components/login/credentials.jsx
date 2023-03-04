@@ -16,7 +16,8 @@ import axiosInstance from "../app/api";
 import { useGoogleLogin } from "@react-oauth/google";
 import googleLogo from "./google-icon.png";
 import microsoftLogo from "./microsoft-icon.png";
-
+import { useMsal } from "@azure/msal-react";
+import { loginRequest } from "./authConfig";
 
 export default function Credentials() {
   const {
@@ -100,6 +101,16 @@ export default function Credentials() {
         history.push(ROUTE.MY_FORMS);
       })};
 
+      const { instance } = useMsal();
+
+      const handleMicrosoftLogin = (loginType) => {
+          if (loginType === "popup") {
+              instance.loginPopup(loginRequest).catch(e => {
+                  console.log(e);
+              });
+          }
+      }
+
   return (
     <Card
       style={{
@@ -181,7 +192,7 @@ export default function Credentials() {
           </div>
 
           <Button
-            // onClick={() => loginOutlook()}
+            onClick={() => handleMicrosoftLogin("popup")}
             className="login-button"
             variant="contained"
             align="center"
