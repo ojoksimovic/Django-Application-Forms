@@ -96,7 +96,7 @@ class GoogleProfileInfoView(APIView):
         
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-class GoogleLoginView(APIView):
+class ExternalLoginView(APIView):
 
     permission_classes = (permissions.AllowAny,)
 

@@ -86,7 +86,7 @@ export default function Credentials() {
 
   const submitGoogleProfile = (e) => {
     axiosInstance
-      .post("/users/google-login/", {
+      .post("/users/external-login/", {
         email: e["emailAddresses"][0]["value"],
         external_id: e["names"][0]["metadata"]["source"]["id"],
         external_type: "google",
@@ -134,7 +134,7 @@ export default function Credentials() {
 
   const submitMicrosoftProfile = (e) => {
     axiosInstance
-      .post("/users/google-login/", {
+      .post("/users/external-login/", {
         email: e.account.username,
         external_id: e.account.localAccountId,
         external_type: "microsoft",
