@@ -31,7 +31,7 @@ export default function Credentials() {
     setIsGoogleLogged,
     isMicrosoftLogged,
     setIsMicrosoftLogged,
-    microsoftAccessToken, 
+    microsoftAccessToken,
     setMicrosoftAccessToken,
   } = useContext(Context);
   const history = useHistory();
@@ -69,44 +69,27 @@ export default function Credentials() {
   // Google Login
 
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => getProfileInfo(tokenResponse)
+    onSuccess: (tokenResponse) => getProfileInfo(tokenResponse),
   });
 
   const getProfileInfo = (e) => {
     axiosInstance
       .post("/users/google-profile/", { access_token: e["access_token"] })
       .then((response) => {
-        console.log(response);
-        submitGoogleProfile(response.data);
+        submitExternalProfile(
+          response.data["emailAddresses"][0]["value"],
+          response.data["names"][0]["metadata"]["source"]["id"],
+          "google",
+          response.data["names"][0]["givenName"],
+          response.data["names"][0]["familyName"]
+        );
       })
       .catch((error) => {
         setError(error.response.status);
       });
   };
 
-  const submitGoogleProfile = (e) => {
-    axiosInstance
-      .post("/users/external-login/", {
-        email: e["emailAddresses"][0]["value"],
-        external_id: e["names"][0]["metadata"]["source"]["id"],
-        external_type: "google",
-        first_name: e["names"][0]["givenName"],
-        last_name: e["names"][0]["familyName"],
-      })
-      .then((response) => {
-        setAccessToken(response.data.access);
-        axiosInstance.defaults.headers["Authorization"] =
-          "JWT " + response.data.access;
-        localStorage.setItem("access_token", response.data.access);
-        localStorage.setItem("refresh_token", response.data.refresh);
-
-        setAuthentication(true);
-        setIsGoogleLogged(true);
-        history.push(ROUTE.MY_FORMS);
-      });
-  };
-
-// Microsoft Login
+  // Microsoft Login
 
   const { instance } = useMsal();
 
@@ -114,16 +97,22 @@ export default function Credentials() {
     const nameArray = fullName.split(" ");
     const surname = nameArray.pop();
     const givenName = nameArray.join(" ");
-    return {givenName: givenName, surname: surname}
-  }
+    return { givenName: givenName, surname: surname };
+  };
 
   const handleMicrosoftLogin = (loginType) => {
     if (loginType === "popup") {
       instance
         .loginPopup(loginRequest)
         .then((response) => {
-          submitMicrosoftProfile(response);
-          setMicrosoftAccessToken(response.accessToken)
+          submitExternalProfile(
+            response.account.username,
+            response.account.localAccountId,
+            "microsoft",
+            getName(response.account.name).givenName,
+            getName(response.account.name).surname
+          );
+          setMicrosoftAccessToken(response.accessToken);
         })
         .catch((error) => {
           console.log(error);
@@ -132,14 +121,20 @@ export default function Credentials() {
     }
   };
 
-  const submitMicrosoftProfile = (e) => {
+  const submitExternalProfile = (
+    email,
+    external_id,
+    external_type,
+    first_name,
+    last_name
+  ) => {
     axiosInstance
       .post("/users/external-login/", {
-        email: e.account.username,
-        external_id: e.account.localAccountId,
-        external_type: "microsoft",
-        first_name: getName(e.account.name).givenName,
-        last_name: getName(e.account.name).surname,
+        email: email,
+        external_id: external_id,
+        external_type: external_type,
+        first_name: first_name,
+        last_name: last_name,
       })
       .then((response) => {
         setAccessToken(response.data.access);
@@ -148,8 +143,12 @@ export default function Credentials() {
         localStorage.setItem("access_token", response.data.access);
         localStorage.setItem("refresh_token", response.data.refresh);
 
+        if (external_type == "microsoft") {
+          setIsMicrosoftLogged(true);
+        } else if (external_type == "google") {
+          setIsGoogleLogged(true);
+        }
         setAuthentication(true);
-        setIsMicrosoftLogged(true);
         history.push(ROUTE.MY_FORMS);
       });
   };
