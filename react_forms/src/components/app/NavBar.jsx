@@ -113,6 +113,14 @@ const NavBar = () => {
   const { instance } = useMsal();
 
   const handleLogoutClick = async () => {
+    
+    // if Microsoft Account is logged in, wait for user to sign out
+    if (isMicrosoftLogged) {
+      instance.logoutRedirect({
+        postLogoutRedirectUri: "/",
+      });
+    }
+    // sign user out of app
     try {
       const response = await axiosInstance.post("/users/blacklist/", {
         refresh_token: localStorage.getItem("refresh_token"),
@@ -128,13 +136,6 @@ const NavBar = () => {
       axiosInstance.defaults.headers["Authorization"] = null;
       if (isGoogleLogged) {
         setIsGoogleLogged(false);
-      }
-      if (isMicrosoftLogged) {
-        instance.logoutPopup({
-          postLogoutRedirectUri: "/",
-          mainWindowRedirectUri: "/", // redirects the top level app after logout
-        });
-        setIsMicrosoftLogged(false);
       }
       return response;
     } catch (e) {
