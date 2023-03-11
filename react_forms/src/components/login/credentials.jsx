@@ -116,7 +116,6 @@ export default function Credentials() {
         })
         .catch((error) => {
           console.log(error);
-          instance.loginPopup(loginRequest);
         });
     }
   };
