@@ -116,8 +116,9 @@ const NavBar = () => {
     
     // if Microsoft Account is logged in, wait for user to sign out
     if (isMicrosoftLogged) {
-      instance.logoutRedirect({
+      instance.logoutPopup({
         postLogoutRedirectUri: "/",
+        mainWindowRedirectUri: "/",
       });
     }
     // sign user out of app
