@@ -8,6 +8,7 @@ import {
   Button,
   Typography,
 } from "@material-ui/core";
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { Context, withContext } from "../app/context";
 import { useHistory, Link as Links } from "react-router-dom";
 import ROUTE from "../app/route";
@@ -38,9 +39,11 @@ export default function Credentials() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
+  const [loggingIn, setLoggingIn] = useState(false);
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setLoggingIn(true);
     axiosInstance
       .post("/users/token/obtain/", { username: username, password: password })
       .then((response) => {
@@ -51,6 +54,7 @@ export default function Credentials() {
         localStorage.setItem("refresh_token", response.data.refresh);
 
         setAuthentication(true);
+        setLoggingIn(false);
         history.push(ROUTE.MY_FORMS);
       })
       .catch((error) => {
@@ -69,10 +73,10 @@ export default function Credentials() {
   // Google Login
 
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => getProfileInfo(tokenResponse),
+    onSuccess: (tokenResponse) => getGoogleProfileInfo(tokenResponse),
   });
 
-  const getProfileInfo = (e) => {
+  const getGoogleProfileInfo = (e) => {
     axiosInstance
       .post("/users/google-profile/", { access_token: e["access_token"] })
       .then((response) => {
@@ -127,6 +131,7 @@ export default function Credentials() {
     first_name,
     last_name
   ) => {
+    setLoggingIn(true);
     axiosInstance
       .post("/users/external-login/", {
         email: email,
@@ -148,6 +153,7 @@ export default function Credentials() {
           setIsGoogleLogged(true);
         }
         setAuthentication(true);
+        setLoggingIn(false);
         history.push(ROUTE.MY_FORMS);
       });
   };
@@ -171,6 +177,14 @@ export default function Credentials() {
         </Typography>
       </CardContent>
 
+{loggingIn ?
+
+<CardContent  style = {{padding: "50px"}}>
+<Typography variant = "h6" component = "h2">
+Signing in... please wait
+</Typography>
+<LinearProgress  style = {{margin: "20px 0px 0px 0px"}}/>
+</CardContent> :
       <CardContent style={{ padding: "50px" }}>
         <Typography variant="h6" component="p" style={{ marginBottom: 20 }}>
           Please enter your credentials.
@@ -312,6 +326,7 @@ export default function Credentials() {
           ) : null}
         </form>
       </CardContent>
+      }
     </Card>
   );
 }
