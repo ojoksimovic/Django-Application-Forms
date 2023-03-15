@@ -605,6 +605,28 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
               variant="body1"
               className="form-field-title"
             >
+              Additional Documentation
+            </Typography>
+
+            <div>
+      <input
+        accept="image/*"
+        id="contained-button-file"
+        multiple
+        type="file"
+        style = {{display: "none"}}
+      />
+      <label htmlFor="contained-button-file">
+        <Button variant="contained" color="primary" component="span">
+          Upload
+        </Button>
+      </label>
+    </div>
+    {/* INSERT DOCUMENTS */}
+            <Typography
+              variant="body1"
+              className="form-field-title"
+            >
               Please confirm by checking the box below that:
             </Typography>
             <Typography variant="body1">
@@ -869,6 +891,14 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                 </Typography>
               </RadioGroup>
             </FormControl>
+            <Typography
+              variant="body1"
+              className="form-field-title"
+            >
+              Additional Documentation
+            </Typography>
+
+            {/* INSERT DOCUMENT HYPERLINKS */}
             <Typography
               gutterBottom
               variant="body1"
