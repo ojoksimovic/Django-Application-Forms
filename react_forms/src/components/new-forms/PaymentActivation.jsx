@@ -51,7 +51,7 @@ export default function PaymentActivation() {
   const [error, setError] = useState();
   const [departmentList, setDepartmentList] = useState([]);
   const [programList, setProgramList] = useState([]);
-
+  const [file, setFile] = useState();
 
   const history = useHistory();
   const myRef = useRef(null);
@@ -171,6 +171,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
         award_duration: duration,
         type_payment_request: paymentType,
         award_start_session: startDateAward,
+        file: file,
         submitted: submit,
       })
     : createPaymentActivationForm({
@@ -184,6 +185,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
         award_duration: duration,
         type_payment_request: paymentType,
         award_start_session: startDateAward,
+        file: file,
         submitted: submit,
       });
   }
@@ -240,6 +242,10 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
 
 
     }
+  }
+
+  const handleFileChange = (file) => {
+    setFile(file.target.files[0]);
   }
 
   const handleSubmit = () => {
@@ -615,6 +621,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
         multiple
         type="file"
         style = {{display: "none"}}
+        onChange = {handleFileChange}
       />
       <label htmlFor="contained-button-file">
         <Button variant="contained" color="primary" component="span">
