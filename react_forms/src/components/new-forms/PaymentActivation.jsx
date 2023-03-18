@@ -30,7 +30,7 @@ import ROUTE from "../app/route";
 import axios from 'axios';
 import axiosInstance from '../app/api';
 import {departmentsObject} from './departments';
-
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 
 export default function PaymentActivation() {
   const [activeStep, setActiveStep] = useState(0);
@@ -52,6 +52,7 @@ export default function PaymentActivation() {
   const [departmentList, setDepartmentList] = useState([]);
   const [programList, setProgramList] = useState([]);
   const [file, setFile] = useState();
+  const [pdfData, setPdfData] = useState();
 
   const history = useHistory();
   const myRef = useRef(null);
@@ -246,7 +247,12 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
 
   const handleFileChange = (file) => {
     setFile(file.target.files[0]);
-  }
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file.target.files[0]);
+    reader.onload = () => {
+        setPdfData(new Uint8Array(reader.result));
+    };
+};
 
   const handleSubmit = () => {
     setSubmit(true)
@@ -629,8 +635,10 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
         </Button>
       </label>
     </div>
-    {/* INSERT DOCUMENTS */}
-            <Typography
+    <div>
+    <Document file={pdfData}>
+                        <Page pageNumber="1" />
+                    </Document>     </div>       <Typography
               variant="body1"
               className="form-field-title"
             >
