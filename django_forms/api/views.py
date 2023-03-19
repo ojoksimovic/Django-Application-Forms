@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 from rest_framework import generics, status
 from .models import Test, Payment_Activation, OGS
-from .serializers import TestSerializer, PaymentActivationSerializer, OGSSerializer
+from .serializers import TestSerializer, PaymentActivationSerializer, OGSSerializer, DocumentSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -11,6 +11,13 @@ from users.models import CustomUser
 from users.serializers import CustomUserSerializer
 from django.db.models.query_utils import Q
 
+
+def upload_document(request):
+    serializer = DocumentSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=201)
+    return Response(serializer.errors, status=400)
 
 class TestView(viewsets.ViewSet):
     queryset = Test.objects.all()
@@ -93,3 +100,4 @@ class OGSView(generics.ListAPIView):
             return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Application Not Submitted!'}, status=status.status.HTTP_400_BAD_REQUEST)
+        

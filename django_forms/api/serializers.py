@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Test, Payment_Activation, OGS
+from .models import Test, Payment_Activation, OGS, Document
 
 class TestSerializer(serializers.ModelSerializer):
   class Meta:
@@ -19,3 +19,8 @@ class OGSSerializer(serializers.ModelSerializer):
     class Meta:
       model = OGS
       fields = '__all__'
+
+class DocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Document
+        fields = '__all__'
