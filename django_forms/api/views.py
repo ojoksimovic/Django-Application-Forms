@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate
 from rest_framework import generics, status
+from rest_framework.decorators import api_view
 from .models import Test, Payment_Activation, OGS
 from .serializers import TestSerializer, PaymentActivationSerializer, OGSSerializer, DocumentSerializer
 from rest_framework.views import APIView
@@ -11,13 +12,17 @@ from users.models import CustomUser
 from users.serializers import CustomUserSerializer
 from django.db.models.query_utils import Q
 
+class DocumentView(generics.ListAPIView):
+    serializer_class=DocumentSerializer
 
-def upload_document(request):
-    serializer = DocumentSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=201)
-    return Response(serializer.errors, status=400)
+    def post(self, request, format=None):
+        # request.data["user"] = request.user
+        print(request.data)
+        serializer = self.serializer_class(data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
 class TestView(viewsets.ViewSet):
     queryset = Test.objects.all()

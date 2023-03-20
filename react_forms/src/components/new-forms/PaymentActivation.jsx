@@ -30,7 +30,6 @@ import ROUTE from "../app/route";
 import axios from 'axios';
 import axiosInstance from '../app/api';
 import {departmentsObject} from './departments';
-import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 
 export default function PaymentActivation() {
   const [activeStep, setActiveStep] = useState(0);
@@ -245,13 +244,19 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
     }
   }
 
-  const handleFileChange = (file) => {
-    setFile(file.target.files[0]);
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(file.target.files[0]);
-    reader.onload = () => {
-        setPdfData(new Uint8Array(reader.result));
-    };
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+    
+      };
+
+  const handleDocumentUpload = () => {
+    console.log(file)
+    const formData = new FormData();
+    formData.append('file', file);
+    axiosInstance
+      .post('/api/upload/', formData)
+        .then(response => console.log(response.data))
+        .catch(error => console.log(error));
 };
 
   const handleSubmit = () => {
@@ -634,11 +639,9 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
           Upload
         </Button>
       </label>
+      <Button variant = "contained" onClick={handleDocumentUpload}>Click Me!</Button>
     </div>
-    <div>
-    <Document file={pdfData}>
-                        <Page pageNumber="1" />
-                    </Document>     </div>       <Typography
+      <Typography
               variant="body1"
               className="form-field-title"
             >
