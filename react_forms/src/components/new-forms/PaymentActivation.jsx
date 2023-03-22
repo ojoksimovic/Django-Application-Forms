@@ -51,7 +51,6 @@ export default function PaymentActivation() {
   const [departmentList, setDepartmentList] = useState([]);
   const [programList, setProgramList] = useState([]);
   const [file, setFile] = useState();
-  const [pdfData, setPdfData] = useState();
 
   const history = useHistory();
   const myRef = useRef(null);
