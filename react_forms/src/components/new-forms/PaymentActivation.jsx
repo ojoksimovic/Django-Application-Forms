@@ -50,7 +50,7 @@ export default function PaymentActivation() {
   const [error, setError] = useState();
   const [departmentList, setDepartmentList] = useState([]);
   const [programList, setProgramList] = useState([]);
-  const [file, setFile] = useState();
+  const [documents, setDocuments] = useState([]);
 
   const history = useHistory();
   const myRef = useRef(null);
@@ -170,7 +170,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
         award_duration: duration,
         type_payment_request: paymentType,
         award_start_session: startDateAward,
-        file: file,
+        documents: documents,
         submitted: submit,
       })
     : createPaymentActivationForm({
@@ -184,7 +184,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
         award_duration: duration,
         type_payment_request: paymentType,
         award_start_session: startDateAward,
-        file: file,
+        documents: documents,
         submitted: submit,
       });
   }
@@ -244,14 +244,15 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
   }
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-    
+    const newDocument = e.target.files[0]
+    setDocuments(documents => [...documents, newDocument]);
+    handleDocumentUpload(newDocument)
       };
 
-  const handleDocumentUpload = () => {
-    console.log(file)
+  const handleDocumentUpload = (e) => {
+    console.log(e)
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', e);
     axiosInstance
       .post('/api/upload/', formData)
         .then(response => console.log(response.data))
@@ -638,7 +639,6 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
           Upload
         </Button>
       </label>
-      <Button variant = "contained" onClick={handleDocumentUpload}>Click Me!</Button>
     </div>
       <Typography
               variant="body1"
@@ -914,8 +914,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
             >
               Additional Documentation
             </Typography>
-
-            {/* INSERT DOCUMENT HYPERLINKS */}
+              {documents?.map((document) => (<p>{document.name}</p>))}
             <Typography
               gutterBottom
               variant="body1"
