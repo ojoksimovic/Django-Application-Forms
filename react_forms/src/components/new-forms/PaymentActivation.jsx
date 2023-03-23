@@ -624,7 +624,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
             >
               Additional Documentation
             </Typography>
-
+            {documents?.map((document) => (<Typography variant = "subtitle2">{document.name}</Typography>))}
             <div>
       <input
         accept="image/*"
@@ -914,7 +914,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
             >
               Additional Documentation
             </Typography>
-              {documents?.map((document) => (<p>{document.name}</p>))}
+              {documents?.map((document) => (<Typography variant = "subtitle2">{document.name}</Typography>))}
             <Typography
               gutterBottom
               variant="body1"
