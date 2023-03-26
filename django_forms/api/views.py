@@ -16,7 +16,7 @@ class DocumentView(generics.ListAPIView):
     serializer_class=DocumentSerializer
 
     def post(self, request, format=None):
-        # request.data["user"] = request.user
+        request.data["user"] = request.user
         print(request.data)
         serializer = self.serializer_class(data=request.data, partial=True)
         if serializer.is_valid():
@@ -66,13 +66,29 @@ class PaymentActivationView(generics.ListAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
-        serializer = PaymentActivationSerializer(data=request.data, partial=True)
-        if serializer.is_valid():
-            payment_activation_form = serializer.save()
+        print(request)
+        print(request.data)
+        form_serializer = PaymentActivationSerializer(data=request.data, partial=True)
+        if form_serializer.is_valid():
+            payment_activation_form = form_serializer.save()
+        
+
+        # TO DO: TROUBLE SHOOT THE BELOW. DOCUMENTS IN LIST CANNOT BE FOUND
+            # Save Documents
+            for document in request.data['documents']:
+                print(document)
+                document_serializer=DocumentSerializer(data={
+            'form': payment_activation_form.pk,
+            'name': document['name'],
+            'file': document
+                })
+                if document_serializer.is_valid():
+                    document_serializer.save()
+    
             if payment_activation_form:
-                json = serializer.data
+                json = form_serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(form_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, format=None):
         confirmation_number = request.data.get('confirmation_number')

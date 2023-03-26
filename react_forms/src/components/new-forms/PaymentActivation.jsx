@@ -80,6 +80,12 @@ export default function PaymentActivation() {
   }
 
   const createPaymentActivationForm = (data) => {
+    const formData = new FormData();
+    for (let i = 0; i < data.documents.length; i++) {
+      formData.append("documents", data.documents[i]);
+    }
+    data.documents = formData
+    console.log(data)
     axiosInstance
     .post(
       '/api/payment-activation/', data
@@ -246,7 +252,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
   const handleFileChange = (e) => {
     const newDocument = e.target.files[0]
     setDocuments(documents => [...documents, newDocument]);
-    handleDocumentUpload(newDocument)
+    // handleDocumentUpload(newDocument)
       };
 
   const handleDocumentUpload = (e) => {
