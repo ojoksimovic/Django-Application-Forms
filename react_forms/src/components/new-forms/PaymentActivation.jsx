@@ -81,14 +81,20 @@ export default function PaymentActivation() {
 
   const createPaymentActivationForm = (data) => {
     const formData = new FormData();
-    for (let i = 0; i < data.documents.length; i++) {
-      formData.append("documents", data.documents[i]);
+
+    Object.entries(data).forEach(([name, value]) => {
+      formData.append(name, value);
+    });
+
+    for (let i = 0; i < documents.length; i++) {
+      formData.append("documents", documents[i]);
     }
-    data.documents = formData
-    console.log(data)
+
+    console.log(formData)
+    
     axiosInstance
     .post(
-      '/api/payment-activation/', data
+      '/api/payment-activation/', formData
     )
     .then(response => { setFormInfo(response.data)
   })
@@ -176,7 +182,6 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
         award_duration: duration,
         type_payment_request: paymentType,
         award_start_session: startDateAward,
-        documents: documents,
         submitted: submit,
       })
     : createPaymentActivationForm({
@@ -190,7 +195,6 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
         award_duration: duration,
         type_payment_request: paymentType,
         award_start_session: startDateAward,
-        documents: documents,
         submitted: submit,
       });
   }

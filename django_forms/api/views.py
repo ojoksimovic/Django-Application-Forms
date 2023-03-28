@@ -67,19 +67,15 @@ class PaymentActivationView(generics.ListAPIView):
 
     def post(self, request, format=None):
         print(request)
-        print(request.data)
         form_serializer = PaymentActivationSerializer(data=request.data, partial=True)
         if form_serializer.is_valid():
             payment_activation_form = form_serializer.save()
         
-
-        # TO DO: TROUBLE SHOOT THE BELOW. DOCUMENTS IN LIST CANNOT BE FOUND
-            # Save Documents
-            for document in request.data['documents']:
+            for document in request.data.getlist('documents'):
                 print(document)
                 document_serializer=DocumentSerializer(data={
             'form': payment_activation_form.pk,
-            'name': document['name'],
+            'name': document.name,
             'file': document
                 })
                 if document_serializer.is_valid():
