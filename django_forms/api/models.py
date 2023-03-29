@@ -92,6 +92,6 @@ class Payment_Activation(models.Model):
     admin_confirmation_number = models.CharField(max_length = 25, default = generate_confirmation_number, unique=True)
 
 class Document(models.Model):
-    form = models.ForeignKey(Payment_Activation, related_name='document', on_delete=models.CASCADE)
+    form = models.ForeignKey(Payment_Activation, related_name='documents', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     file = models.FileField(upload_to='documents/')
