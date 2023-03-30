@@ -20,16 +20,16 @@ import {
   FormControlLabel,
   InputLabel,
   Select,
-  Paper
+  Paper,
 } from "@material-ui/core";
-import {Alert, AlertTitle} from '@material-ui/lab'
+import { Alert, AlertTitle } from "@material-ui/lab";
 import NavBar from "../app/NavBar";
 import { Context, withContext } from "../app/context";
 import { useHistory } from "react-router-dom";
 import ROUTE from "../app/route";
-import axios from 'axios';
-import axiosInstance from '../app/api';
-import {departmentsObject} from './departments';
+import axios from "axios";
+import axiosInstance from "../app/api";
+import { departmentsObject } from "./departments";
 
 export default function PaymentActivation() {
   const [activeStep, setActiveStep] = useState(0);
@@ -70,14 +70,15 @@ export default function PaymentActivation() {
 
   const getPaymentActivationForm = () => {
     axiosInstance
-    .get(
-      '/api/payment-activation/'
-    )
-    .then(response => { console.log(response.data)
-  })
-    .catch(error => {setError(error.response.status)
-    console.log(error.response)})
-  }
+      .get("/api/payment-activation/")
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        setError(error.response.status);
+        console.log(error.response);
+      });
+  };
 
   const createPaymentActivationForm = (data) => {
     const formData = new FormData();
@@ -90,57 +91,73 @@ export default function PaymentActivation() {
       formData.append("documents", documents[i]);
     }
 
-    console.log(formData)
-    
+    console.log(formData);
+
     axiosInstance
-    .post(
-      '/api/payment-activation/', formData
-    )
-    .then(response => { setFormInfo(response.data)
-  })
-    .catch(error => {setError(error.response.status)
-    console.log(error.response)})
-  }
+      .post("/api/payment-activation/", formData)
+      .then((response) => {
+        setFormInfo(response.data);
+      })
+      .catch((error) => {
+        setError(error.response.status);
+        console.log(error.response);
+      });
+  };
 
   const editPaymentActivationForm = (data, redirect) => {
     axiosInstance
-    .patch(
-      '/api/payment-activation/', data
-    )
-    .then(response => { setFormInfo(response.data)
-      history.push(redirect);
-  })
-    .catch(error => {setError(error.response.status)
-    console.log(error.response)})
-  }
+      .patch("/api/payment-activation/", data)
+      .then((response) => {
+        setFormInfo(response.data);
+        history.push(redirect);
+      })
+      .catch((error) => {
+        setError(error.response.status);
+        console.log(error.response);
+      });
+  };
 
   useEffect(() => {
     // getPaymentActivationForm();
-})
+  });
 
-const getDepartments = (e) => {
-  setFaculty(e)
-  setDepartmentList([])
-      for (let i = 0; i < departmentsObject.length; i++){
-        if (departmentsObject[i].faculty == e) {  
-          for (let j = 0; j < departmentsObject[i]['departments'].length; j++) {
-setDepartmentList(departmentList => [...departmentList, departmentsObject[i]['departments'][j].department])
-          }}
-  }
-}
+  const getDepartments = (e) => {
+    setFaculty(e);
+    setDepartmentList([]);
+    for (let i = 0; i < departmentsObject.length; i++) {
+      if (departmentsObject[i].faculty == e) {
+        for (let j = 0; j < departmentsObject[i]["departments"].length; j++) {
+          setDepartmentList((departmentList) => [
+            ...departmentList,
+            departmentsObject[i]["departments"][j].department,
+          ]);
+        }
+      }
+    }
+  };
 
-const getPrograms = (e) => {
-  setDepartment(e)
-  setProgramList([])
-      for (let i = 0; i < departmentsObject.length; i++){
-        if (departmentsObject[i].faculty == faculty) {  
-          for (let j = 0; j < departmentsObject[i]['departments'].length; j++) {
-            if (departmentsObject[i]['departments'][j].department == e) {
-              for (let k = 0; k < departmentsObject[i]['departments'][j].programs.length; k++) {
-setProgramList(programList => [...programList, departmentsObject[i]['departments'][j].programs[k]])
-          }}
-  }
-}}}
+  const getPrograms = (e) => {
+    setDepartment(e);
+    setProgramList([]);
+    for (let i = 0; i < departmentsObject.length; i++) {
+      if (departmentsObject[i].faculty == faculty) {
+        for (let j = 0; j < departmentsObject[i]["departments"].length; j++) {
+          if (departmentsObject[i]["departments"][j].department == e) {
+            for (
+              let k = 0;
+              k < departmentsObject[i]["departments"][j].programs.length;
+              k++
+            ) {
+              setProgramList((programList) => [
+                ...programList,
+                departmentsObject[i]["departments"][j].programs[k],
+              ]);
+            }
+          }
+        }
+      }
+    }
+  };
 
   const handleNext = () => {
     setSubmitCheck(true);
@@ -157,128 +174,134 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
       !confirm
     ) {
       setComplete(false);
-    }
-    else if (agency == 'Connaught' && !paymentType || agency == 'Trillium' && !paymentType){
+    } else if (
+      (agency == "Connaught" && !paymentType) ||
+      (agency == "Trillium" && !paymentType)
+    ) {
       setComplete(false);
-    }
-    else {
+    } else {
       setComplete(true);
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      handleFormUpdate()
+      handleFormUpdate();
     }
   };
 
   const handleFormUpdate = () => {
-    formInfo?.confirmation_number? 
-    editPaymentActivationForm({
-        confirmation_number: formInfo.confirmation_number,
-        student_number: studentNumber,
-        user: userInfo.username,
-        faculty: faculty,
-        graduate_unit: department,
-        program: program,
-        degree_start_date: startDateProgram,
-        award: agency,
-        award_duration: duration,
-        type_payment_request: paymentType,
-        award_start_session: startDateAward,
-        submitted: submit,
-      })
-    : createPaymentActivationForm({
-        user: userInfo.username,
-        student_number: studentNumber,
-        faculty: faculty,
-        graduate_unit: department,
-        program: program,
-        degree_start_date: startDateProgram,
-        award: agency,
-        award_duration: duration,
-        type_payment_request: paymentType,
-        award_start_session: startDateAward,
-        submitted: submit,
-      });
-  }
+    formInfo?.confirmation_number
+      ? editPaymentActivationForm({
+          confirmation_number: formInfo.confirmation_number,
+          student_number: studentNumber,
+          user: userInfo.username,
+          faculty: faculty,
+          graduate_unit: department,
+          program: program,
+          degree_start_date: startDateProgram,
+          award: agency,
+          award_duration: duration,
+          type_payment_request: paymentType,
+          award_start_session: startDateAward,
+          submitted: submit,
+        })
+      : createPaymentActivationForm({
+          user: userInfo.username,
+          student_number: studentNumber,
+          faculty: faculty,
+          graduate_unit: department,
+          program: program,
+          degree_start_date: startDateProgram,
+          award: agency,
+          award_duration: duration,
+          type_payment_request: paymentType,
+          award_start_session: startDateAward,
+          submitted: submit,
+        });
+  };
 
   const renderSwitch = (agency) => {
-    switch(agency){
-      case 'CIHR':
-      case 'NSERC':
-      case 'SSHRC':
-        return <><FormControlLabel
-        control={<Radio color="primary" />}
-        value="CGS M (12 months)"
-        label="CGS M (12 months)"
-      />
-      <FormControlLabel
-        control={<Radio color="primary" />}
-        value="Vanier (36 months)"
-        label="Vanier (36 months)"
-      /></>
-      case 'OGS':
-        return <><FormControlLabel
-        control={<Radio color="primary" />}
-        value="OGS (2 sessions)"
-        label="OGS (2 sessions)"
-      />
-      <FormControlLabel
-        control={<Radio color="primary" />}
-        value="OGS (3 sessions)"
-        label="OGS (3 sessions)"
-      /></>
-      case 'QEII-GSST':
-        return <><FormControlLabel
-        control={<Radio color="primary" />}
-        value="QEII-GSST (2 sessions)"
-        label="QEII-GSST (2 sessions)"
-      />
-      <FormControlLabel
-        control={<Radio color="primary" />}
-        value="QEII-GSST (3 sessions)"
-        label="QEII-GSST (3 sessions)"
-      /></>
-      case 'Connaught':
-        return <FormControlLabel
-        control={<Radio color="primary" />}
-        value="Renewable annually and may be held for max of 4 years"
-        label="Renewable annually and may be held for max of 4 years"
-      />
-      case 'Trillium':
-       return  <FormControlLabel
-        control={<Radio color="primary" />}
-        value="Renewable annually and may be held for max of 4-5 years in accordance with program normal period of funding"
-        label="Renewable annually and may be held for max of 4-5 years in accordance with program normal period of funding"
-      />
-
-
+    switch (agency) {
+      case "CIHR":
+      case "NSERC":
+      case "SSHRC":
+        return (
+          <>
+            <FormControlLabel
+              control={<Radio color="primary" />}
+              value="CGS M (12 months)"
+              label="CGS M (12 months)"
+            />
+            <FormControlLabel
+              control={<Radio color="primary" />}
+              value="Vanier (36 months)"
+              label="Vanier (36 months)"
+            />
+          </>
+        );
+      case "OGS":
+        return (
+          <>
+            <FormControlLabel
+              control={<Radio color="primary" />}
+              value="OGS (2 sessions)"
+              label="OGS (2 sessions)"
+            />
+            <FormControlLabel
+              control={<Radio color="primary" />}
+              value="OGS (3 sessions)"
+              label="OGS (3 sessions)"
+            />
+          </>
+        );
+      case "QEII-GSST":
+        return (
+          <>
+            <FormControlLabel
+              control={<Radio color="primary" />}
+              value="QEII-GSST (2 sessions)"
+              label="QEII-GSST (2 sessions)"
+            />
+            <FormControlLabel
+              control={<Radio color="primary" />}
+              value="QEII-GSST (3 sessions)"
+              label="QEII-GSST (3 sessions)"
+            />
+          </>
+        );
+      case "Connaught":
+        return (
+          <FormControlLabel
+            control={<Radio color="primary" />}
+            value="Renewable annually and may be held for max of 4 years"
+            label="Renewable annually and may be held for max of 4 years"
+          />
+        );
+      case "Trillium":
+        return (
+          <FormControlLabel
+            control={<Radio color="primary" />}
+            value="Renewable annually and may be held for max of 4-5 years in accordance with program normal period of funding"
+            label="Renewable annually and may be held for max of 4-5 years in accordance with program normal period of funding"
+          />
+        );
     }
-  }
+  };
 
   const handleFileChange = (e) => {
-    const newDocument = e.target.files[0]
-    setDocuments(documents => [...documents, newDocument]);
-    // handleDocumentUpload(newDocument)
-      };
-
-  const handleDocumentUpload = (e) => {
-    console.log(e)
-    const formData = new FormData();
-    formData.append('file', e);
-    axiosInstance
-      .post('/api/upload/', formData)
-        .then(response => console.log(response.data))
-        .catch(error => console.log(error));
-};
+    const newDocument = e.target.files[0];
+    setDocuments((documents) => [...documents, newDocument]);
+  };
 
   const handleSubmit = () => {
-    setSubmit(true)
-    editPaymentActivationForm({
-      confirmation_number: formInfo.confirmation_number,
-      submitted: true,
-    submitted_at: new Date().toISOString()
-  },ROUTE.MY_FORMS)
-      setUserInfo();
-
-  }
+    setSubmit(true);
+    editPaymentActivationForm(
+      {
+        confirmation_number: formInfo.confirmation_number,
+        submitted: true,
+        submitted_at: new Date().toISOString(),
+      },
+      ROUTE.MY_FORMS
+    );
+    setUserInfo();
+  };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -296,61 +319,38 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
       case 0:
         return (
           <div>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1" className="form-field-title">
               First Name
             </Typography>
-            <Typography variant="body1">
-              {userInfo?.first_name}
-            </Typography>
-            <Typography
-             
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1">{userInfo?.first_name}</Typography>
+            <Typography variant="body1" className="form-field-title">
               Last Name
             </Typography>
-            <Typography variant="body1">
-              {userInfo?.last_name}
-            </Typography>
-            <Typography
-              
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1">{userInfo?.last_name}</Typography>
+            <Typography variant="body1" className="form-field-title">
               Student Number (required)
             </Typography>
             <TextField
               value={studentNumber}
               error={!studentNumber && submitCheck}
-              helperText={!studentNumber && submitCheck ? "Required field" : null}
+              helperText={
+                !studentNumber && submitCheck ? "Required field" : null
+              }
               onChange={(e) =>
                 e.target.value
                   ? setStudentNumber(e.target.value)
                   : setStudentNumber(false)
               }
-              
               variant="outlined"
               type="number"
               fullWidth
             />
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1" className="form-field-title">
               Email
             </Typography>
-            <Typography variant="body1">
-              {userInfo?.email}
-            </Typography>
+            <Typography variant="body1">{userInfo?.email}</Typography>
 
-            <Typography
-
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1" className="form-field-title">
               Faculty (required)
             </Typography>
             <FormControl variant="outlined" fullWidth>
@@ -373,18 +373,15 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                 }}
               >
                 <option aria-label="None" value="" />
-                {departmentsObject.map((unit) =>
-                <option value={unit.faculty}>{unit.faculty}</option>
-  )}
+                {departmentsObject.map((unit) => (
+                  <option value={unit.faculty}>{unit.faculty}</option>
+                ))}
               </Select>
               <Typography variant="caption" color="error">
-                  {!faculty && submitCheck ? "Required field" : null}
-                </Typography>
+                {!faculty && submitCheck ? "Required field" : null}
+              </Typography>
             </FormControl>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1" className="form-field-title">
               Graduate Unit (Department) (required)
             </Typography>
             <FormControl variant="outlined" fullWidth>
@@ -409,18 +406,15 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                 }}
               >
                 <option aria-label="None" value="" />
-                {departmentList?.map((unit) =>
-                <option value={unit}>{unit}</option>
-  )}
+                {departmentList?.map((unit) => (
+                  <option value={unit}>{unit}</option>
+                ))}
               </Select>
               <Typography variant="caption" color="error">
-                  {!department && submitCheck ? "Required field" : null}
-                </Typography>
+                {!department && submitCheck ? "Required field" : null}
+              </Typography>
             </FormControl>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1" className="form-field-title">
               Degree Program (required)
             </Typography>
             <FormControl variant="outlined" fullWidth>
@@ -446,24 +440,23 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
               >
                 <option aria-label="None" value="" />
 
-                {programList?.map((unit) =>
-                <option value={unit}>{unit}</option>
-  )}
+                {programList?.map((unit) => (
+                  <option value={unit}>{unit}</option>
+                ))}
               </Select>
               <Typography variant="caption" color="error">
-                  {!program && submitCheck ? "Required field" : null}
-                </Typography>
+                {!program && submitCheck ? "Required field" : null}
+              </Typography>
             </FormControl>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1" className="form-field-title">
               Start date of degree program (required)
             </Typography>
             <TextField
               value={startDateProgram}
               error={!startDateProgram && submitCheck}
-              helperText={!startDateProgram && submitCheck ? "Required field" : null}
+              helperText={
+                !startDateProgram && submitCheck ? "Required field" : null
+              }
               onChange={(e) =>
                 e.target.value
                   ? setStartDateProgram(e.target.value)
@@ -474,10 +467,7 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
               fullWidth
             />
 
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1" className="form-field-title">
               Please identify the funding agency (required)
             </Typography>
             <FormControl component="fieldset">
@@ -530,71 +520,65 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                 </Typography>
               </RadioGroup>
             </FormControl>
-            {agency?<>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
-              Please indicate the duration (required)
-            </Typography>
+            {agency ? (
+              <>
+                <Typography variant="body1" className="form-field-title">
+                  Please indicate the duration (required)
+                </Typography>
 
-            <FormControl component="fieldset">
-              <RadioGroup
-                value={duration}
-                onChange={(e) =>
-                  e.target.value
-                    ? setduration(e.target.value)
-                    : setduration(false)
-                }
-                aria-label="duration"
-                name="customized-radios"
-              >
-{renderSwitch(agency)}
-                <Typography variant="caption" color="error">
-                  {!duration && submitCheck ? "Required field" : null}
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    value={duration}
+                    onChange={(e) =>
+                      e.target.value
+                        ? setduration(e.target.value)
+                        : setduration(false)
+                    }
+                    aria-label="duration"
+                    name="customized-radios"
+                  >
+                    {renderSwitch(agency)}
+                    <Typography variant="caption" color="error">
+                      {!duration && submitCheck ? "Required field" : null}
+                    </Typography>
+                  </RadioGroup>
+                </FormControl>
+              </>
+            ) : null}
+            {agency == "Connaught" || agency == "Trillium" ? (
+              <>
+                <Typography variant="body1" className="form-field-title">
+                  Type of payment requested (required)
                 </Typography>
-              </RadioGroup>
-            </FormControl>
-            </>
-            :null}
-            {agency == 'Connaught' || agency == 'Trillium'?
-            <><Typography
-              variant="body1"
-              className="form-field-title"
-            >
-              Type of payment requested (required)
-            </Typography>
-            <FormControl component="fieldset">
-              <RadioGroup
-                value={paymentType}
-                onChange={(e) =>
-                  e.target.value
-                    ? setPaymentType(e.target.value)
-                    : setPaymentType(false)
-                }
-                aria-label="payment-type"
-                name="customized-radios"
-              >
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="New activation"
-                  label="New activation"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="Renewal"
-                  label="Renewal"
-                />
-                <Typography variant="caption" color="error">
-                  {!paymentType && submitCheck ? "Required field" : null}
-                </Typography>
-              </RadioGroup>
-            </FormControl></>
-            :null}
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    value={paymentType}
+                    onChange={(e) =>
+                      e.target.value
+                        ? setPaymentType(e.target.value)
+                        : setPaymentType(false)
+                    }
+                    aria-label="payment-type"
+                    name="customized-radios"
+                  >
+                    <FormControlLabel
+                      control={<Radio color="primary" />}
+                      value="New activation"
+                      label="New activation"
+                    />
+                    <FormControlLabel
+                      control={<Radio color="primary" />}
+                      value="Renewal"
+                      label="Renewal"
+                    />
+                    <Typography variant="caption" color="error">
+                      {!paymentType && submitCheck ? "Required field" : null}
+                    </Typography>
+                  </RadioGroup>
+                </FormControl>
+              </>
+            ) : null}
+            <Typography variant="body1" className="form-field-title">
               Requested start date (required)
             </Typography>
             <FormControl component="fieldset">
@@ -628,32 +612,27 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                 </Typography>
               </RadioGroup>
             </FormControl>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1" className="form-field-title">
               Additional Documentation
             </Typography>
-            {documents?.map((document) => (<Typography variant = "subtitle2">{document.name}</Typography>))}
+            {documents?.map((document) => (
+              <Typography variant="subtitle2">{document.name}</Typography>
+            ))}
             <div>
-      <input
-        accept="image/*"
-        id="contained-button-file"
-        multiple
-        type="file"
-        style = {{display: "none"}}
-        onChange = {handleFileChange}
-      />
-      <label htmlFor="contained-button-file">
-        <Button variant="contained" color="primary" component="span">
-          Upload
-        </Button>
-      </label>
-    </div>
-      <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+              <input
+                accept="image/*"
+                id="contained-button-file"
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
+              <label htmlFor="contained-button-file">
+                <Button variant="contained" color="primary" component="span">
+                  Upload
+                </Button>
+              </label>
+            </div>
+            <Typography variant="body1" className="form-field-title">
               Please confirm by checking the box below that:
             </Typography>
             <Typography variant="body1">
@@ -682,79 +661,44 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
           </div>
         );
       case 1:
-        return <div>
-          <Alert severity="info">
-  <AlertTitle style = {{fontWeight: 800}}>You are almost done.</AlertTitle>
-  Please review the information below to ensure it is accurate, then click <strong>Submit</strong> at the bottom of the page.
-</Alert>
-           <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+        return (
+          <div>
+            <Alert severity="info">
+              <AlertTitle style={{ fontWeight: 800 }}>
+                You are almost done.
+              </AlertTitle>
+              Please review the information below to ensure it is accurate, then
+              click <strong>Submit</strong> at the bottom of the page.
+            </Alert>
+            <Typography variant="body1" className="form-field-title">
               First Name
             </Typography>
-            <Typography variant="body1">
-              {userInfo?.first_name}
-            </Typography>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1">{userInfo?.first_name}</Typography>
+            <Typography variant="body1" className="form-field-title">
               Last Name
             </Typography>
-            <Typography variant="body1">
-              {userInfo?.last_name}
-            </Typography>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1">{userInfo?.last_name}</Typography>
+            <Typography variant="body1" className="form-field-title">
               Student Number
             </Typography>
-            <Typography variant="body1">
-              {studentNumber}
-            </Typography>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1">{studentNumber}</Typography>
+            <Typography variant="body1" className="form-field-title">
               Email
             </Typography>
-            <Typography variant="body1">
-              {userInfo?.email}
-            </Typography>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1">{userInfo?.email}</Typography>
+            <Typography variant="body1" className="form-field-title">
               Faculty
             </Typography>
-            <Typography variant="body1">
-              {faculty}
-            </Typography>
-            <Typography
-  
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1">{faculty}</Typography>
+            <Typography variant="body1" className="form-field-title">
               Graduate Unit (Department)
             </Typography>
-            <Typography  variant="body1">
-              {department}
-            </Typography>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1">{department}</Typography>
+            <Typography variant="body1" className="form-field-title">
               Degree Program
             </Typography>
-            <Typography  variant="body1">
-              {program}
-            </Typography>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1">{program}</Typography>
+            <Typography variant="body1" className="form-field-title">
               Start date of degree program
             </Typography>
             <Typography gutterBottom variant="body1">
@@ -769,7 +713,6 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
             </Typography>
             <FormControl disabled component="fieldset">
               <RadioGroup
-              
                 value={agency}
                 onChange={(e) =>
                   e.target.value ? setAgency(e.target.value) : setAgency(false)
@@ -836,50 +779,50 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                 aria-label="duration"
                 name="customized-radios"
               >
-{renderSwitch(agency)}
+                {renderSwitch(agency)}
 
                 <Typography variant="caption" color="error">
                   {!duration && submitCheck ? "Required field" : null}
                 </Typography>
               </RadioGroup>
             </FormControl>
-            {agency == 'Connaught' || agency == 'Trillium'?
-            <>
-            <Typography
-              gutterBottom
-              variant="body1"
-              className="form-field-title"
-            >
-              Type of payment requested (required)
-            </Typography>
-            <FormControl disabled component="fieldset">
-              <RadioGroup
-                value={paymentType}
-                onChange={(e) =>
-                  e.target.value
-                    ? setPaymentType(e.target.value)
-                    : setPaymentType(false)
-                }
-                aria-label="payment-type"
-                name="customized-radios"
-              >
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="New activation"
-                  label="New activation"
-                />
-                <FormControlLabel
-                  control={<Radio color="primary" />}
-                  value="Renewal"
-                  label="Renewal"
-                />
-                <Typography variant="caption" color="error">
-                  {!paymentType && submitCheck ? "Required field" : null}
+            {agency == "Connaught" || agency == "Trillium" ? (
+              <>
+                <Typography
+                  gutterBottom
+                  variant="body1"
+                  className="form-field-title"
+                >
+                  Type of payment requested (required)
                 </Typography>
-              </RadioGroup>
-            </FormControl>
-            </>
-            :null}
+                <FormControl disabled component="fieldset">
+                  <RadioGroup
+                    value={paymentType}
+                    onChange={(e) =>
+                      e.target.value
+                        ? setPaymentType(e.target.value)
+                        : setPaymentType(false)
+                    }
+                    aria-label="payment-type"
+                    name="customized-radios"
+                  >
+                    <FormControlLabel
+                      control={<Radio color="primary" />}
+                      value="New activation"
+                      label="New activation"
+                    />
+                    <FormControlLabel
+                      control={<Radio color="primary" />}
+                      value="Renewal"
+                      label="Renewal"
+                    />
+                    <Typography variant="caption" color="error">
+                      {!paymentType && submitCheck ? "Required field" : null}
+                    </Typography>
+                  </RadioGroup>
+                </FormControl>
+              </>
+            ) : null}
             <Typography
               gutterBottom
               variant="body1"
@@ -918,13 +861,12 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                 </Typography>
               </RadioGroup>
             </FormControl>
-            <Typography
-              variant="body1"
-              className="form-field-title"
-            >
+            <Typography variant="body1" className="form-field-title">
               Additional Documentation
             </Typography>
-              {documents?.map((document) => (<Typography variant = "subtitle2">{document.name}</Typography>))}
+            {documents?.map((document) => (
+              <Typography variant="subtitle2">{document.name}</Typography>
+            ))}
             <Typography
               gutterBottom
               variant="body1"
@@ -943,7 +885,8 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
               the administrator for approval.
             </Typography>
             <Typography gutterBottom variant="body1">
-              <Checkbox disabled
+              <Checkbox
+                disabled
                 checked={confirm}
                 onChange={(e) => {
                   setConfirm(e.target.checked);
@@ -955,7 +898,8 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
             <Typography variant="caption" color="error">
               {!confirm && submitCheck ? "Required field" : null}
             </Typography>
-        </div>;
+          </div>
+        );
       default:
         return "Unknown stepIndex";
     }
@@ -979,10 +923,24 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
               </Stepper>
               <hr />
               <div ref={myRef}>
-              <Typography className="form-field-title" gutterBottom variant = 'h6'>Payment Activation Form</Typography>
-              <Typography gutterBottom variant = 'body2'>This form is used to activate payment.</Typography>
-              <hr />
-              <Typography className="form-field-title" gutterBottom variant = 'h6'>User Information</Typography>
+                <Typography
+                  className="form-field-title"
+                  gutterBottom
+                  variant="h6"
+                >
+                  Payment Activation Form
+                </Typography>
+                <Typography gutterBottom variant="body2">
+                  This form is used to activate payment.
+                </Typography>
+                <hr />
+                <Typography
+                  className="form-field-title"
+                  gutterBottom
+                  variant="h6"
+                >
+                  User Information
+                </Typography>
                 {activeStep === steps.length ? (
                   <div>
                     <Typography>All steps completed</Typography>
@@ -990,33 +948,41 @@ setProgramList(programList => [...programList, departmentsObject[i]['departments
                   </div>
                 ) : (
                   <div>
-  
                     {getStepContent(activeStep, userInfo)}
                     <div>
                       <hr />
                       <Button disabled={activeStep === 0} onClick={handleBack}>
                         Back
                       </Button>
-                      {activeStep === steps.length - 1 ? null :
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={handleFormUpdate}
-                      >  Save
-                      </Button>}
-                      {activeStep === steps.length - 1 ?
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleSubmit}
-                      > Submit
-                      </Button> 
-                      :                       <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleNext}
-                    > Next
-                    </Button>}
+                      {activeStep === steps.length - 1 ? null : (
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={handleFormUpdate}
+                        >
+                          {" "}
+                          Save
+                        </Button>
+                      )}
+                      {activeStep === steps.length - 1 ? (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleSubmit}
+                        >
+                          {" "}
+                          Submit
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleNext}
+                        >
+                          {" "}
+                          Next
+                        </Button>
+                      )}
                     </div>
                   </div>
                 )}
