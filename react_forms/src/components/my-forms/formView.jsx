@@ -31,7 +31,11 @@ const getPaymentActivationForm = () => {
   .get(
     '/api/payment-activation/'
   )
-  .then(response => { for (let i = 0; i < response.data.length; i++){
+  .then(response => { 
+    // TO DO: FIND A WAY TO DISPLAY DOCUMENTS IN FORM VIEW
+    // TO DO #2: MAKE SURE DOCUMENTS ARE NOT SENT IN THE FORM TABLE VIEW
+    console.log(response);
+    for (let i = 0; i < response.data.length; i++){
     if (response.data[i].confirmation_number == confirmationNumber){
       setFormInfo(response.data[i])
       setFormView('applicant')
