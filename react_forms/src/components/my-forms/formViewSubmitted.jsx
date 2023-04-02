@@ -20,7 +20,8 @@ import {
   FormControlLabel,
   InputLabel,
   Select,
-  Paper
+  Paper,
+  Link
 } from "@material-ui/core";
 import {Alert, AlertTitle} from '@material-ui/lab'
 import NavBar from "../app/NavBar";
@@ -33,7 +34,7 @@ import axiosInstance from '../app/api';
 
 export default function FormViewSubmitted({formInfo}) {  
 
-    const {userInfo, convertDate} = useContext(Context);
+    const {userInfo, convertDate, handleFileDownload} = useContext(Context);
 
     const getPaymentActivationForm = () => {
       axiosInstance
@@ -323,6 +324,15 @@ export default function FormViewSubmitted({formInfo}) {
                 </Typography>
               </RadioGroup>
             </FormControl>
+
+            <Typography variant="body1" className="form-field-title">
+              Additional Documentation
+            </Typography>
+            {formInfo?.documents?.map((document) => (
+              <Typography variant="subtitle2"><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document.id))}}>{document.name}</Link></Typography>
+            ))}
+
+
             <Typography
               gutterBottom
               variant="body1"

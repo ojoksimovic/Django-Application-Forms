@@ -35,6 +35,12 @@ export const withContext = (Component) => {
             console.log(error.response)})
           }
 
+
+          const handleFileDownload = (documentId) => {
+            const downloadUrl = `/api/download_file/${documentId}/`;
+            window.open(downloadUrl);
+          }
+
           const convertDate = (date) => {
             if (date) {
 
@@ -52,7 +58,7 @@ export const withContext = (Component) => {
           }};
         
 
-      return <Context.Provider value={{role, setRole, isMobile, navBarInfo, setNavBarInfo, convertDate, rows, setRows, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken, isGoogleLogged, setIsGoogleLogged, isMicrosoftLogged, setIsMicrosoftLogged, microsoftAccessToken, setMicrosoftAccessToken}} displayName='Authentication Context'>
+      return <Context.Provider value={{role, setRole, isMobile, navBarInfo, setNavBarInfo, convertDate, rows, setRows, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken, isGoogleLogged, setIsGoogleLogged, isMicrosoftLogged, setIsMicrosoftLogged, microsoftAccessToken, setMicrosoftAccessToken, handleFileDownload}} displayName='Authentication Context'>
           <Component />
       </Context.Provider>
     }
