@@ -37,8 +37,10 @@ export const withContext = (Component) => {
 
 
           const handleFileDownload = (documentId) => {
-            const downloadUrl = `/api/download_file/${documentId}/`;
-            window.open(downloadUrl);
+            const downloadUrl = `/api/download/${documentId}/`;
+            axiosInstance
+            .get(downloadUrl)
+            // window.open(downloadUrl);
           }
 
           const convertDate = (date) => {

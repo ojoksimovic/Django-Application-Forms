@@ -12,7 +12,8 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
-  InputAdornment
+  InputAdornment,
+  Link
 } from "@material-ui/core";
 import {Alert, AlertTitle} from '@material-ui/lab'
 import NavBar from "../app/NavBar";
@@ -44,7 +45,8 @@ export default function FormViewDraftAdmin({retrievedFormInfo}) {
     const {
       userInfo,
       setUserInfo,
-      convertDate
+      convertDate,
+      handleFileDownload
     } = useContext(Context);
   
     const getPaymentActivationForm = () => {
@@ -257,6 +259,14 @@ export default function FormViewDraftAdmin({retrievedFormInfo}) {
               Requested start date (required)
             </Typography>
             <Typography variant = 'body1'> {formInfo.award_start_session}</Typography>
+
+            <Typography variant="body1" className="form-field-title">
+              Additional Documentation
+            </Typography>
+            {formInfo?.documents?.map((document) => (
+              <Typography variant="subtitle2"><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document.id))}}>{document.name}</Link></Typography>
+            ))}
+
             <Typography
               gutterBottom
               variant="body1"
@@ -637,6 +647,14 @@ Payment Notes (optional)
                    Requested start date (required)
                  </Typography>
                  <Typography variant = 'body1'> {formInfo.award_start_session}</Typography>
+               
+                 <Typography variant="body1" className="form-field-title">
+              Additional Documentation
+            </Typography>
+            {formInfo?.documents?.map((document) => (
+              <Typography variant="subtitle2"><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document.id))}}>{document.name}</Link></Typography>
+            ))}
+
                  <Typography
                    gutterBottom
                    variant="body1"

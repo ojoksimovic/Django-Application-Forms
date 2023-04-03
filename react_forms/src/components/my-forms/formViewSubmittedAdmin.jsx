@@ -21,7 +21,8 @@ import {
   InputLabel,
   Select,
   Paper,
-  InputAdornment
+  InputAdornment,
+  Link
 } from "@material-ui/core";
 import {Alert, AlertTitle} from '@material-ui/lab'
 import NavBar from "../app/NavBar";
@@ -36,7 +37,7 @@ import axiosInstance from '../app/api';
 
 export default function FormViewSubmittedAdmin({formInfo}) {  
 
-    const {userInfo, convertDate} = useContext(Context);
+    const {userInfo, convertDate, handleFileDownload} = useContext(Context);
 
     const getPaymentActivationForm = () => {
       axiosInstance
@@ -180,6 +181,14 @@ export default function FormViewSubmittedAdmin({formInfo}) {
                    Requested start date (required)
                  </Typography>
                  <Typography variant = 'body1'> {formInfo.award_start_session}</Typography>
+                 
+                 <Typography variant="body1" className="form-field-title">
+              Additional Documentation
+            </Typography>
+            {formInfo?.documents?.map((document) => (
+              <Typography variant="subtitle2"><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document.id))}}>{document.name}</Link></Typography>
+            ))}
+               
                  <Typography
                    gutterBottom
                    variant="body1"

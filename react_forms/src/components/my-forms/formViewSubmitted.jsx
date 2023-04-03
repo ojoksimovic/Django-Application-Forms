@@ -332,7 +332,6 @@ export default function FormViewSubmitted({formInfo}) {
               <Typography variant="subtitle2"><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document.id))}}>{document.name}</Link></Typography>
             ))}
 
-
             <Typography
               gutterBottom
               variant="body1"
