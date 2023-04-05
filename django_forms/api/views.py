@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate
+from django.http import HttpResponse, HttpResponseNotFound
+from django.conf import settings
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
-from .models import Test, Payment_Activation, OGS
+from .models import Test, Payment_Activation, OGS, Document
 from .serializers import TestSerializer, PaymentActivationSerializer, OGSSerializer, DocumentSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -11,18 +13,23 @@ from django.http import JsonResponse
 from users.models import CustomUser
 from users.serializers import CustomUserSerializer
 from django.db.models.query_utils import Q
+import os
 
-class DocumentView(generics.ListAPIView):
-    serializer_class=DocumentSerializer
+class DocumentView(generics.RetrieveAPIView):
+    queryset = Document.objects.all()
+    serializer_class = DocumentSerializer
 
-    def post(self, request, format=None):
-        request.data["user"] = request.user
-        print(request.data)
-        serializer = self.serializer_class(data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+    def get(self, request, *args, **kwargs):
+        document = self.get_object()
+
+        if document.file:
+            file_data = document.file.read()
+            response = HttpResponse(file_data, content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="{document.name}"'
+            return response
+            
+        return HttpResponseNotFound({'error': 'File does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
 
 class TestView(viewsets.ViewSet):
     queryset = Test.objects.all()
@@ -97,7 +104,6 @@ class PaymentActivationView(generics.ListAPIView):
                 json = serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class OGSView(generics.ListAPIView):

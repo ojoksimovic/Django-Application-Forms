@@ -10,5 +10,5 @@ urlpatterns = [
     path('test/', test_list, name = 'test'),
     path('payment-activation/', PaymentActivationView.as_view()),
     path('ogs/', OGSView.as_view()),
-    path('upload/', DocumentView.as_view())
+    path('download/<int:pk>/', DocumentView.as_view(), name = 'download_file')
     ]

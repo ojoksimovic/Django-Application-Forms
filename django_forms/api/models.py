@@ -94,4 +94,4 @@ class Payment_Activation(models.Model):
 class Document(models.Model):
     form = models.ForeignKey(Payment_Activation, related_name='documents', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    file = models.FileField(upload_to='documents/')
+    file = models.FileField(upload_to='documents')
