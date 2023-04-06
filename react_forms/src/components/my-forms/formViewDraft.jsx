@@ -600,7 +600,7 @@ export default function FormViewDraft({retrievedFormInfo}) {
               Additional Documentation
             </Typography>
             {formInfo?.documents?.map((document) => (
-              <Typography variant="subtitle2"><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document.id))}}>{document.name}</Link></Typography>
+              <Typography variant="subtitle2"><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document))}}>{document.name}</Link></Typography>
             ))}
 
               <Typography

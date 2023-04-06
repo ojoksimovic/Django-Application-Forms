@@ -647,12 +647,11 @@ Payment Notes (optional)
                    Requested start date (required)
                  </Typography>
                  <Typography variant = 'body1'> {formInfo.award_start_session}</Typography>
-               
                  <Typography variant="body1" className="form-field-title">
               Additional Documentation
             </Typography>
             {formInfo?.documents?.map((document) => (
-              <Typography variant="subtitle2"><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document.id))}}>{document.name}</Link></Typography>
+              <Typography variant="subtitle2"><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document))}}>{document.name}</Link></Typography>
             ))}
 
                  <Typography

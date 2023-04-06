@@ -36,12 +36,23 @@ export const withContext = (Component) => {
           }
 
 
-          const handleFileDownload = (documentId) => {
-            const downloadUrl = `/api/download/${documentId}/`;
+          const handleFileDownload = (document_info) => {
+            const downloadUrl = `/api/download/${document_info.id}/`;
             axiosInstance
             .get(downloadUrl)
-            // window.open(downloadUrl);
-          }
+            .then((response) => {
+              const url = window.URL.createObjectURL(new Blob([response.data]));
+              const link = document.createElement("a");
+              link.href = url;
+              link.setAttribute("download", document_info.name.replace(/ /g, '_'));
+              document.body.appendChild(link);
+              link.click();
+              link.parentNode.removeChild(link);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        };
 
           const convertDate = (date) => {
             if (date) {
