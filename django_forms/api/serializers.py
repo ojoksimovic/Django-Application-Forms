@@ -9,7 +9,7 @@ class TestSerializer(serializers.ModelSerializer):
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
-        fields = '__all__'
+        fields = ('id', 'name', 'form')
 
 class PaymentActivationSerializer(serializers.HyperlinkedModelSerializer):
   first_name = serializers.CharField(read_only=True, source='user.first_name')
