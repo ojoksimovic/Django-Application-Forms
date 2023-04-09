@@ -21,8 +21,10 @@ import {
   InputLabel,
   Select,
   Paper,
+  IconButton,
 } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import DeleteIcon from "@material-ui/icons/Delete";
 import NavBar from "../app/NavBar";
 import { Context, withContext } from "../app/context";
 import { useHistory } from "react-router-dom";
@@ -288,6 +290,12 @@ export default function PaymentActivation() {
   const handleFileChange = (e) => {
     const newDocument = e.target.files[0];
     setDocuments((documents) => [...documents, newDocument]);
+  };
+
+  const handleFileDelete = (name) => {
+    console.log(name);
+    setDocuments(documents.filter((item) => item.name !== name));
+    console.log(documents);
   };
 
   const handleSubmit = () => {
@@ -616,7 +624,24 @@ export default function PaymentActivation() {
               Additional Documentation
             </Typography>
             {documents?.map((document) => (
-              <Typography variant="subtitle2">{document.name}</Typography>
+              <div>
+                <IconButton
+                  aria-label="delete"
+                  style={{
+                    padding: 0,
+                    margin: "0px 10px 5px 0px",
+                    verticalAlign: "middle",
+                  }}
+                  onClick={() => {
+                    handleFileDelete(document.name);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+                <Typography variant="subtitle2" style={{ display: "inline" }}>
+                  {document.name}
+                </Typography>
+              </div>
             ))}
             <div>
               <input
@@ -865,7 +890,12 @@ export default function PaymentActivation() {
               Additional Documentation
             </Typography>
             {documents?.map((document) => (
-              <Typography variant="subtitle2">{document.name}</Typography>
+              <>
+                <Typography variant="subtitle2">{document.name}</Typography>
+                <Button variant="contained" color="secondary">
+                  Secondary
+                </Button>
+              </>
             ))}
             <Typography
               gutterBottom
