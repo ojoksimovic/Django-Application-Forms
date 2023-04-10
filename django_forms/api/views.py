@@ -5,7 +5,7 @@ from django.conf import settings
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from .models import Test, Payment_Activation, OGS, Document
-from .serializers import TestSerializer, PaymentActivationSerializer, OGSSerializer, DocumentSerializer
+from .serializers import TestSerializer, PaymentActivationSerializer, OGSSerializer, DocumentSerializer, DocumentUploadSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -28,6 +28,14 @@ class DocumentView(generics.RetrieveAPIView):
             response['Content-Disposition'] = f'attachment; filename="{document.name}"'
             return response
             
+        return HttpResponseNotFound({'error': 'File does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    def delete (self, request, *args, **kwargs):
+        document = self.get_object()
+        if document.file:
+            document.delete()
+            return Response(status = status.HTTP_204_NO_CONTENT)
+        
         return HttpResponseNotFound({'error': 'File does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -80,7 +88,7 @@ class PaymentActivationView(generics.ListAPIView):
         
             for document in request.data.getlist('documents'):
                 print(document)
-                document_serializer=DocumentSerializer(data={
+                document_serializer=DocumentUploadSerializer(data={
             'form': payment_activation_form.pk,
             'name': document.name,
             'file': document

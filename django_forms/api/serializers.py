@@ -11,6 +11,11 @@ class DocumentSerializer(serializers.ModelSerializer):
         model = Document
         fields = ('id', 'name', 'form')
 
+class DocumentUploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Document
+        fields = '__all__'
+
 class PaymentActivationSerializer(serializers.HyperlinkedModelSerializer):
   first_name = serializers.CharField(read_only=True, source='user.first_name')
   last_name = serializers.CharField(read_only=True, source='user.last_name')
