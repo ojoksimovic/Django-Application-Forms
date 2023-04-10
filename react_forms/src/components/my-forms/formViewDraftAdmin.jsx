@@ -35,7 +35,7 @@ export default function FormViewDraftAdmin({retrievedFormInfo}) {
     const [error, setError] = useState();
     const [formInfo, setFormInfo] = useState(retrievedFormInfo);
 
-  
+   
     const history = useHistory();
     const myRef = useRef(null);
   
@@ -264,7 +264,7 @@ export default function FormViewDraftAdmin({retrievedFormInfo}) {
               Additional Documentation
             </Typography>
             {formInfo?.documents?.map((document) => (
-              <Typography variant="subtitle2"><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document.id))}}>{document.name}</Link></Typography>
+              <Typography variant="subtitle2"><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document))}}>{document.name}</Link></Typography>
             ))}
 
             <Typography
