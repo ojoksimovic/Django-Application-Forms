@@ -892,9 +892,6 @@ export default function PaymentActivation() {
             {documents?.map((document) => (
               <>
                 <Typography variant="subtitle2">{document.name}</Typography>
-                <Button variant="contained" color="secondary">
-                  Secondary
-                </Button>
               </>
             ))}
             <Typography
