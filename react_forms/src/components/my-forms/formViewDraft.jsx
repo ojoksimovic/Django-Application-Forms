@@ -21,9 +21,11 @@ import {
   InputLabel,
   Select,
   Paper, 
-  Link
+  Link,
+  IconButton
 } from "@material-ui/core";
 import {Alert, AlertTitle} from '@material-ui/lab'
+import DeleteIcon from "@material-ui/icons/Delete";
 import NavBar from "../app/NavBar";
 import { Context, withContext } from "../app/context";
 import { useHistory, useParams } from "react-router-dom";
@@ -48,7 +50,8 @@ export default function FormViewDraft({retrievedFormInfo}) {
     const [formInfo, setFormInfo] = useState(retrievedFormInfo);
     const [departmentList, setDepartmentList] = useState([]);
     const [programList, setProgramList] = useState([]);
-  
+    const [documents, setDocuments] = useState([]);
+
   
     const history = useHistory();
     const myRef = useRef(null);
@@ -82,6 +85,7 @@ export default function FormViewDraft({retrievedFormInfo}) {
         '/api/payment-activation/'
       )
       .then(response => {
+        console.log(response)
     })
       .catch(error => {setError(error.response.status)
       console.log(error.response)})
@@ -89,17 +93,56 @@ export default function FormViewDraft({retrievedFormInfo}) {
   
   
     const editPaymentActivationForm = (data, redirect) => {
-      axiosInstance
-      .patch(
-        '/api/payment-activation/', data
-      )
-      .then(response => { setFormInfo(response.data)
-      if (redirect){history.push(redirect)}
-    })
-      .catch(error => {setError(error.response.status)
-      console.log(error.response)})
-    }
+
+        const formData = new FormData();
+    
+        Object.entries(data).forEach(([name, value]) => {
+          formData.append(name, value);
+        });
+    
+        for (let i = 0; i < documents.length; i++) {
+          formData.append("documents", documents[i]);
+        }
+    
+        console.log(formData);
+    
+        axiosInstance
+          .patch("/api/payment-activation/", formData)
+          .then(response => { setFormInfo(response.data)
+            if (redirect){history.push(redirect)}
+          })
+          .catch((error) => {
+            setError(error.response.status);
+            console.log(error.response);
+          });
+      };
+
   
+    const handleFileDelete = (document_info) => {
+      const downloadUrl = `/api/download/${document_info.id}/`;
+      axiosInstance
+      .delete(downloadUrl)
+      .then((response) => {
+        console.log(response)
+        getPaymentActivationForm()
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleFileChange = (e) => {
+    const newDocument = e.target.files[0];
+    console.log(newDocument)
+    setDocuments((documents) => [...documents, newDocument]);
+  };
+
+  const handleNewFileDelete = (name) => {
+    console.log(name);
+    setDocuments(documents.filter((item) => item.name !== name));
+    console.log(documents);
+  };
+
   
   const getDepartments = (e) => {
     setFormInfo(formInfo=> ({...formInfo, faculty: e}))
@@ -600,8 +643,57 @@ export default function FormViewDraft({retrievedFormInfo}) {
               Additional Documentation
             </Typography>
             {formInfo?.documents?.map((document) => (
-              <Typography variant="subtitle2"><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document))}}>{document.name}</Link></Typography>
+              <div>
+                  <IconButton
+                  aria-label="delete"
+                  style={{
+                    padding: 0,
+                    margin: "0px 10px 5px 0px",
+                    verticalAlign: "middle",
+                  }}
+                  onClick={() => {
+                    handleFileDelete(document)
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+                <Typography variant="subtitle2" style={{ display: "inline" }}><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document))}}>{document.name}</Link></Typography></div>
             ))}
+
+{documents?.map((document) => (
+              <div>
+                  <IconButton
+                  aria-label="delete"
+                  style={{
+                    padding: 0,
+                    margin: "0px 10px 5px 0px",
+                    verticalAlign: "middle",
+                  }}
+                  onClick={() => {
+                   handleNewFileDelete(document.name)
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+                <Typography variant="subtitle2" style={{ display: "inline" }}>
+                  {document.name}
+                </Typography>
+                </div>))}
+
+<div>
+              <input
+                accept="image/*"
+                id="contained-button-file"
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
+              <label htmlFor="contained-button-file">
+                <Button variant="contained" color="primary" component="span">
+                  Upload
+                </Button>
+              </label>
+            </div>
 
               <Typography
                 gutterBottom
@@ -861,6 +953,21 @@ export default function FormViewDraft({retrievedFormInfo}) {
                   </Typography>
                 </RadioGroup>
               </FormControl>
+
+              <Typography variant="body1" className="form-field-title">
+              Additional Documentation
+            </Typography>
+            {formInfo?.documents?.map((document) => (
+              <Typography variant="subtitle2">{document.name}</Typography>
+            ))}
+
+{documents?.map((document) => (
+              <div>
+                <Typography variant="subtitle2" style={{ display: "inline" }}>
+                  {document.name}
+                </Typography>
+                </div>))}
+            
               <Typography
                 gutterBottom
                 variant="body1"
