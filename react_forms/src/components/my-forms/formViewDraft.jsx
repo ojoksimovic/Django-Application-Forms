@@ -50,7 +50,7 @@ export default function FormViewDraft({retrievedFormInfo}) {
     const [formInfo, setFormInfo] = useState(retrievedFormInfo);
     const [departmentList, setDepartmentList] = useState([]);
     const [programList, setProgramList] = useState([]);
-    const [documents, setDocuments] = useState([]);
+    const [newDocuments, setNewDocuments] = useState([]);
 
   
     const history = useHistory();
@@ -100,8 +100,8 @@ export default function FormViewDraft({retrievedFormInfo}) {
           formData.append(name, value);
         });
     
-        for (let i = 0; i < documents.length; i++) {
-          formData.append("documents", documents[i]);
+        for (let i = 0; i < newDocuments.length; i++) {
+          formData.append("documents", newDocuments[i]);
         }
     
         console.log(formData);
@@ -109,6 +109,7 @@ export default function FormViewDraft({retrievedFormInfo}) {
         axiosInstance
           .patch("/api/payment-activation/", formData)
           .then(response => { setFormInfo(response.data)
+            setNewDocuments([]);
             if (redirect){history.push(redirect)}
           })
           .catch((error) => {
@@ -124,8 +125,8 @@ export default function FormViewDraft({retrievedFormInfo}) {
       .delete(downloadUrl)
       .then((response) => {
         console.log(response)
-        getPaymentActivationForm()
-      })
+      console.log(formInfo.documents.filter((item) => item.id !== document_info.id))
+        setFormInfo((formInfo=> ({...formInfo, documents: (formInfo.documents.filter((item) => item.id !== document_info.id))})))})
       .catch((error) => {
         console.log(error);
       });
@@ -134,13 +135,13 @@ export default function FormViewDraft({retrievedFormInfo}) {
   const handleFileChange = (e) => {
     const newDocument = e.target.files[0];
     console.log(newDocument)
-    setDocuments((documents) => [...documents, newDocument]);
+    setNewDocuments((newDocuments) => [...newDocuments, newDocument]);
   };
 
   const handleNewFileDelete = (name) => {
     console.log(name);
-    setDocuments(documents.filter((item) => item.name !== name));
-    console.log(documents);
+    setNewDocuments(newDocuments.filter((item) => item.name !== name));
+    console.log(newDocuments);
   };
 
   
@@ -660,7 +661,7 @@ export default function FormViewDraft({retrievedFormInfo}) {
                 <Typography variant="subtitle2" style={{ display: "inline" }}><Link style = {{cursor:'pointer'}}underline = 'hover' onClick={() => {(handleFileDownload(document))}}>{document.name}</Link></Typography></div>
             ))}
 
-{documents?.map((document) => (
+{newDocuments?.map((document) => (
               <div>
                   <IconButton
                   aria-label="delete"
@@ -961,7 +962,7 @@ export default function FormViewDraft({retrievedFormInfo}) {
               <Typography variant="subtitle2">{document.name}</Typography>
             ))}
 
-{documents?.map((document) => (
+{newDocuments?.map((document) => (
               <div>
                 <Typography variant="subtitle2" style={{ display: "inline" }}>
                   {document.name}
