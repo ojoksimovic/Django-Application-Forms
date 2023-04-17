@@ -683,7 +683,7 @@ export default function FormViewDraft({retrievedFormInfo}) {
 
 <div>
               <input
-                accept="image/*"
+                accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps"
                 id="contained-button-file"
                 type="file"
                 style={{ display: "none" }}
