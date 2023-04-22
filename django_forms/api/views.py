@@ -46,11 +46,9 @@ class TestView(viewsets.ViewSet):
 
     def list(self, request, format=None):
         dataset = Test.objects.all()
-        serializer = self.serializer_class(dataset, many=True)
-        print(serializer.data)
-        
+        serializer = self.serializer_class(dataset, many=True)        
         #check to see if user is logged in!
-        print(request.user.is_authenticated)
+        # print(request.user.is_authenticated)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request, format=None):
@@ -82,13 +80,11 @@ class PaymentActivationView(generics.ListAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
-        print(request)
         form_serializer = PaymentActivationSerializer(data=request.data, partial=True)
         if form_serializer.is_valid():
             payment_activation_form = form_serializer.save()
         
             for document in request.data.getlist('documents'):
-                print(document)
                 document_serializer=DocumentUploadSerializer(data={
             'form': payment_activation_form.pk,
             'name': document.name,
@@ -110,7 +106,6 @@ class PaymentActivationView(generics.ListAPIView):
             payment_activation_form = form_serializer.save()
 
             for document in request.data.getlist('documents'):
-                print(document)
                 document_serializer=DocumentUploadSerializer(data={
             'form': payment_activation_form.pk,
             'name': document.name,
@@ -132,7 +127,6 @@ class OGSView(generics.ListAPIView):
     def get(self, request, format=None):
         dataset = OGS.objects.all()
         serializer = self.serializer_class(dataset, many=True)
-        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
