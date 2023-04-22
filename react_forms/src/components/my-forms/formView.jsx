@@ -32,10 +32,6 @@ const getPaymentActivationForm = () => {
     '/api/payment-activation/'
   )
   .then(response => { 
-    // TO DO #1: ADD DOWNLOAD DOCUMENTS API VIEW
-    // TO DO #2: REMOVE DOCUMENT FILE FROM BEIGN SENT THROUGH SERIALIZER ON FORM VIEW
-    // TO DO #3: MAKE SURE DOCUMENTS ARE NOT SENT IN THE FORM TABLE VIEW
-    console.log(response);
     for (let i = 0; i < response.data.length; i++){
     if (response.data[i].confirmation_number == confirmationNumber){
       setFormInfo(response.data[i])

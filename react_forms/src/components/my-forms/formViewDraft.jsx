@@ -103,9 +103,7 @@ export default function FormViewDraft({retrievedFormInfo}) {
         for (let i = 0; i < newDocuments.length; i++) {
           formData.append("documents", newDocuments[i]);
         }
-    
-        console.log(formData);
-    
+        
         axiosInstance
           .patch("/api/payment-activation/", formData)
           .then(response => { setFormInfo(response.data)
@@ -124,8 +122,6 @@ export default function FormViewDraft({retrievedFormInfo}) {
       axiosInstance
       .delete(downloadUrl)
       .then((response) => {
-        console.log(response)
-      console.log(formInfo.documents.filter((item) => item.id !== document_info.id))
         setFormInfo((formInfo=> ({...formInfo, documents: (formInfo.documents.filter((item) => item.id !== document_info.id))})))})
       .catch((error) => {
         console.log(error);
@@ -134,14 +130,11 @@ export default function FormViewDraft({retrievedFormInfo}) {
 
   const handleFileChange = (e) => {
     const newDocument = e.target.files[0];
-    console.log(newDocument)
     setNewDocuments((newDocuments) => [...newDocuments, newDocument]);
   };
 
   const handleNewFileDelete = (name) => {
-    console.log(name);
     setNewDocuments(newDocuments.filter((item) => item.name !== name));
-    console.log(newDocuments);
   };
 
   

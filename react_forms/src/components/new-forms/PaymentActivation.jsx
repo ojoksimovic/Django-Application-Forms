@@ -74,7 +74,6 @@ export default function PaymentActivation() {
     axiosInstance
       .get("/api/payment-activation/")
       .then((response) => {
-        console.log(response.data);
       })
       .catch((error) => {
         setError(error.response.status);
@@ -92,8 +91,6 @@ export default function PaymentActivation() {
     for (let i = 0; i < documents.length; i++) {
       formData.append("documents", documents[i]);
     }
-
-    console.log(formData);
 
     axiosInstance
       .post("/api/payment-activation/", formData)
@@ -293,9 +290,7 @@ export default function PaymentActivation() {
   };
 
   const handleFileDelete = (name) => {
-    console.log(name);
     setDocuments(documents.filter((item) => item.name !== name));
-    console.log(documents);
   };
 
   const handleSubmit = () => {

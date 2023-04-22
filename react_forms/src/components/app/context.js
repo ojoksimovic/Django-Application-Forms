@@ -23,7 +23,6 @@ export const withContext = (Component) => {
         const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
         const getUserInfo = () => {
-          console.log('context api call:' + {role})
             axiosInstance
             .post(
               '/users/user-info/', {role: role}
