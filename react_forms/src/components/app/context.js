@@ -38,21 +38,24 @@ export const withContext = (Component) => {
 
           const handleFileDownload = (document_info) => {
             const downloadUrl = `/api/download/${document_info.id}/`;
-            axiosInstance
-            .get(downloadUrl)
-            .then((response) => {
-              const url = window.URL.createObjectURL(new Blob([response.data]));
-              const link = document.createElement("a");
-              link.href = url;
-              link.setAttribute("download", document_info.name.replace(/ /g, '_'));
-              document.body.appendChild(link);
-              link.click();
-              link.parentNode.removeChild(link);
+            axiosInstance({
+              url: downloadUrl,
+              method: 'GET',
+              responseType: 'blob'
             })
-            .catch((error) => {
-              console.log(error);
-            });
-        };
+              .then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", document_info.name.replace(/ /g, '_'));
+                document.body.appendChild(link);
+                link.click();
+                link.parentNode.removeChild(link);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          };
 
           const convertDate = (date) => {
             if (date) {

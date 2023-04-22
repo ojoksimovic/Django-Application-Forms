@@ -23,7 +23,8 @@ class DocumentView(generics.RetrieveAPIView):
         document = self.get_object()
 
         if document.file:
-            file_data = document.file.read()
+            with open(document.file.path, 'rb') as f:
+                file_data = f.read()
             response = HttpResponse(file_data, content_type='application/pdf')
             response['Content-Disposition'] = f'attachment; filename="{document.name}"'
             return response
