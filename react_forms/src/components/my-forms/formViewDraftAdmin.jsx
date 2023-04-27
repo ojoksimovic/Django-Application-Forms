@@ -32,7 +32,7 @@ export default function FormViewDraftAdmin({retrievedFormInfo}) {
     const [submitCheck, setSubmitCheck] = useState();
     const [submit, setSubmit] = useState(false);
     const [confirm, setConfirm] = useState();
-    const [error, setError] = useState();
+    const [error, setError] = useState(); 
     const [formInfo, setFormInfo] = useState(retrievedFormInfo);
 
    

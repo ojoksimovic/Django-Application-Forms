@@ -104,16 +104,16 @@ class PaymentActivationView(generics.ListAPIView):
         form_serializer = PaymentActivationSerializer(form_object, data=request.data, partial=True)
         if form_serializer.is_valid():
             payment_activation_form = form_serializer.save()
-
-            for document in request.data.getlist('documents'):
-                document_serializer=DocumentUploadSerializer(data={
-            'form': payment_activation_form.pk,
-            'name': document.name,
-            'file': document
-                })
-                if document_serializer.is_valid():
-                    document_serializer.save()
-    
+            if request.data.get('documents'):
+                for document in request.data.getlist('documents'):
+                    document_serializer=DocumentUploadSerializer(data={
+                'form': payment_activation_form.pk,
+                'name': document.name,
+                'file': document
+                    })
+                    if document_serializer.is_valid():
+                        document_serializer.save()
+        
             if payment_activation_form:
                 json = form_serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
