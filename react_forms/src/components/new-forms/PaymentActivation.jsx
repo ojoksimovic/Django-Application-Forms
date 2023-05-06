@@ -181,6 +181,10 @@ export default function PaymentActivation() {
     } else {
       setComplete(true);
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      //scroll to top needs short timout in order to work
+      setTimeout(function () {
+        window.scrollTo(0, 0);
+      }, 2);
       handleFormUpdate();
     }
   };
