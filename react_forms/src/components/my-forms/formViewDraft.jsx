@@ -39,6 +39,7 @@ export default function FormViewDraft({ retrievedFormInfo }) {
 
   const [complete, setComplete] = useState();
   const [loaded, setLoaded] = useState();
+  const [saved, setSaved] = useState();
   const [submitCheck, setSubmitCheck] = useState();
   const [submit, setSubmit] = useState(false);
   const [confirm, setConfirm] = useState();
@@ -209,7 +210,15 @@ export default function FormViewDraft({ retrievedFormInfo }) {
     }
   };
 
-  const handleFormUpdate = () => {
+  const handleFormUpdate = (action) => {
+    console.log(action)
+    // improve by verifying after response is recieved
+    if (action == 'save'){
+      setSaved(true);
+      setTimeout(function () {
+        window.scrollTo(0, 0);
+      }, 2);
+    }
     editPaymentActivationForm({
       confirmation_number: formInfo.confirmation_number,
       student_number: formInfo.student_number,
@@ -323,6 +332,14 @@ export default function FormViewDraft({ retrievedFormInfo }) {
       case 0:
         return (
           <div>
+            {saved?
+              <Alert severity="info">
+              <AlertTitle style={{ fontWeight: 800 }}>
+                Your progress is saved.
+              </AlertTitle>
+              Please review the information below to ensure it is accurate, then
+              click <strong>Next</strong> at the bottom of the page to continue to submission.
+            </Alert>:<></>}
             <Typography
               gutterBottom
               variant="body1"
@@ -1152,7 +1169,7 @@ export default function FormViewDraft({ retrievedFormInfo }) {
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={handleFormUpdate}
+                  onClick={ () => handleFormUpdate('save')}
                 >
                   {" "}
                   Save
