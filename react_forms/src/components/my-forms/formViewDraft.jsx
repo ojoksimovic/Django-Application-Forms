@@ -211,7 +211,6 @@ export default function FormViewDraft({ retrievedFormInfo }) {
   };
 
   const handleFormUpdate = (action) => {
-    console.log(action)
     // improve by verifying after response is recieved
     if (action == 'save'){
       setSaved(true);
