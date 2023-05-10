@@ -46,6 +46,7 @@ export default function PaymentActivation() {
   const [startDateAward, setStartDateAward] = useState();
   const [confirm, setConfirm] = useState();
   const [complete, setComplete] = useState();
+  const [saved, setSaved] = useState();
   const [submitCheck, setSubmitCheck] = useState();
   const [submit, setSubmit] = useState(false);
   const [formInfo, setFormInfo] = useState();
@@ -189,7 +190,14 @@ export default function PaymentActivation() {
     }
   };
 
-  const handleFormUpdate = () => {
+  const handleFormUpdate = (action) => {
+    // improve by verifying after response is recieved
+    if (action == 'save'){
+      setSaved(true);
+      setTimeout(function () {
+        window.scrollTo(0, 0);
+      }, 2);
+    }
     formInfo?.confirmation_number
       ? editPaymentActivationForm({
           confirmation_number: formInfo.confirmation_number,
@@ -326,6 +334,14 @@ export default function PaymentActivation() {
       case 0:
         return (
           <div>
+              {saved?
+              <Alert severity="info">
+              <AlertTitle style={{ fontWeight: 800 }}>
+                Your progress is saved.
+              </AlertTitle>
+              Please review the information below to ensure it is accurate, then
+              click <strong>Next</strong> at the bottom of the page to continue to submission.
+            </Alert>:<></>}
             <Typography variant="body1" className="form-field-title">
               First Name
             </Typography>
@@ -984,7 +1000,7 @@ export default function PaymentActivation() {
                         <Button
                           variant="contained"
                           color="secondary"
-                          onClick={handleFormUpdate}
+                          onClick={ () => handleFormUpdate("save")}
                         >
                           {" "}
                           Save
