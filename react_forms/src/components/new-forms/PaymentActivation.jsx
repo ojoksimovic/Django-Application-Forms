@@ -97,6 +97,10 @@ export default function PaymentActivation() {
       .post("/api/payment-activation/", formData)
       .then((response) => {
         setFormInfo(response.data);
+          setSaved(true);
+          setTimeout(function () {
+            window.scrollTo(0, 0);
+          }, 2);
       })
       .catch((error) => {
         setError(error.response.status);
@@ -190,14 +194,7 @@ export default function PaymentActivation() {
     }
   };
 
-  const handleFormUpdate = (action) => {
-    // improve by verifying after response is recieved
-    if (action == 'save'){
-      setSaved(true);
-      setTimeout(function () {
-        window.scrollTo(0, 0);
-      }, 2);
-    }
+  const handleFormUpdate = () => {
     formInfo?.confirmation_number
       ? editPaymentActivationForm({
           confirmation_number: formInfo.confirmation_number,
@@ -1000,7 +997,7 @@ export default function PaymentActivation() {
                         <Button
                           variant="contained"
                           color="secondary"
-                          onClick={ () => handleFormUpdate("save")}
+                          onClick={ () => handleFormUpdate()}
                         >
                           {" "}
                           Save
