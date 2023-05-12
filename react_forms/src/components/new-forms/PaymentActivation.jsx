@@ -74,8 +74,7 @@ export default function PaymentActivation() {
   const getPaymentActivationForm = () => {
     axiosInstance
       .get("/api/payment-activation/")
-      .then((response) => {
-      })
+      .then((response) => {})
       .catch((error) => {
         setError(error.response.status);
         console.log(error.response);
@@ -97,10 +96,10 @@ export default function PaymentActivation() {
       .post("/api/payment-activation/", formData)
       .then((response) => {
         setFormInfo(response.data);
-          setSaved(true);
-          setTimeout(function () {
-            window.scrollTo(0, 0);
-          }, 2);
+        setSaved(true);
+        setTimeout(function () {
+          window.scrollTo(0, 0);
+        }, 2);
       })
       .catch((error) => {
         setError(error.response.status);
@@ -113,7 +112,10 @@ export default function PaymentActivation() {
       .patch("/api/payment-activation/", data)
       .then((response) => {
         setFormInfo(response.data);
-        history.push(redirect);
+        redirect ? history.push(redirect) : setSaved(true);
+        setTimeout(function () {
+          window.scrollTo(0, 0);
+        }, 2);
       })
       .catch((error) => {
         setError(error.response.status);
@@ -331,14 +333,18 @@ export default function PaymentActivation() {
       case 0:
         return (
           <div>
-              {saved?
+            {saved ? (
               <Alert severity="info">
-              <AlertTitle style={{ fontWeight: 800 }}>
-                Your progress is saved.
-              </AlertTitle>
-              Please review the information below to ensure it is accurate, then
-              click <strong>Next</strong> at the bottom of the page to continue to submission.
-            </Alert>:<></>}
+                <AlertTitle style={{ fontWeight: 800 }}>
+                  Your progress is saved.
+                </AlertTitle>
+                Please review the information below to ensure it is accurate,
+                then click <strong>Next</strong> at the bottom of the page to
+                continue to submission.
+              </Alert>
+            ) : (
+              <></>
+            )}
             <Typography variant="body1" className="form-field-title">
               First Name
             </Typography>
@@ -997,7 +1003,7 @@ export default function PaymentActivation() {
                         <Button
                           variant="contained"
                           color="secondary"
-                          onClick={ () => handleFormUpdate()}
+                          onClick={() => handleFormUpdate()}
                         >
                           {" "}
                           Save
