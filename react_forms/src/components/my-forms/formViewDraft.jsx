@@ -105,9 +105,10 @@ export default function FormViewDraft({ retrievedFormInfo }) {
       .then((response) => {
         setFormInfo(response.data);
         setNewDocuments([]);
-        if (redirect) {
-          history.push(redirect);
-        }
+        redirect ? history.push(redirect) : setSaved(true);
+        setTimeout(function () {
+          window.scrollTo(0, 0);
+        }, 2);
       })
       .catch((error) => {
         setError(error.response.status);
@@ -210,14 +211,7 @@ export default function FormViewDraft({ retrievedFormInfo }) {
     }
   };
 
-  const handleFormUpdate = (action) => {
-    // improve by verifying after response is recieved
-    if (action == 'save'){
-      setSaved(true);
-      setTimeout(function () {
-        window.scrollTo(0, 0);
-      }, 2);
-    }
+  const handleFormUpdate = () => {
     editPaymentActivationForm({
       confirmation_number: formInfo.confirmation_number,
       student_number: formInfo.student_number,
@@ -331,14 +325,18 @@ export default function FormViewDraft({ retrievedFormInfo }) {
       case 0:
         return (
           <div>
-            {saved?
+            {saved ? (
               <Alert severity="info">
-              <AlertTitle style={{ fontWeight: 800 }}>
-                Your progress is saved.
-              </AlertTitle>
-              Please review the information below to ensure it is accurate, then
-              click <strong>Next</strong> at the bottom of the page to continue to submission.
-            </Alert>:<></>}
+                <AlertTitle style={{ fontWeight: 800 }}>
+                  Your progress is saved.
+                </AlertTitle>
+                Please review the information below to ensure it is accurate,
+                then click <strong>Next</strong> at the bottom of the page to
+                continue to submission.
+              </Alert>
+            ) : (
+              <></>
+            )}
             <Typography
               gutterBottom
               variant="body1"
@@ -1168,7 +1166,7 @@ export default function FormViewDraft({ retrievedFormInfo }) {
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={ () => handleFormUpdate('save')}
+                  onClick={() => handleFormUpdate()}
                 >
                   {" "}
                   Save
