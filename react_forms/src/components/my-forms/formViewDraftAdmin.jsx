@@ -30,6 +30,7 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
   const [complete, setComplete] = useState();
   const [submitCheck, setSubmitCheck] = useState();
   const [submit, setSubmit] = useState(false);
+  const [saved, setSaved] = useState();
   const [confirm, setConfirm] = useState();
   const [error, setError] = useState();
   const [formInfo, setFormInfo] = useState(retrievedFormInfo);
@@ -58,9 +59,10 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
       .patch("/api/payment-activation/", data)
       .then((response) => {
         setFormInfo(response.data);
-        if (redirect) {
-          history.push(redirect);
-        }
+        redirect ? history.push(redirect) : setSaved(true);
+        setTimeout(function () {
+          window.scrollTo(0, 0);
+        }, 2);
       })
       .catch((error) => {
         setError(error.response.status);
@@ -143,6 +145,18 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
       case 0:
         return (
           <div>
+            {saved ? (
+              <Alert severity="info">
+                <AlertTitle style={{ fontWeight: 800 }}>
+                  Your progress is saved.
+                </AlertTitle>
+                Please review the information below to ensure it is accurate,
+                then click <strong>Next</strong> at the bottom of the page to
+                continue to submission.
+              </Alert>
+            ) : (
+              <></>
+            )}
             <Typography
               gutterBottom
               variant="body1"
@@ -1098,7 +1112,7 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={handleFormUpdate}
+                  onClick={() => handleFormUpdate()}
                 >
                   {" "}
                   Save
