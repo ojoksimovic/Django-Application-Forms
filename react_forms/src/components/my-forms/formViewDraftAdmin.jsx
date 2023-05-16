@@ -131,6 +131,10 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setSaved(false);
+    setTimeout(function () {
+      window.scrollTo(0, 0);
+    }, 2);
   };
 
   const handleReset = () => {
