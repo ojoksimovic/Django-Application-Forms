@@ -116,7 +116,7 @@ class PaymentActivationView(generics.ListAPIView):
         
             if payment_activation_form:
                 json = form_serializer.data
-                return Response(json, status=status.HTTP_201_CREATED)
+                return Response(json, status=status.HTTP_200_OK)
         return Response(form_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -136,4 +136,3 @@ class OGSView(generics.ListAPIView):
             return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Application Not Submitted!'}, status=status.status.HTTP_400_BAD_REQUEST)
-        
