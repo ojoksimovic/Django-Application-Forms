@@ -196,6 +196,32 @@ export default function PaymentActivation() {
     }
   };
 
+  const handleSave = () => {
+    setSubmitCheck(true);
+    executeScroll();
+    if (
+      !studentNumber ||
+      !faculty ||
+      !department ||
+      !program ||
+      !startDateProgram ||
+      !agency ||
+      !duration ||
+      !startDateAward ||
+      !confirm
+    ) {
+      setComplete(false);
+    } else if (
+      (agency == "Connaught" && !paymentType) ||
+      (agency == "Trillium" && !paymentType)
+    ) {
+      setComplete(false);
+    } else {
+      setComplete(true);
+      handleFormUpdate();
+    }
+  };
+
   const handleFormUpdate = () => {
     formInfo?.confirmation_number
       ? editPaymentActivationForm({
@@ -1007,7 +1033,7 @@ export default function PaymentActivation() {
                         <Button
                           variant="contained"
                           color="secondary"
-                          onClick={() => handleFormUpdate()}
+                          onClick={() => handleSave()}
                         >
                           {" "}
                           Save

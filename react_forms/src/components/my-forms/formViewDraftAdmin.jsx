@@ -101,6 +101,32 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
     }
   };
 
+  const handleSave = () => {
+    setSubmitCheck(true);
+    executeScroll();
+    if (
+      (formInfo.award_duration == "CGS M (12 months)" &&
+        !formInfo.admin_research_requirement) ||
+      (formInfo.award == "OGS" && !formInfo.admin_matching_portion) ||
+      (formInfo.award == "Connaught" &&
+        !formInfo.admin_departmental_award &&
+        !formInfo.admin_utf &&
+        !formInfo.admin_ta &&
+        !formInfo.admin_ra) ||
+      (formInfo.award == "Trillium" &&
+        !formInfo.admin_departmental_award &&
+        !formInfo.admin_utf &&
+        !formInfo.admin_ta &&
+        !formInfo.admin_ra) ||
+      !confirm
+    ) {
+      setComplete(false);
+    } else {
+      setComplete(true);
+      handleFormUpdate();
+    }
+  };
+
   const handleFormUpdate = () => {
     editPaymentActivationForm({
       confirmation_number: formInfo.confirmation_number,
@@ -1116,7 +1142,7 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={() => handleFormUpdate()}
+                  onClick={() => handleSave()}
                 >
                   {" "}
                   Save

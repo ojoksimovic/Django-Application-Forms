@@ -211,6 +211,32 @@ export default function FormViewDraft({ retrievedFormInfo }) {
     }
   };
 
+  const handleSave = () => {
+    setSubmitCheck(true);
+    executeScroll();
+    if (
+      !formInfo.student_number ||
+      !formInfo.faculty ||
+      !formInfo.graduate_unit ||
+      !formInfo.program ||
+      !formInfo.degree_start_date ||
+      !formInfo.award ||
+      !formInfo.award_duration ||
+      !formInfo.award_start_session ||
+      !confirm
+    ) {
+      setComplete(false);
+    } else if (
+      (formInfo.award == "Connaught" && !formInfo.type_payment_request) ||
+      (formInfo.award == "Trillium" && !formInfo.type_payment_request)
+    ) {
+      setComplete(false);
+    } else {
+      setComplete(true);
+      handleFormUpdate();
+    }
+  };
+
   const handleFormUpdate = () => {
     editPaymentActivationForm({
       confirmation_number: formInfo.confirmation_number,
@@ -1170,7 +1196,7 @@ export default function FormViewDraft({ retrievedFormInfo }) {
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={() => handleFormUpdate()}
+                  onClick={() => handleSave()}
                 >
                   {" "}
                   Save
