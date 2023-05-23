@@ -7,7 +7,7 @@ import Moment from "react-moment";
 import ROUTE from "../app/route";
 import axios from 'axios';
 import axiosInstance from '../app/api';
-import { Paper, Typography, Button, FormControl, InputLabel, Select } from "@material-ui/core";
+import { Paper, Typography, Button, FormControl, InputLabel, Select, CircularProgress } from "@material-ui/core";
 import { CodeSharp } from "@material-ui/icons";
 
 export default function FormsTable() {
@@ -322,7 +322,13 @@ axiosInstance
           ) : null}
         </>
       ) : null} */}
-    </div>:null}
+    </div>:
+    <div style = {{padding: "50px"}}>
+<Typography variant = "h6" component = "h2">
+Loading forms... please wait
+</Typography>
+<CircularProgress  style = {{margin: "20px 0px 0px 0px"}}/>
+    </div>}
     </div>
   );
 }
