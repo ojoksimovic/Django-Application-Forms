@@ -323,11 +323,19 @@ axiosInstance
         </>
       ) : null} */}
     </div>:
-    <div style = {{padding: "50px"}}>
-<Typography variant = "h6" component = "h2">
+    <div className="container" style = {{padding: "50px"}}>
+<div className="row">
+<div className = "col-12 text-center">
+<CircularProgress disableShrink color = "inherit" size = {50} style = {{margin: 20}}/>
+    </div>
+    </div>
+    <div className="row">
+  <div className = "col-12 text-center">
+    <Typography variant = "subtitle1">
 Loading forms... please wait
 </Typography>
-<CircularProgress  style = {{margin: "20px 0px 0px 0px"}}/>
+</div>
+</div>
     </div>}
     </div>
   );
