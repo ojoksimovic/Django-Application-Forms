@@ -177,13 +177,14 @@ export default function Credentials() {
         </Typography>
       </CardContent>
 
-{loggingIn ?
+{loggingIn & !error ?
 
 <CardContent  style = {{padding: "50px"}}>
 <Typography variant = "h6" component = "h2">
 Signing in... please wait
 </Typography>
 <LinearProgress  style = {{margin: "20px 0px 0px 0px"}}/>
+
 </CardContent> :
       <CardContent style={{ padding: "50px" }}>
         <Typography variant="h6" component="p" style={{ marginBottom: 20 }}>
