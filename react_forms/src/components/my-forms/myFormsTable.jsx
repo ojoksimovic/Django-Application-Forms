@@ -146,7 +146,7 @@ axiosInstance
       headerName: 'Applicant Form',
       width: 150,
       align: 'left',
-      renderCell: (params: GridRowParams) => (
+      renderCell: (params) => (
         <strong>
           {params.row.submitted?
           <Button
@@ -184,7 +184,7 @@ axiosInstance
       width: 150,
       align: 'left',
       hide: userInfo.role != 'administrator' && userInfo.role != 'super administrator',
-      renderCell: (params: GridRowParams) => (
+      renderCell: (params) => (
         <strong>
           {params.row.submitted?
           <Button
