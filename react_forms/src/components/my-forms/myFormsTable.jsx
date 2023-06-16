@@ -60,7 +60,6 @@ axiosInstance
 )
 .then(response => {getPaymentActivationForm();
   getUserInfo();
-// setLoaded(false)
 })
 .catch(error => {console.log(error.response)})
 }
@@ -203,6 +202,34 @@ axiosInstance
         </strong>
       ),
     },
+
+    {
+      field: 'award_letter',
+      headerName: 'Award Letter',
+      width: 150,
+      align: 'left',
+      renderCell: (params) => (
+        <strong>
+          {params.row.admin_submitted?
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            className = 'login-button'
+              style={{ backgroundColor: "#002a5c", color: "white" }}
+            // onClick={(e) =>
+            //   history.push(
+            //     ROUTE.MY_FORMS + "/" + 
+            //     params.row.admin_confirmation_number
+            //   )
+            // }
+          >
+              Award Letter
+          </Button>:null}
+        </strong>
+      ),
+    },
+
     { field: "collection", headerName: "Collection", width: 200 },
     { field: "type", headerName: "Type", width: 160 },
     { field: "initiator", headerName: "Initiator", width: 160 },
