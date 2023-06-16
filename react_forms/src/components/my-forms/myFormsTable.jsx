@@ -1,14 +1,11 @@
-import React, { useState, useContext, useEffect } from "react";
+import { Button, CircularProgress, FormControl, InputLabel, Select, Typography } from "@material-ui/core";
 import { DataGrid, GridToolbar, GridToolbarContainer, GridToolbarExport } from "@material-ui/data-grid";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import "../app/style.css";
-import { Context, withContext } from "../app/context";
-import Moment from "react-moment";
-import ROUTE from "../app/route";
-import axios from 'axios';
 import axiosInstance from '../app/api';
-import { Paper, Typography, Button, FormControl, InputLabel, Select, CircularProgress } from "@material-ui/core";
-import { CodeSharp } from "@material-ui/icons";
+import { Context } from "../app/context";
+import ROUTE from "../app/route";
+import "../app/style.css";
 
 export default function FormsTable() {
   const { role, setRole, userInfo, setUserInfo, getUserInfo, rows, setRows, convertDate, isMobile } = useContext(Context);
@@ -286,42 +283,7 @@ axiosInstance
         onRowClick={(e) => setSelectedRow(e.row)}
         autoHeight="true"
         checkboxSelection
-        // onRowSelected={(e) => console.log(e.data)}
       />
-      {/* {selectedRow ? (
-        <>
-          <Button
-            variant="contained"
-            className="form-button"
-            style={{ margin: 10 }}
-            onClick={(e) =>
-              history.push(
-                ROUTE.MY_FORMS + "/" + selectedRow.confirmation_number
-              )
-            }
-          >
-            {selectedRow.submitted
-              ? "View Applicant Form"
-              : "Complete Applicant Form"}
-          </Button>
-          {selectedRow.submitted ? (
-            <Button
-              variant="contained"
-              className="form-button"
-              style={{ margin: 10 }}
-              onClick={(e) =>
-                history.push(
-                  ROUTE.MY_FORMS + "/" + selectedRow.admin_confirmation_number
-                )
-              }
-            >
-              {selectedRow.admin_submitted
-                ? "View Administrator Form"
-                : "Complete Administrator Form"}
-            </Button>
-          ) : null}
-        </>
-      ) : null} */}
     </div>:
     <div className="container" style = {{padding: "50px"}}>
 <div className="row">
