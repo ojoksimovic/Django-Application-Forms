@@ -18,6 +18,7 @@ import OGS from './components/new-forms/OGS';
 import TravelGrant from './components/new-forms/TravelGrant';
 import GymBursary from './components/new-forms/GymBursary';
 import formView from './components/my-forms/formView';
+import AwardLetter from './components/my-forms/awardLetter';
 
 
 const drawerWidth = 240;
@@ -87,6 +88,7 @@ function App() {
         <Route path={ROUTE.OGS} component={OGS}/> 
         <Route path={ROUTE.TRAVEL_GRANT} component={TravelGrant}/> 
         <Route path={ROUTE.GYM_BURSARY} component={GymBursary}/> 
+        <Route path={ROUTE.AWARD_LETTER} component={AwardLetter}/>
         
 
         </main>

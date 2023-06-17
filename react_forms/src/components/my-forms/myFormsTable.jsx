@@ -217,12 +217,13 @@ axiosInstance
             size="small"
             className = 'login-button'
               style={{ backgroundColor: "#002a5c", color: "white" }}
-            // onClick={(e) =>
-            //   history.push(
-            //     ROUTE.MY_FORMS + "/" + 
+            onClick={(e) =>
+              history.push(
+                ROUTE.AWARD_LETTER
+            // + "/" + 
             //     params.row.admin_confirmation_number
-            //   )
-            // }
+              )
+            }
           >
               Award Letter
           </Button>:null}

@@ -16,6 +16,7 @@ const ROUTE = {
     OGS: '/new-form/2',
     TRAVEL_GRANT: '/new-form/3',
     GYM_BURSARY: '/new-form/4',
+    AWARD_LETTER: '/award-letter/'
 
 }
 
