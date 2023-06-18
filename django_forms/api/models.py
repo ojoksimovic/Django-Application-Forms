@@ -87,6 +87,7 @@ class Payment_Activation(models.Model):
     admin_ra = models.IntegerField (blank=True, null=True)
     admin_other_source = models.IntegerField (blank=True, null=True)
     admin_payment_notes = models.CharField(max_length=500, blank=True, null=True)
+    admin_award_letter_notes = models.CharField(max_length=500, blank=True, null=True)
     admin_submitted = models.BooleanField(blank=True, null = True)
     admin_submitted_at = models.DateTimeField(blank=True, null=True)
     admin_confirmation_number = models.CharField(max_length = 25, default = generate_confirmation_number, unique=True)
