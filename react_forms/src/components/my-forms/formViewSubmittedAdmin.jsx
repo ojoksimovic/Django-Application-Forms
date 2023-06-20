@@ -363,6 +363,14 @@ export default function FormViewSubmittedAdmin({formInfo}) {
      Payment Notes (optional)            
      </Typography>
      <TextField disabled value = {formInfo.admin_payment_notes} variant='outlined' fullWidth multiline rows = {5} rowsMax={10}/>
+     <Typography
+                   variant="body1"
+                   className="form-field-title"
+                 >
+     Supplemental Award Letter Notes (optional)            
+     </Typography>
+     <TextField disabled value = {formInfo.admin_award_letter_notes} variant='outlined' fullWidth multiline rows = {5} rowsMax={10}/>
+
      <Checkbox disabled
                        checked='true'
                        color="primary"

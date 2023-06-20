@@ -138,6 +138,7 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
       admin_ra: formInfo.admin_ra,
       admin_other_source: formInfo.admin_other_source,
       admin_payment_notes: formInfo.admin_payment_notes,
+      admin_award_letter_notes: formInfo.admin_award_letter_notes,
       admin_submitted: formInfo.admin_submitted,
     });
   };
@@ -618,6 +619,28 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
               rows={5}
               rowsMax={10}
             />
+            <Typography variant="body1" className="form-field-title">
+              Supplemental Award Letter Notes (optional)
+            </Typography>
+            <TextField
+              value={formInfo.admin_award_letter_notes}
+              onChange={(e) =>
+                e.target.value
+                  ? setFormInfo((formInfo) => ({
+                      ...formInfo,
+                      admin_award_letter_notes: e.target.value,
+                    }))
+                  : setFormInfo((formInfo) => ({
+                      ...formInfo,
+                      admin_award_letter_notes: null,
+                    }))
+              }
+              variant="outlined"
+              fullWidth
+              multiline
+              rows={5}
+              rowsMax={10}
+            />
             <Checkbox
               checked={confirm}
               onChange={(e) => {
@@ -1069,6 +1092,18 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
             <TextField
               disabled
               value={formInfo.admin_payment_notes}
+              variant="outlined"
+              fullWidth
+              multiline
+              rows={5}
+              rowsMax={10}
+            />
+                        <Typography variant="body1" className="form-field-title">
+              Supplemental Award Letter Notes (optional)
+            </Typography>
+            <TextField
+              disabled
+              value={formInfo.admin_award_letter_notes}
               variant="outlined"
               fullWidth
               multiline
