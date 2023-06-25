@@ -91,6 +91,7 @@ class Payment_Activation(models.Model):
     admin_submitted = models.BooleanField(blank=True, null = True)
     admin_submitted_at = models.DateTimeField(blank=True, null=True)
     admin_confirmation_number = models.CharField(max_length = 25, default = generate_confirmation_number, unique=True)
+    award_letter = models.CharField(max_length= 1000, blank=True, null=True)
 
 class Document(models.Model):
     form = models.ForeignKey(Payment_Activation, related_name='documents', on_delete=models.CASCADE)
