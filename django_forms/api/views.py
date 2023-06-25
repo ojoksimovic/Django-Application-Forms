@@ -14,6 +14,8 @@ from users.models import CustomUser
 from users.serializers import CustomUserSerializer
 from django.db.models.query_utils import Q
 import os
+import openai
+
 
 class DocumentView(generics.RetrieveAPIView):
     queryset = Document.objects.all()
@@ -118,6 +120,18 @@ class PaymentActivationView(generics.ListAPIView):
                 json = form_serializer.data
                 return Response(json, status=status.HTTP_200_OK)
         return Response(form_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+def get_award_letter(name, department, start_date, end_date, award):
+    openai.api_key = settings.OPENAI_API_KEY
+    response = openai.Completion.create(
+    model= "text-davinci-003",
+    prompt= f"Write an award letter for a student named {name} from the {department} receiving the {award} award. The letter should be written from the 'University of Mock' and indicate the student is taking up the award from {start_date} to {end_date}. Do not include any placeholders.",
+    max_tokens= 500,
+    frequency_penalty= 0.2,
+    presence_penalty= 1.0
+    )
+    return response
+
 
 
 class OGSView(generics.ListAPIView):
