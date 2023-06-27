@@ -219,7 +219,7 @@ axiosInstance
               style={{ backgroundColor: "#002a5c", color: "white" }}
             onClick={(e) =>
               history.push(
-                ROUTE.AWARD_LETTER
+                ROUTE.AWARD + "/" + params.row.confirmation_number
             // + "/" + 
             //     params.row.admin_confirmation_number
               )
