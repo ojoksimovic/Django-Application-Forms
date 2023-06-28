@@ -17,7 +17,6 @@ import os
 import openai
 import socket
 
-
 class DocumentView(generics.RetrieveAPIView):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
@@ -132,18 +131,18 @@ class PaymentActivationView(generics.ListAPIView):
         return Response(form_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
 def get_award_letter(form):
+    timeout = 20  #timeout value in seconds
+    socket.setdefaulttimeout(timeout)
     openai.api_key = settings.OPENAI_API_KEY
     response = openai.Completion.create(
     model= "text-davinci-003",
-    prompt= f"Write an award letter for a student named {form.user.first_name} {form.user.last_name} from the department of {form.user.department} receiving the {form.award} {form.award_duration} award. The letter should be written from the 'University of Mock' and indicate the student is taking up the award from {form.award_start_session}. Include the end date and the dollar amount of the award. Include the following additional information: {form.admin_award_letter_notes}. Do not include any placeholders.",
+    prompt= f"Write an award letter for a student named {form.user.first_name} {form.user.last_name} from the department of {form.graduate_unit} receiving the {form.award} {form.award_duration} award. The letter should be written from the 'University of Mock' and indicate the student is taking up the award from {form.award_start_session}. Include the end date and the dollar amount of the award. Include the following additional information: {form.admin_award_letter_notes}. Do not include any placeholders in brackets, as the response will be the final version of the letter.",
     max_tokens= 500,
     frequency_penalty= 0.2,
     presence_penalty= 1.0
     )
     generated_text = response.choices[0].text
     return generated_text
-
-
 
 class OGSView(generics.ListAPIView):
     queryset = OGS.objects.all()
