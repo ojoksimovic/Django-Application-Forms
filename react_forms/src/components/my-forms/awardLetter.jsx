@@ -1,35 +1,50 @@
 import {
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    Link,
-    Radio,
-    RadioGroup,
-    Typography, Paper,
+  Paper,
+  Typography,
 } from "@material-ui/core";
 import "bootstrap/dist/css/bootstrap.css";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import NavBar from "../app/NavBar";
 import axiosInstance from '../app/api';
 import { Context } from "../app/context";
-import NavBar from "../app/NavBar";
 
 
-export default function AwardLetter({formInfo}) {  
 
-    const {userInfo, convertDate, handleFileDownload} = useContext(Context);
+export default function AwardLetter() {  
 
+    const [formInfo, setFormInfo] = useState();
+    const [formView, setFormView] = useState();
+    const {userInfo} = useContext(Context);
+    const [loaded, setLoaded] = useState();
+    const {confirmationNumber} = useParams();
+
+    useEffect(()=> {
+      if (!loaded){
+        setLoaded(true)
+      getPaymentActivationForm();
+      }
+    })
     const getPaymentActivationForm = () => {
       axiosInstance
       .get(
         '/api/payment-activation/'
       )
-      .then(response => {
-    })
-      .catch(error => {
-      console.log(error.response)})
+      .then(response => { 
+        for (let i = 0; i < response.data.length; i++){
+        if (response.data[i].confirmation_number == confirmationNumber){
+          setFormInfo(response.data[i])
+          console.log(response.data[i])
+          setFormView('applicant')
+        }
+      else if (response.data[i].admin_confirmation_number == confirmationNumber){
+        setFormInfo(response.data[i])
+        setFormView('administrator')
+      }
+    }})
+      .catch(error => {console.log(error.response)})
     }
   
-
     return(
         <div>
         <NavBar/>
@@ -45,8 +60,8 @@ export default function AwardLetter({formInfo}) {
            <Typography
               gutterBottom
               variant="body1"
-            >
-              Award Letter text goes here.
+              style={{whiteSpace: 'pre-line'}}>
+                {formInfo?.award_letter}
             </Typography>
         </div>
         </Paper>

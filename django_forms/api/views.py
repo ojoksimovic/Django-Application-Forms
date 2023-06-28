@@ -15,6 +15,7 @@ from users.serializers import CustomUserSerializer
 from django.db.models.query_utils import Q
 import os
 import openai
+import socket
 
 
 class DocumentView(generics.RetrieveAPIView):
@@ -101,11 +102,20 @@ class PaymentActivationView(generics.ListAPIView):
         return Response(form_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, format=None):
+        dataset=request.data
         confirmation_number = request.data.get('confirmation_number')
         form_object = Payment_Activation.objects.get(confirmation_number = confirmation_number)
-        form_serializer = PaymentActivationSerializer(form_object, data=request.data, partial=True)
+        form_serializer = PaymentActivationSerializer(form_object, data=dataset, partial=True)
         if form_serializer.is_valid():
             payment_activation_form = form_serializer.save()
+
+            if request.data.get('admin_submitted'):
+                # add award_letter to form entry once admin submitted form
+                award_letter = get_award_letter(form_object)
+                award_letter_serializer = PaymentActivationSerializer(form_object, data={'award_letter': award_letter}, partial=True)
+                if award_letter_serializer.is_valid():
+                    payment_activation_form = award_letter_serializer.save()
+
             if request.data.get('documents'):
                 for document in request.data.getlist('documents'):
                     document_serializer=DocumentUploadSerializer(data={
@@ -115,22 +125,23 @@ class PaymentActivationView(generics.ListAPIView):
                     })
                     if document_serializer.is_valid():
                         document_serializer.save()
-        
+
             if payment_activation_form:
                 json = form_serializer.data
                 return Response(json, status=status.HTTP_200_OK)
         return Response(form_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
-def get_award_letter(name, department, start_date, end_date, award):
+def get_award_letter(form):
     openai.api_key = settings.OPENAI_API_KEY
     response = openai.Completion.create(
     model= "text-davinci-003",
-    prompt= f"Write an award letter for a student named {name} from the {department} receiving the {award} award. The letter should be written from the 'University of Mock' and indicate the student is taking up the award from {start_date} to {end_date}. Do not include any placeholders.",
+    prompt= f"Write an award letter for a student named {form.user.first_name} {form.user.last_name} from the department of {form.user.department} receiving the {form.award} {form.award_duration} award. The letter should be written from the 'University of Mock' and indicate the student is taking up the award from {form.award_start_session}. Include the end date and the dollar amount of the award. Include the following additional information: {form.admin_award_letter_notes}. Do not include any placeholders.",
     max_tokens= 500,
     frequency_penalty= 0.2,
     presence_penalty= 1.0
     )
-    return response
+    generated_text = response.choices[0].text
+    return generated_text
 
 
 
@@ -150,3 +161,6 @@ class OGSView(generics.ListAPIView):
             return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Application Not Submitted!'}, status=status.status.HTTP_400_BAD_REQUEST)
+        
+
+        #TO DO: FIGURE OUT WHY CONNECTION ERROR HAPPENING. MAYBE SOMETHING IS CALLING THE FUNCTION MULTIPLE TIMES..CAN ADD ASYNC OPTION?

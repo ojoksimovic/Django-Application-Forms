@@ -56,7 +56,8 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
 
   const editPaymentActivationForm = (data, redirect) => {
     axiosInstance
-      .patch("/api/payment-activation/", data)
+      .patch("/api/payment-activation/", data, 
+      {timeout:20000})
       .then((response) => {
         setFormInfo(response.data);
         redirect ? history.push(redirect) : setSaved(true);
