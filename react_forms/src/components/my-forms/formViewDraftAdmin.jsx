@@ -14,6 +14,10 @@ import {
   FormControlLabel,
   InputAdornment,
   Link,
+  Dialog,
+  DialogTitle,
+  CircularProgress,
+  LinearProgress,
 } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import NavBar from "../app/NavBar";
@@ -57,7 +61,7 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
   const editPaymentActivationForm = (data, redirect) => {
     axiosInstance
       .patch("/api/payment-activation/", data, 
-      {timeout:20000})
+      {timeout:30000})
       .then((response) => {
         setFormInfo(response.data);
         redirect ? history.push(redirect) : setSaved(true);
@@ -1189,6 +1193,7 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
                   variant="contained"
                   color="primary"
                   onClick={handleSubmit}
+                  disabled={submit}
                 >
                   {" "}
                   Submit
@@ -1207,6 +1212,26 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
           </div>
         )}
       </div>
+
+      <Dialog aria-labelledby="simple-dialog-title" maxWidth= 'xs' open={submit}>
+      <DialogTitle id="simple-dialog-title" style = {{textAlign:'center', paddingTop: 40}}>Generating Award Letters</DialogTitle>
+      <div className="container" style = {{padding: "40px"}}>
+<div className="row">
+<div className = "col-12 text-center">
+<LinearProgress color='primary'/>
     </div>
+    </div>
+    <div className="row">
+  <div className = "col-12 text-center">
+    <Typography variant = "subtitle1">
+    This may take up to 30 seconds. Please wait...
+</Typography>
+</div>
+</div>
+    </div>
+    </Dialog>
+    </div>
+
+    
   );
 }
