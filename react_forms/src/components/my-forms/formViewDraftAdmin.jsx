@@ -1214,7 +1214,7 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
       </div>
 
       <Dialog aria-labelledby="simple-dialog-title" maxWidth= 'xs' open={submit}>
-      <DialogTitle id="simple-dialog-title" style = {{textAlign:'center', paddingTop: 40}}>Generating Award Letters</DialogTitle>
+      <DialogTitle id="simple-dialog-title" style = {{textAlign:'center', paddingTop: 40}}>Generating Award Letter</DialogTitle>
       <div className="container" style = {{padding: "40px"}}>
 <div className="row">
 <div className = "col-12 text-center">
