@@ -72,7 +72,7 @@ export default function AwardLetter() {
           admin_award_letter_notes: formInfo.admin_award_letter_notes,
           admin_submitted: true,
         },
-        { timeout: 30000 }
+        { timeout: 60000 }
       )
       .then((response) => {
         setFormInfo(response.data);
@@ -93,8 +93,7 @@ export default function AwardLetter() {
         {
           confirmation_number: formInfo.confirmation_number,
           award_letter: formInfo.award_letter
-        },
-        { timeout: 30000 }
+        }
       )
       .then((response) => {
         setFormInfo(response.data);
@@ -153,7 +152,7 @@ export default function AwardLetter() {
                         variant="contained"
                         color="primary"
                         onClick={getStartedRegeneratedLetters}
-                        disabled={submit}
+                        disabled={submit || submitEdit}
                         style={{ marginRight: 5 }}
                       >
                         Regenerate Letter
@@ -173,7 +172,7 @@ export default function AwardLetter() {
                         variant="contained"
                         color="secondary"
                         onClick={() => {setEdit(true)}}
-                        disabled={edit}
+                        disabled={edit || submitEdit || submit}
                       >
                         Edit
                       </Button>}
@@ -262,7 +261,7 @@ export default function AwardLetter() {
           <div className="row">
             <div className="col-12 text-center">
               <Typography variant="subtitle1">
-                This may take up to 30 seconds. Please wait...
+                This may take up to 60 seconds. Please wait...
               </Typography>
             </div>
           </div>
