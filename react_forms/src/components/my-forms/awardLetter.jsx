@@ -2,9 +2,11 @@ import {
   Button,
   Dialog,
   DialogTitle,
+  InputBase,
   LinearProgress,
   Paper,
   TextField,
+  Tooltip,
   Typography,
 } from "@material-ui/core";
 import "bootstrap/dist/css/bootstrap.css";
@@ -20,7 +22,9 @@ export default function AwardLetter() {
   const { userInfo } = useContext(Context);
   const [loaded, setLoaded] = useState();
   const [error, setError] = useState();
+  const [edit, setEdit] = useState();
   const [submit, setSubmit] = useState();
+  const [submitEdit, setSubmitEdit] = useState();
   const [preSubmit, setPreSubmit] = useState();
   const { confirmationNumber } = useParams();
 
@@ -51,35 +55,55 @@ export default function AwardLetter() {
       });
   };
   const handleClose = (value) => {
-    setPreSubmit(false)
+    setPreSubmit(false);
   };
 
   const getStartedRegeneratedLetters = (e) => {
-    setPreSubmit(true)
-  }
+    setPreSubmit(true);
+  };
   const getRegeneratedLetters = () => {
-    setPreSubmit(false)
+    setPreSubmit(false);
     setSubmit(true);
-      axiosInstance
-        .patch("/api/payment-activation/", 
+    axiosInstance
+      .patch(
+        "/api/payment-activation/",
         {
           confirmation_number: formInfo.confirmation_number,
           admin_award_letter_notes: formInfo.admin_award_letter_notes,
           admin_submitted: true,
-        }, 
-        {timeout:30000})
-        .then((response) => {
-          setFormInfo(response.data);
-          setSubmit(false);
-          // redirect ? history.push(redirect) : setSaved(true);
-          // setTimeout(function () {
-          //   window.scrollTo(0, 0);
-          // }, 2);
-        })
-        .catch((error) => {
-          setError(error.response.status);
-          console.log(error.response);
-        });
+        },
+        { timeout: 30000 }
+      )
+      .then((response) => {
+        setFormInfo(response.data);
+        setSubmit(false);
+      })
+      .catch((error) => {
+        setError(error.response.status);
+        console.log(error.response);
+      });
+  };
+
+  const saveLetter = () => {
+    setSubmitEdit(true)
+    setEdit(false);
+    axiosInstance
+      .patch(
+        "/api/payment-activation/",
+        {
+          confirmation_number: formInfo.confirmation_number,
+          award_letter: formInfo.award_letter
+        },
+        { timeout: 30000 }
+      )
+      .then((response) => {
+        setFormInfo(response.data);
+        setSubmitEdit(false);
+      })
+      .catch((error) => {
+        setError(error.response.status);
+        console.log(error.response);
+      });
   };
 
   return (
@@ -97,32 +121,79 @@ export default function AwardLetter() {
                 >
                   Award Letter
                 </Typography>
-                <Typography gutterBottom variant="body2">
-                  Details listed below.
-                </Typography>
                 <hr />
-                <Typography
-                  gutterBottom
-                  variant="body1"
-                  style={{ whiteSpace: "pre-line" }}
-                >
-                  {formInfo?.award_letter}
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={getStartedRegeneratedLetters}
-                  disabled={submit}
-                >
-                  Regenerate Letter
-                </Button>
+                {edit?
+                <TextField
+                  defaultValue={formInfo?.award_letter}
+                  variant="outlined"
+                  multiline
+                  fullWidth
+                  inputProps={{ "aria-label": "naked" }}
+                  style={{ whiteSpace: "pre-line", marginBottom: 20 }}
+                  onChange={(e) =>
+                    e.target.value
+                      ? setFormInfo((formInfo) => ({
+                          ...formInfo,
+                          award_letter: e.target.value,
+                        }))
+                      : setFormInfo((formInfo) => ({
+                          ...formInfo,
+                          award_letter: null,
+                        }))
+                  }
+                />: 
+                <Typography variant='body2'style={{ whiteSpace: "pre-line", marginBottom: 20 }}
+                >{formInfo?.award_letter}</Typography>
+                }
+                {userInfo?.role == "administrator" ||
+                userInfo?.role == "super administrator" ? (
+                  <>
+                    <Tooltip title="Click here to auto regenerate letter. Any current edits will be lost.">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={getStartedRegeneratedLetters}
+                        disabled={submit}
+                        style={{ marginRight: 5 }}
+                      >
+                        Regenerate Letter
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Letter is editable. Click here to save edits.">
+                      {edit?
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => saveLetter()}
+                        disabled={submitEdit}
+                      >
+                        Save
+                      </Button>
+                      :<Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => {setEdit(true)}}
+                        disabled={edit}
+                      >
+                        Edit
+                      </Button>}
+                    </Tooltip>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
             </Paper>
           </div>
         </div>
       </div>
       {/* First dialog for entering updated award letter comments */}
-      <Dialog aria-labelledby="simple-dialog-title" maxWidth="xs" open={preSubmit} onClose={handleClose}>
+      <Dialog
+        aria-labelledby="simple-dialog-title"
+        maxWidth="xs"
+        open={preSubmit}
+        onClose={handleClose}
+      >
         <DialogTitle
           id="simple-dialog-title"
           style={{ textAlign: "center", paddingTop: 40 }}
@@ -132,43 +203,44 @@ export default function AwardLetter() {
         <div className="container" style={{ padding: "10px 40px" }}>
           <div className="row">
             <div className="col-12">
-            <Typography variant="subtitle1">
-                Please review your notes and update if needed. 
+              <Typography variant="subtitle1">
+                Please review your notes and update if needed.
               </Typography>
             </div>
           </div>
           <div className="row">
             <div className="col-12 text-center">
-            <TextField
-            style = {{padding: "20px 0px"}}
-              value={formInfo?.admin_award_letter_notes}
-              onChange={(e) =>
-                e.target.value
-                  ? setFormInfo((formInfo) => ({
-                      ...formInfo,
-                      admin_award_letter_notes: e.target.value,
-                    }))
-                  : setFormInfo((formInfo) => ({
-                      ...formInfo,
-                      admin_award_letter_notes: null,
-                    }))
-              }
-              variant="outlined"
-              fullWidth
-              multiline
-            />            </div>
+              <TextField
+                style={{ padding: "20px 0px" }}
+                value={formInfo?.admin_award_letter_notes}
+                onChange={(e) =>
+                  e.target.value
+                    ? setFormInfo((formInfo) => ({
+                        ...formInfo,
+                        admin_award_letter_notes: e.target.value,
+                      }))
+                    : setFormInfo((formInfo) => ({
+                        ...formInfo,
+                        admin_award_letter_notes: null,
+                      }))
+                }
+                variant="outlined"
+                fullWidth
+                multiline
+              />{" "}
+            </div>
           </div>
-          <div className = "row">
-            <div className = "col-12">
-            <Button
-             style = {{marginBottom: 20}}
-                  variant="contained"
-                  color="primary"
-                  onClick={getRegeneratedLetters}
-                  disabled={submit}
-                >
-                  Regenerate Letter
-                </Button>
+          <div className="row">
+            <div className="col-12">
+              <Button
+                style={{ marginBottom: 20 }}
+                variant="contained"
+                color="primary"
+                onClick={getRegeneratedLetters}
+                disabled={submit}
+              >
+                Regenerate Letter
+              </Button>
             </div>
           </div>
         </div>
@@ -191,6 +263,25 @@ export default function AwardLetter() {
             <div className="col-12 text-center">
               <Typography variant="subtitle1">
                 This may take up to 30 seconds. Please wait...
+              </Typography>
+            </div>
+          </div>
+        </div>
+      </Dialog>
+
+           {/* Dialog for saving edits */}
+           <Dialog aria-labelledby="simple-dialog-title" maxWidth="xs" open={submitEdit}>
+
+        <div className="container" style={{ padding: "40px" }}>
+          <div className="row">
+            <div className="col-12 text-center">
+              <LinearProgress color="primary" />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12 text-center">
+              <Typography variant="subtitle1">
+                Saving Edits. Please wait...
               </Typography>
             </div>
           </div>
