@@ -131,8 +131,6 @@ class PaymentActivationView(generics.ListAPIView):
         return Response(form_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
 def get_award_letter(form):
-    timeout = 30  #timeout value in seconds
-    socket.setdefaulttimeout(timeout)
     openai.api_key = settings.OPENAI_API_KEY
     response = openai.Completion.create(
     model= "text-davinci-003",
