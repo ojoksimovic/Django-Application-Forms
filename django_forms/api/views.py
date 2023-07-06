@@ -140,6 +140,7 @@ def get_award_letter(form):
     presence_penalty= 1.0
     )
     generated_text = response.choices[0].text
+    print(generated_text)
     return generated_text
 
 class OGSView(generics.ListAPIView):
