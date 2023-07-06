@@ -6,6 +6,7 @@
   "dependencies": {
     "@azure/msal-browser": "^2.33.0",
     "@azure/msal-react": "^1.5.3",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@material-ui/core": "^4.11.4",
     "@material-ui/data-grid": "^4.0.0-alpha.28",
@@ -13,21 +14,27 @@
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@material-ui/x-grid": "^4.0.0-alpha.30",
     "@react-oauth/google": "^0.6.1",
+    "@react-pdf/font": "2.2.0",
+    "@react-pdf/renderer": " 2.1.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.4",
     "bootstrap": "^5.0.1",
+    "file-saver": "^2.0.5",
     "moment": "^2.29.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-google-login": "^5.2.2",
     "react-moment": "^1.1.1",
-    "react-pdf": "^5.7.2",
+    "react-pdf-html": "^1.1.18",
     "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
+  },
+  "resolutions": {
+    "@react-pdf/font": "2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
