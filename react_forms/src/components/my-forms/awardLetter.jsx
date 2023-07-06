@@ -15,6 +15,9 @@ import { useParams } from "react-router-dom";
 import NavBar from "../app/NavBar";
 import axiosInstance from "../app/api";
 import { Context } from "../app/context";
+import Html from 'react-pdf-html';
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import DownloadPDF from "./downloadPDF";
 
 export default function AwardLetter() {
   const [formInfo, setFormInfo] = useState();
@@ -27,6 +30,7 @@ export default function AwardLetter() {
   const [submitEdit, setSubmitEdit] = useState();
   const [preSubmit, setPreSubmit] = useState();
   const { confirmationNumber } = useParams();
+  
 
   useEffect(() => {
     if (!loaded) {
@@ -105,6 +109,12 @@ export default function AwardLetter() {
       });
   };
 
+  // PDF letter
+  const html = `<html>
+  <body>
+  <p>${formInfo?.award_letter}</p></body>
+  </html>`
+
   return (
     <div>
       <NavBar />
@@ -158,29 +168,36 @@ export default function AwardLetter() {
                         Regenerate Letter
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Letter is editable. Click here to save edits.">
                       {edit?
+                      <Tooltip title="Click here to save edits.">
                       <Button
                         variant="contained"
                         color="secondary"
                         onClick={() => saveLetter()}
                         disabled={submitEdit}
+                        style = {{marginRight:5}}
                       >
                         Save
                       </Button>
-                      :<Button
+                      </Tooltip>
+                      :<Tooltip title="Letter is editable. Click here to edit.">
+                        <Button
                         variant="contained"
                         color="secondary"
                         onClick={() => {setEdit(true)}}
                         disabled={edit || submitEdit || submit}
+                        style = {{marginRight:5}}
                       >
                         Edit
-                      </Button>}
-                    </Tooltip>
+                      </Button>
+                      </Tooltip>}
+                    
                   </>
                 ) : (
                   <></>
                 )}
+                  {DownloadPDF(formInfo)}
+
               </div>
             </Paper>
           </div>
