@@ -15,7 +15,6 @@ import { useParams } from "react-router-dom";
 import NavBar from "../app/NavBar";
 import axiosInstance from "../app/api";
 import { Context } from "../app/context";
-import Html from 'react-pdf-html';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import DownloadPDF from "./downloadPDF";
 
@@ -108,12 +107,6 @@ export default function AwardLetter() {
         console.log(error.response);
       });
   };
-
-  // PDF letter
-  const html = `<html>
-  <body>
-  <p>${formInfo?.award_letter}</p></body>
-  </html>`
 
   return (
     <div>
