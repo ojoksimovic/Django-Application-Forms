@@ -64,6 +64,7 @@ export default function FormViewDraft({ retrievedFormInfo }) {
     state,
     setState,
     handleFileDownload,
+    getAwardYear
   } = useContext(Context);
 
   useEffect(() => {
@@ -755,18 +756,18 @@ export default function FormViewDraft({ retrievedFormInfo }) {
               >
                 <FormControlLabel
                   control={<Radio color="primary" />}
-                  value="May 2021"
-                  label="May 2021"
+                  value={getAwardYear("May")}
+                  label={getAwardYear("May")}
                 />
                 <FormControlLabel
                   control={<Radio color="primary" />}
-                  value="September 2021"
-                  label="September 2021"
+                  value={getAwardYear("September")}
+                  label={getAwardYear("September")}
                 />
                 <FormControlLabel
                   control={<Radio color="primary" />}
-                  value="January 2022"
-                  label="January 2022"
+                  value={getAwardYear("January")}
+                  label={getAwardYear("January")}
                 />
                 <Typography variant="caption" color="error">
                   {!formInfo.award_start_session && submitCheck
@@ -1091,18 +1092,18 @@ export default function FormViewDraft({ retrievedFormInfo }) {
               >
                 <FormControlLabel
                   control={<Radio color="primary" />}
-                  value="May 2021"
-                  label="May 2021"
+                  value={getAwardYear("May")}
+                  label={getAwardYear("May")}
                 />
                 <FormControlLabel
                   control={<Radio color="primary" />}
-                  value="September 2021"
-                  label="September 2021"
+                  value={getAwardYear("September")}
+                  label={getAwardYear("September")}
                 />
                 <FormControlLabel
                   control={<Radio color="primary" />}
-                  value="January 2022"
-                  label="January 2022"
+                  value={getAwardYear("January")}
+                  label={getAwardYear("January")}
                 />
                 <Typography variant="caption" color="error">
                   {!formInfo.award_start_session && submitCheck

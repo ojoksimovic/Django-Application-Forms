@@ -34,7 +34,7 @@ import axiosInstance from '../app/api';
 
 export default function FormViewSubmitted({formInfo}) {  
 
-    const {userInfo, convertDate, handleFileDownload} = useContext(Context);
+    const {userInfo, convertDate, handleFileDownload, getAwardYearSubmitted} = useContext(Context);
 
     const getPaymentActivationForm = () => {
       axiosInstance
@@ -307,18 +307,18 @@ export default function FormViewSubmitted({formInfo}) {
               >
                 <FormControlLabel
                   control={<Radio color="primary" />}
-                  value="May 2021"
-                  label="May 2021"
+                  value={getAwardYearSubmitted("May", formInfo?.submitted_at)}
+                  label={getAwardYearSubmitted("May", formInfo?.submitted_at)}
                 />
                 <FormControlLabel
                   control={<Radio color="primary" />}
-                  value="September 2021"
-                  label="September 2021"
+                  value={getAwardYearSubmitted("September", formInfo?.submitted_at)}
+                  label={getAwardYearSubmitted("September", formInfo?.submitted_at)}
                 />
                 <FormControlLabel
                   control={<Radio color="primary" />}
-                  value="January 2022"
-                  label="January 2022"
+                  value={getAwardYearSubmitted("January", formInfo?.submitted_at)}
+                  label={getAwardYearSubmitted("January", formInfo?.submitted_at)}
                 />
                 <Typography variant="caption" color="error">
                 </Typography>

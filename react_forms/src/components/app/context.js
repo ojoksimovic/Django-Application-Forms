@@ -3,6 +3,7 @@ import ROUTE from '../app/route';
 import axios from 'axios';
 import axiosInstance from './api';
 import { useMediaQuery } from 'react-responsive';
+import { BorderAll } from '@material-ui/icons';
 
 export const Context = createContext();
 
@@ -71,9 +72,69 @@ export const withContext = (Component) => {
             var dt = d.toLocaleString("en-US", options);
             return dt;
           }};
+
+          const getAwardYear = (term) => {
+            // roll over to next academic year in April
+            var d = new Date();
+            let y = d.getFullYear();
+            let m = d.getMonth();
+            switch (term){
+              case "May":
+                if (m >= 3){
+                return `${term} ${y}`} 
+                else {
+                  return `${term} ${(y - 1)}`
+                };
+                break;
+              case "September":
+                if (m >= 3){
+                return `${term} ${y}`} 
+                else {
+                  return `${term} ${(y - 1)}`
+                };
+                break;
+                case "January":
+                if (m >= 3){
+                  return `${term} ${(y + 1)}`} 
+                  else {
+                    return `${term} ${y}`
+                  };
+                  break;
+            }
+          }
+
+          const getAwardYearSubmitted = (term, date_submitted) => {
+            // roll over to next academic year in April
+            // using django datestamp submitted_at
+            let y = parseInt(date_submitted.substring(0,4));
+            let m = parseInt(date_submitted.substring(5,7));
+            switch (term){
+              case "May":
+                if (m >= 3){
+                return `${term} ${y}`} 
+                else {
+                  return `${term} ${(y - 1)}`
+                };
+                break;
+              case "September":
+                if (m >= 3){
+                return `${term} ${y}`} 
+                else {
+                  return `${term} ${(y - 1)}`
+                };
+                break;
+                case "January":
+                if (m >= 3){
+                  return `${term} ${(y + 1)}`} 
+                  else {
+                    return `${term} ${y}`
+                  };
+                  break;
+                }
+              }
         
 
-      return <Context.Provider value={{role, setRole, isMobile, navBarInfo, setNavBarInfo, convertDate, rows, setRows, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken, isGoogleLogged, setIsGoogleLogged, isMicrosoftLogged, setIsMicrosoftLogged, microsoftAccessToken, setMicrosoftAccessToken, handleFileDownload}} displayName='Authentication Context'>
+      return <Context.Provider value={{role, setRole, isMobile, navBarInfo, setNavBarInfo, convertDate, getAwardYear, getAwardYearSubmitted, rows, setRows, error, setError, userInfo, setUserInfo, getUserInfo, authentication, setAuthentication, state, setState, accessToken, setAccessToken, refreshToken, setrefreshToken, isGoogleLogged, setIsGoogleLogged, isMicrosoftLogged, setIsMicrosoftLogged, microsoftAccessToken, setMicrosoftAccessToken, handleFileDownload}} displayName='Authentication Context'>
           <Component />
       </Context.Provider>
     }
