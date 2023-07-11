@@ -1224,7 +1224,7 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
     <div className="row">
   <div className = "col-12 text-center">
     <Typography variant = "subtitle1">
-    This may take up to 30 seconds. Please wait...
+    This may take up to 60 seconds. Please wait...
 </Typography>
 </div>
 </div>
