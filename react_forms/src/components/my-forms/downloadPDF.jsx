@@ -33,12 +33,13 @@ export default function DownloadPDF(formInfo) {
             loading ? (
               <></>
             ) : (
+              formInfo?.award_letter?
               <Tooltip title= "Click here to download the award letter as a PDF file.">
               <Button variant="contained" color='default'>
                 Download
               </Button>
               </Tooltip>
-            )
+            :<></>)
           }
         </PDFDownloadLink>
 

@@ -145,7 +145,9 @@ export default function AwardLetter() {
                   }
                 />: 
                 <Typography variant='body2'style={{ whiteSpace: "pre-line", marginBottom: 20 }}
-                >{formInfo?.award_letter}</Typography>
+                >{formInfo?.award_letter?
+                  formInfo?.award_letter :
+                  "There is currently no award letter."}</Typography>
                 }
                 {userInfo?.role == "administrator" ||
                 userInfo?.role == "super administrator" ? (
