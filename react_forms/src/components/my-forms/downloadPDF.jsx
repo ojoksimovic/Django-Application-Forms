@@ -4,8 +4,10 @@ import {
   PDFDownloadLink,
   Page,
   Text,
+  Image
 } from "@react-pdf/renderer";
 import React from "react";
+import logo from '../app/logo.png'
 
 export default function DownloadPDF(formInfo) {
   const options = {
@@ -19,7 +21,8 @@ export default function DownloadPDF(formInfo) {
 
   const DocumentContent = () => (
     <Document>
-      <Page style={{ padding: "80 50 0 50" }}>
+      <Page style={{ padding: "40 50 0 50" }}>
+        <Image style = {{width: '40%', marginBottom:50}}src={logo}/>
         <Text style={{ marginBottom: 50 }}>{formattedDate}</Text>
         <Text>{formInfo?.award_letter}</Text>
       </Page>
