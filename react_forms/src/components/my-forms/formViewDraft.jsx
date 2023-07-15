@@ -1,37 +1,28 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import "bootstrap/dist/css/bootstrap.css";
 import {
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
   Button,
-  Typography,
-  Stepper,
-  Step,
-  StepLabel,
-  TextField,
   Checkbox,
   FormControl,
-  FormLabel,
-  RadioGroup,
-  Radio,
   FormControlLabel,
-  InputLabel,
-  Select,
-  Paper,
-  Link,
   IconButton,
+  InputLabel,
+  Link,
+  Radio,
+  RadioGroup,
+  Select,
+  Step,
+  StepLabel,
+  Stepper,
+  TextField,
+  Typography
 } from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
 import DeleteIcon from "@material-ui/icons/Delete";
-import NavBar from "../app/NavBar";
-import { Context, withContext } from "../app/context";
-import { useHistory, useParams } from "react-router-dom";
-import ROUTE from "../app/route";
-import axios from "axios";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import "bootstrap/dist/css/bootstrap.css";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import axiosInstance from "../app/api";
+import { Context } from "../app/context";
+import ROUTE from "../app/route";
 import { departmentsObject } from "../new-forms/departments";
 
 export default function FormViewDraft({ retrievedFormInfo }) {

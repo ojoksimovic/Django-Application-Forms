@@ -1,15 +1,15 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import "bootstrap/dist/css/bootstrap.css";
 import {
   Paper
 } from "@material-ui/core";
+import "bootstrap/dist/css/bootstrap.css";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import NavBar from "../app/NavBar";
-import { Context, withContext } from "../app/context";
-import { useHistory, useParams } from "react-router-dom";
 import axiosInstance from '../app/api';
-import FormViewSubmitted from "./formViewSubmitted";
+import { Context } from "../app/context";
 import FormViewDraft from "./formViewDraft";
 import FormViewDraftAdmin from "./formViewDraftAdmin";
+import FormViewSubmitted from "./formViewSubmitted";
 import FormViewSubmittedAdmin from "./formViewSubmittedAdmin";
 
 export default function FormView() {  

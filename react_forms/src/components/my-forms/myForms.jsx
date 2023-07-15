@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
+import { Paper, Typography } from '@material-ui/core';
 import "bootstrap/dist/css/bootstrap.css";
-import FormsTable from './myFormsTable';
-import {Typography, Paper} from '@material-ui/core';
+import React, { useContext } from "react";
 import NavBar from '../app/NavBar';
-import { Context, withContext } from "../app/context";
-import RoleSelect from "./roleSelect";
+import { Context } from "../app/context";
+import FormsTable from './myFormsTable';
 
 
 const MyForms = () => {

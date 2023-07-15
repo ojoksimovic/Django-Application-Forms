@@ -2,7 +2,6 @@ import {
   Button,
   Dialog,
   DialogTitle,
-  InputBase,
   LinearProgress,
   Paper,
   TextField,
@@ -15,7 +14,6 @@ import { useParams } from "react-router-dom";
 import NavBar from "../app/NavBar";
 import axiosInstance from "../app/api";
 import { Context } from "../app/context";
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import DownloadPDF from "./downloadPDF";
 
 export default function AwardLetter() {

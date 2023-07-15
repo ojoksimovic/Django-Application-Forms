@@ -1,11 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import { FormControl, InputLabel, Select } from '@material-ui/core';
 import "bootstrap/dist/css/bootstrap.css";
-import FormsTable from './myFormsTable';
-import {Typography, Paper, FormControl, InputLabel, Select} from '@material-ui/core';
-import NavBar from '../app/NavBar';
-import { Context, withContext } from "../app/context";
-
-
+import React, { useContext } from "react";
+import { Context } from "../app/context";
 
 const RoleSelect = () => {
     const {
