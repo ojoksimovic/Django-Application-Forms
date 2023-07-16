@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate
 from django.http import HttpResponse, HttpResponseNotFound
 from django.conf import settings
+from django.core.files import File
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from .models import Test, Payment_Activation, OGS, Document
@@ -24,12 +25,24 @@ class DocumentView(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         document = self.get_object()
 
+        # AWS S3 DOCUMENT STORAGE:
         if document.file:
-            with open(document.file.path, 'rb') as f:
-                file_data = f.read()
-            response = HttpResponse(file_data, content_type='application/pdf')
+            file = document.file
+            file.open(mode='rb')
+            file_content = file.read()
+            file.close()
+            response = HttpResponse(file_content, content_type='application/pdf')
             response['Content-Disposition'] = f'attachment; filename="{document.name}"'
             return response
+        
+        # FOR LOCAL DOCUMENT STORAGE:
+
+        # if document.file:
+        #     with open(document.file.path, 'rb') as f:
+        #         file_data = f.read()
+        #     response = HttpResponse(file_data, content_type='application/pdf')
+        #     response['Content-Disposition'] = f'attachment; filename="{document.name}"'
+        #     return response
             
         return HttpResponseNotFound({'error': 'File does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -158,6 +171,3 @@ class OGSView(generics.ListAPIView):
             return Response({'message': 'Application Submitted!'}, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Application Not Submitted!'}, status=status.status.HTTP_400_BAD_REQUEST)
-        
-
-        #TO DO: FIGURE OUT WHY CONNECTION ERROR HAPPENING. MAYBE SOMETHING IS CALLING THE FUNCTION MULTIPLE TIMES..CAN ADD ASYNC OPTION?
