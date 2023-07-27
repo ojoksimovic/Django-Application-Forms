@@ -1,4 +1,3 @@
-**/settings.py
 **/env/
 **/__pycache__
 **/node_modules/
@@ -7,3 +6,4 @@
 **/sql queries.txt
 **/sql login.txt
 **/documents/
+**/keys/
