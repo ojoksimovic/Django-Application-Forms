@@ -7,6 +7,7 @@ import {
   CardContent,
   Button,
   Typography,
+  LinearProgress,
 } from "@material-ui/core";
 import { Context, withContext } from "../app/context";
 import { useHistory } from "react-router-dom";
@@ -34,9 +35,11 @@ export default function Register() {
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [error, setError] = useState();
   const [registered, setRegistered] = useState();
+  const [submitted, setSubmitted] = useState();
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setSubmitted(true)
     axios
       .post(
         `${ROUTE.HOST}/users/user/create/`,
@@ -51,7 +54,6 @@ export default function Register() {
       )
       .then((response) => {
         console.log(response);
-        // alert('Successfully registered! Credentials: ' + username + " " + password + " " + email);
         setRegistered(true);
         setTimeout(() => {
           history.push(ROUTE.LOGIN);
@@ -125,7 +127,8 @@ export default function Register() {
           </Typography>
         </CardContent>
 
-        {registered ? (
+        {submitted ?
+        registered?(
           <CardContent style={{ padding: "30px" }}>
             <Typography variant="h6" component="p" style={{ marginBottom: 20 }}>
               Successfully Registered!
@@ -134,6 +137,15 @@ export default function Register() {
             <CircularProgress style={{ marginTop: 10 }} />
           </CardContent>
         ) : (
+          <CardContent style={{ padding: "30px" }}>
+          <Typography variant="h6" component="p" style={{ marginBottom: 20 }}>
+            Registration Submitted
+          </Typography>
+          <Typography variant="body1">Please wait...</Typography>
+          <LinearProgress style={{ marginTop: 10 }} />
+        </CardContent>
+        )
+        :(
           <CardContent style={{ padding: "30px" }}>
             <Typography variant="h5" component="p" style={{ marginBottom: 20 }}>
               User Registration
