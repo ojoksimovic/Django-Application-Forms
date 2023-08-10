@@ -178,6 +178,18 @@ export default function FormViewSubmittedAdmin({formInfo}) {
      <hr/>
                  <Typography className="form-field-title" gutterBottom variant = 'h6'>Administration Information</Typography>
                  <hr/>
+
+                 <Typography
+                   gutterBottom
+                   variant="body1"
+                   className="form-field-title"
+                 >
+                   Submitted by
+                 </Typography>
+                 <Typography gutterBottom variant="body1">
+                 {formInfo.admin_first_name} {formInfo.admin_last_name}
+                 </Typography>
+
      {formInfo?.award_duration == 'CGS M (12 months)'?
      <>
                  <Typography
