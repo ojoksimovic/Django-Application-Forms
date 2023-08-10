@@ -140,6 +140,7 @@ export default function FormViewDraftAdmin({ retrievedFormInfo }) {
       admin_other_source: formInfo.admin_other_source,
       admin_payment_notes: formInfo.admin_payment_notes,
       admin_award_letter_notes: formInfo.admin_award_letter_notes,
+      admin_user: userInfo.username,
       admin_submitted: formInfo.admin_submitted,
     });
   };
