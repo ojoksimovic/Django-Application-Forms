@@ -25,7 +25,7 @@ class PaymentActivationSerializer(serializers.HyperlinkedModelSerializer):
   class Meta:
       model = Payment_Activation
       fields = ('user', 'first_name', 'last_name', 'email', 'created_at', 'student_number', 'faculty', 'graduate_unit', 'program', 'degree_start_date', 'award', 'award_duration', 'type_payment_request', 'award_start_session', 'submitted', 'submitted_at', 'modified_at',
-                'confirmation_number', 'admin_research_requirement', 'admin_matching_portion', 'admin_utf', 'admin_departmental_award', 'admin_ta', 'admin_ra', 'admin_other_source', 'admin_payment_notes', 'admin_award_letter_notes', 'admin_submitted', 'admin_submitted_at', 'admin_confirmation_number', 'award_letter', 'documents')
+                'confirmation_number', 'admin_research_requirement', 'admin_matching_portion', 'admin_utf', 'admin_departmental_award', 'admin_ta', 'admin_ra', 'admin_other_source', 'admin_payment_notes', 'admin_award_letter_notes', 'admin_user', 'admin_submitted', 'admin_submitted_at', 'admin_confirmation_number', 'award_letter', 'documents')
 
 class OGSSerializer(serializers.ModelSerializer):
     class Meta:
