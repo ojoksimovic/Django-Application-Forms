@@ -1,0 +1,43 @@
+name: 🚀 Deploy Forms
+
+on: 
+  push:
+    branches:    
+      - main
+
+jobs:
+  frontend-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: react_forms
+    
+    strategy:
+      matrix:
+        node-version: [16.x]
+    
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@master
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: 🔨 Build Project 
+      run: |
+        npm install
+        npm run build
+    
+    - name: List output files
+      run: find build/ -print
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
+        server: ${{ secrets.FTP_FE_SERVER }}
+        username: ${{ secrets.FTP_FE_USERNAME }}
+        password: ${{ secrets.FTP_FE_PASSWORD }}
+        local-dir: build/
