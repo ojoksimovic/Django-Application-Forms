@@ -40,4 +40,4 @@ jobs:
         server: ${{ secrets.FTP_FE_SERVER }}
         username: ${{ secrets.FTP_FE_USERNAME }}
         password: ${{ secrets.FTP_FE_PASSWORD }}
-        local-dir: build/
+        local-dir: react_forms/build/
