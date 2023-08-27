@@ -7,7 +7,7 @@ on:
 
 jobs:
   frontend-deploy:
-    name: 🎉 Deploy
+    name: 🎉 Deploy Frontend
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -41,3 +41,32 @@ jobs:
         username: ${{ secrets.FTP_FE_USERNAME }}
         password: ${{ secrets.FTP_FE_PASSWORD }}
         local-dir: react_forms/build/
+
+  # backend-deploy:
+  #   name: 🎉 Deploy Backend
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: django_forms
+    
+  #   strategy:
+  #     matrix:
+  #       node-version: [16.x]
+  #       # python version?
+    
+  #   steps:
+  #   - name: 🚚 Get latest code
+  #     uses: actions/checkout@v3
+
+  #     # transfers are already static and can be simply copied over
+    
+  #   - name: List django project files
+  #     run: find django_forms// -print
+
+  #   - name: 📂 Sync files
+  #     uses: SamKirkland/FTP-Deploy-Action@4.3.3
+  #     with:
+  #       server: ${{ secrets.FTP_BE_SERVER }}
+  #       username: ${{ secrets.FTP_BE_USERNAME }}
+  #       password: ${{ secrets.FTP_BE_PASSWORD }}
+  #       local-dir: django_forms/
