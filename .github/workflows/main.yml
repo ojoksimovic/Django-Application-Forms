@@ -42,31 +42,65 @@ jobs:
         password: ${{ secrets.FTP_FE_PASSWORD }}
         local-dir: react_forms/build/
 
-  # backend-deploy:
-  #   name: 🎉 Deploy Backend
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: django_forms
-    
-  #   strategy:
-  #     matrix:
-  #       node-version: [16.x]
-  #       # python version?
-    
-  #   steps:
-  #   - name: 🚚 Get latest code
-  #     uses: actions/checkout@v3
+  backend-test:
+    name: 🎉 Django Tests CI
+    on:
+      push:
+        branches: [main]
+      pull_request:
+        branches: [main]
+        
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: django_forms
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+      
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Tests
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        # include all other env variables here
+      run: |
+        python manage.py test
 
-  #     # transfers are already static and can be simply copied over
+  backend-deploy:
+    name: 🎉 Deploy Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: django_forms
     
-  #   - name: List django project files
-  #     run: find django_forms// -print
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # python version?
+    
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v3
 
-  #   - name: 📂 Sync files
-  #     uses: SamKirkland/FTP-Deploy-Action@4.3.3
-  #     with:
-  #       server: ${{ secrets.FTP_BE_SERVER }}
-  #       username: ${{ secrets.FTP_BE_USERNAME }}
-  #       password: ${{ secrets.FTP_BE_PASSWORD }}
-  #       local-dir: django_forms/
+      # transfers are already static and can be simply copied over
+    
+    - name: List django project files
+      run: find django_forms// -print
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
+        server: ${{ secrets.FTP_BE_SERVER }}
+        username: ${{ secrets.FTP_BE_USERNAME }}
+        password: ${{ secrets.FTP_BE_PASSWORD }}
+        local-dir: django_forms/
