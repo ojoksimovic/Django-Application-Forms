@@ -21,6 +21,8 @@ class PaymentActivationTestCase(TestCase):
         self.assertIsNotNone(instance.pk)
 
     def test_invalid_instance(self):
+        # Intentional error
+
         instance = Payment_Activation(
             user=self.user,
             student_number='abc',  # Invalid data type
@@ -59,6 +61,8 @@ class PaymentActivationTestCase(TestCase):
         self.assertNotEqual(instance1.confirmation_number, instance2.confirmation_number)
 
     def test_student_number_constraints(self):
+        # Intentional fail
+
         # Test student number must be positive
         instance = Payment_Activation(
             user=self.user,
@@ -70,6 +74,8 @@ class PaymentActivationTestCase(TestCase):
             instance.full_clean()
 
     def test_award_letter_max_length(self):
+        # Intentional error
+        
         max_length = Payment_Activation._meta.get_field('award_letter').max_length
         instance = Payment_Activation(
             user=self.user,
