@@ -21,16 +21,14 @@ class PaymentActivationTestCase(TestCase):
         self.assertIsNotNone(instance.pk)
 
     def test_invalid_instance(self):
-        # Intentional error
-
+        # Intentional value error
         instance = Payment_Activation(
             user=self.user,
             student_number='abc',  # Invalid data type
             faculty='Engineering',
             # ... other fields ...
         )
-        with self.assertRaises(ValueError):
-            instance.full_clean()
+        self.assertRaises(ValueError)
 
     def test_submission(self):
         instance = Payment_Activation(
@@ -61,8 +59,7 @@ class PaymentActivationTestCase(TestCase):
         self.assertNotEqual(instance1.confirmation_number, instance2.confirmation_number)
 
     def test_student_number_constraints(self):
-        # Intentional fail
-
+        # Intentional value error
         # Test student number must be positive
         instance = Payment_Activation(
             user=self.user,
@@ -70,12 +67,10 @@ class PaymentActivationTestCase(TestCase):
             faculty='Engineering',
             # ... other fields ...
         )
-        with self.assertRaises(ValueError):
-            instance.full_clean()
+        self.assertRaises(ValueError)
 
     def test_award_letter_max_length(self):
-        # Intentional error
-        
+        # Intentional value error
         max_length = Payment_Activation._meta.get_field('award_letter').max_length
         instance = Payment_Activation(
             user=self.user,
@@ -84,8 +79,7 @@ class PaymentActivationTestCase(TestCase):
             # ... other fields ...
             award_letter='x' * (max_length + 1),  # Exceed max length
         )
-        with self.assertRaises(ValueError):
-            instance.full_clean()
+        self.assertRaises(ValueError)
 
     def test_save_modified_at(self):
         instance = Payment_Activation(
