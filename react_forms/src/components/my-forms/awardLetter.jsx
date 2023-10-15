@@ -27,7 +27,6 @@ export default function AwardLetter() {
   const [submitEdit, setSubmitEdit] = useState();
   const [preSubmit, setPreSubmit] = useState();
   const { confirmationNumber } = useParams();
-  
 
   useEffect(() => {
     if (!loaded) {
@@ -86,16 +85,13 @@ export default function AwardLetter() {
   };
 
   const saveLetter = () => {
-    setSubmitEdit(true)
+    setSubmitEdit(true);
     setEdit(false);
     axiosInstance
-      .patch(
-        "/api/payment-activation/",
-        {
-          confirmation_number: formInfo.confirmation_number,
-          award_letter: formInfo.award_letter
-        }
-      )
+      .patch("/api/payment-activation/", {
+        confirmation_number: formInfo.confirmation_number,
+        award_letter: formInfo.award_letter,
+      })
       .then((response) => {
         setFormInfo(response.data);
         setSubmitEdit(false);
@@ -122,34 +118,40 @@ export default function AwardLetter() {
                   Award Letter
                 </Typography>
                 <hr />
-                {edit?
-                <TextField
-                  defaultValue={formInfo?.award_letter}
-                  variant="outlined"
-                  multiline
-                  fullWidth
-                  inputProps={{ "aria-label": "naked" }}
-                  style={{ whiteSpace: "pre-line", marginBottom: 20 }}
-                  onChange={(e) =>
-                    e.target.value
-                      ? setFormInfo((formInfo) => ({
-                          ...formInfo,
-                          award_letter: e.target.value,
-                        }))
-                      : setFormInfo((formInfo) => ({
-                          ...formInfo,
-                          award_letter: null,
-                        }))
-                  }
-                />: 
-                <Typography variant='body2'style={{ whiteSpace: "pre-line", marginBottom: 20 }}
-                >{formInfo?.award_letter?
-                  formInfo?.award_letter :
-                  "There is currently no award letter."}</Typography>
-                }
+                {edit ? (
+                  <TextField
+                    defaultValue={formInfo?.award_letter}
+                    variant="outlined"
+                    multiline
+                    fullWidth
+                    inputProps={{ "aria-label": "naked" }}
+                    style={{ whiteSpace: "pre-line", marginBottom: 20 }}
+                    onChange={(e) =>
+                      e.target.value
+                        ? setFormInfo((formInfo) => ({
+                            ...formInfo,
+                            award_letter: e.target.value,
+                          }))
+                        : setFormInfo((formInfo) => ({
+                            ...formInfo,
+                            award_letter: null,
+                          }))
+                    }
+                  />
+                ) : (
+                  <Typography
+                    variant="body2"
+                    style={{ whiteSpace: "pre-line", marginBottom: 20 }}
+                  >
+                    {formInfo?.award_letter
+                      ? formInfo?.award_letter
+                      : "There is currently no award letter."}
+                  </Typography>
+                )}
                 {userInfo?.role == "administrator" ||
                 userInfo?.role == "super administrator" ? (
                   <>
+                  {edit ? <></> :
                     <Tooltip title="Click here to auto regenerate letter. Any current edits will be lost.">
                       <Button
                         variant="contained"
@@ -160,37 +162,39 @@ export default function AwardLetter() {
                       >
                         Regenerate Letter
                       </Button>
-                    </Tooltip>
-                      {edit?
+                    </Tooltip>}
+                    {edit ? (
                       <Tooltip title="Click here to save edits.">
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => saveLetter()}
-                        disabled={submitEdit}
-                        style = {{marginRight:5}}
-                      >
-                        Save
-                      </Button>
-                      </Tooltip>
-                      :<Tooltip title="Letter is editable. Click here to edit.">
                         <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => {setEdit(true)}}
-                        disabled={edit || submitEdit || submit}
-                        style = {{marginRight:5}}
-                      >
-                        Edit
-                      </Button>
-                      </Tooltip>}
-                    
+                          variant="contained"
+                          color="secondary"
+                          onClick={() => saveLetter()}
+                          disabled={submitEdit}
+                          style={{ marginRight: 5 }}
+                        >
+                          Save
+                        </Button>
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title="Letter is editable. Click here to edit.">
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={() => {
+                            setEdit(true);
+                          }}
+                          disabled={edit || submitEdit || submit}
+                          style={{ marginRight: 5 }}
+                        >
+                          Edit
+                        </Button>
+                      </Tooltip>
+                    )}
                   </>
                 ) : (
                   <></>
                 )}
-                  {DownloadPDF(formInfo)}
-
+                {edit ? <></> : DownloadPDF(formInfo)}
               </div>
             </Paper>
           </div>
@@ -278,9 +282,12 @@ export default function AwardLetter() {
         </div>
       </Dialog>
 
-           {/* Dialog for saving edits */}
-           <Dialog aria-labelledby="simple-dialog-title" maxWidth="xs" open={submitEdit}>
-
+      {/* Dialog for saving edits */}
+      <Dialog
+        aria-labelledby="simple-dialog-title"
+        maxWidth="xs"
+        open={submitEdit}
+      >
         <div className="container" style={{ padding: "40px" }}>
           <div className="row">
             <div className="col-12 text-center">
