@@ -13,7 +13,7 @@ const msalInstance = new PublicClientApplication(msalConfig);
 
 ReactDOM.render(
   <GoogleOAuthProvider
-            clientId="204015068211-jgmfbadombr9cm61c91fda56cfkisfdn.apps.googleusercontent.com">
+            clientId="204015068211-3kvuaivbpf2ca2doqmtkiut3errs0hb1.apps.googleusercontent.com">
   <React.StrictMode>
   <MsalProvider instance={msalInstance}>
     <App />
